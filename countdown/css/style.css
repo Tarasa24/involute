@@ -1,0 +1,50 @@
+@font-face {
+  font-family: 'skoda';
+  src: url("./fonts/SkodaPro-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'skoda';
+  src: url("./fonts/SkodaPro-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'skoda';
+  src: url("./fonts/SkodaPro-Bolder.woff") format("woff");
+  font-weight: bolder;
+  font-style: normal;
+}
+
+body {
+  font-family: skoda, Avenir, Helvetica, Arial, sans-serif;
+  margin: 0;
+  background-color: black;
+  color: white;
+  text-align: center;
+}
+
+.container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+.container h1 {
+  color: #693e94;
+  font-size: 3rem;
+  text-transform: uppercase;
+}
+
+.container span {
+  display: block;
+  font-size: 50px;
+  text-shadow: 0 0 5px white, 0 0 10px white, 0 0 20px white, 0 0 40px #a051ee, 0 0 80px #a051ee, 0 0 90px #a051ee, 0 0 100px #a051ee, 0 0 150px #a051ee;
+}
+/*# sourceMappingURL=style.css.map */
