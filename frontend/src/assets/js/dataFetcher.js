@@ -41,7 +41,7 @@ async function getHrac(game, name) {
   else return result.json();
 }
 
-export {
+module.exports = {
   getNovinky,
   getNovinka,
   getNovinkaSousedi,
@@ -50,3 +50,7 @@ export {
   getHraci,
   getHrac,
 };
+
+if (process.env.NODE_ENV === 'test') {
+  module.exports = baseUrl;
+}

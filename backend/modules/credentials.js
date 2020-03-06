@@ -5,3 +5,7 @@ const client = new MongoClient(url, {
 });
 
 module.exports = { client: client };
+
+if (process.env.NODE_ENV === 'test') {
+  module.exports = url;
+}
