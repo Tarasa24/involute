@@ -1,0 +1,47 @@
+$purple: #A65BDA
+$textGray: #d9d9d9
+$bgGray: #B4B4B4
+
+@mixin transition($effect)
+  transition: $effect .35s ease-in-out
+
+@mixin scrollbar($size, $foreground-color, $background-color: mix($foreground-color, white,  50%))
+  // For Google Chrome
+  &::-webkit-scrollbar 
+    width:  $size
+    height: $size
+  
+  &::-webkit-scrollbar-thumb
+    background: $foreground-color
+  
+
+  &::-webkit-scrollbar-track
+    background: $background-color
+  
+
+  // For Internet Explorer
+  &
+    scrollbar-face-color: $foreground-color
+    scrollbar-track-color: $background-color
+  
+  -webkit-overflow-scrolling: touch
+
+@mixin small-device
+  @media (max-width: 767px) 
+    @content
+
+@mixin small-device-landscape
+  @media (max-width: 767px) and (orientation: landscape)
+    @content
+  
+@mixin small-device-portrait
+  @media (max-width: 767px) and (orientation: portrait)
+    @content
+
+@mixin medium-device
+  @media (max-width: 991px)
+    @content
+
+@mixin large-device
+  @media (max-width: 1199px)
+    @content
