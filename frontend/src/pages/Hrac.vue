@@ -167,6 +167,7 @@ export default {
 
     p
       line-height: 1.5rem
+      margin: 0
 
   td
     padding-bottom: 10px

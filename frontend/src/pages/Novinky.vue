@@ -54,7 +54,7 @@ export default {
       pages: [],
       maxPage: 0,
       current_page: 1,
-      length: 6,
+      length: 9,
     };
   },
   watch: {

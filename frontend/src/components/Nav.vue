@@ -9,7 +9,6 @@
       <router-link to="/oceneni">Ocenění</router-link>
       <router-link to="/eshop">Eshop</router-link>
       <router-link to="/kontakt">Kontakt</router-link>
-      <router-link to="/archiv">Archiv</router-link>
     </span>
   </nav>
 </template>
