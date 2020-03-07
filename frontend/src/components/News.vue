@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { getNovinky } from '../assets/js/dataFetcher';
+import { getData } from '../assets/js/dataFetcher';
 import { numberOfCards } from '../assets/js/responsive';
 
 export default {
@@ -51,8 +51,10 @@ export default {
   },
   methods: {
     async load() {
+      this.$Progress.start();
       let skip = (this.page - 1) * this.length;
-      this.novinky = await getNovinky(skip, this.length);
+      this.novinky = await getData('/novinky', { params: [skip, this.length] });
+      this.$Progress.finish();
     },
     handleResize() {
       if (this.length != numberOfCards(this.n)) {

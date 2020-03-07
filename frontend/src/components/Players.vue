@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { getHraci } from '../assets/js/dataFetcher';
+import { getData } from '../assets/js/dataFetcher';
 
 export default {
   data() {
@@ -63,7 +63,9 @@ export default {
     };
   },
   async created() {
-    this.games = await getHraci();
+    this.$Progress.start();
+    this.games = await getData('/hraci');
+    this.$Progress.finish();
   },
   methods: {
     url(game, player) {

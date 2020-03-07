@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vue2TouchEvents from 'vue2-touch-events';
+import VueProgressBar from 'vue-progressbar';
 
 import App from './App.vue';
 import Home from './pages/Home';
@@ -13,6 +14,11 @@ import NotFound from './pages/NotFound';
 
 Vue.use(VueRouter);
 Vue.use(Vue2TouchEvents);
+Vue.use(VueProgressBar, {
+  color: '#A65BDA',
+  failedColor: 'red',
+  height: '2px',
+});
 
 const routes = [
   { path: '/', component: Home },

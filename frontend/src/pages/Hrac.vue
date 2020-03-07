@@ -81,7 +81,7 @@ import Nav from '../components/Nav.vue';
 import Sponsors from '../components/Sponsors.vue';
 import Footer from '../components/Footer.vue';
 
-import { getHrac } from '../assets/js/dataFetcher';
+import { getData } from '../assets/js/dataFetcher';
 
 export default {
   components: { Nav, Sponsors, Footer },
@@ -95,15 +95,21 @@ export default {
     window.scrollTo(0, 0);
   },
   async created() {
+    this.$Progress.start();
     let game = this.$route.params.game;
     let name = this.$route.params.name;
 
-    let data = await getHrac(game, name);
+    let data = await getData('/hrac', { code: true, params: [game, name] });
 
     if (data !== 400) {
       this.player = data.player;
       this.game = data.game;
-    } else this.$router.push('/hrac/');
+    } else {
+      this.$Progress.fail();
+      this.$router.push('/hrac/');
+    }
+
+    this.$Progress.finish();
   },
 };
 </script>

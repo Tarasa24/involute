@@ -45,7 +45,7 @@ import Sponsors from '../components/Sponsors.vue';
 import News from '../components/News.vue';
 import Footer from '../components/Footer.vue';
 
-import { getPocetNovinek } from '../assets/js/dataFetcher';
+import { getData } from '../assets/js/dataFetcher';
 
 export default {
   components: { Nav, Sponsors, News, Footer },
@@ -63,7 +63,7 @@ export default {
   async created() {
     this.getCurrentPage();
     let pocetStranek = Math.ceil(
-      (await getPocetNovinek()) / this.$refs.News.length
+      (await getData('/novinky/length')) / this.$refs.News.length
     );
     this.maxPage = pocetStranek;
     this.pages = this.range(0, pocetStranek);

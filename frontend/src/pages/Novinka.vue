@@ -60,7 +60,7 @@ import Nav from '../components/Nav.vue';
 import Sponsors from '../components/Sponsors.vue';
 import Footer from '../components/Footer.vue';
 
-import { getNovinka, getNovinkaSousedi } from '../assets/js/dataFetcher';
+import { getData } from '../assets/js/dataFetcher';
 
 export default {
   components: { Nav, Sponsors, Footer },
@@ -81,10 +81,21 @@ export default {
   },
   methods: {
     async load() {
-      this.novinka = await getNovinka(this.$route.params.id);
+      this.$Progress.start();
+      this.novinka = await getData('/novinka', {
+        code: true,
+        params: [this.$route.params.id],
+      });
 
-      if (this.novinka === 400) this.$router.push('/novinka/');
-      else this.soused = await getNovinkaSousedi(this.$route.params.id);
+      if (this.novinka === 400) {
+        this.$router.push('/novinka');
+        this.$Progress.fail();
+      } else {
+        this.soused = await getData('novinka', {
+          params: [this.$route.params.id, '/neighbors'],
+        });
+        this.$Progress.finish();
+      }
     },
     swipeHandler(direction) {
       if (direction === 'left' && this.soused.next != null)

@@ -29,7 +29,7 @@
 <script>
 import Nav from '../components/Nav.vue';
 import Footer from '../components/Footer.vue';
-import { getPartneri } from '../assets/js/dataFetcher';
+import { getData } from '../assets/js/dataFetcher';
 
 export default {
   components: { Nav, Footer },
@@ -39,7 +39,9 @@ export default {
     };
   },
   async created() {
-    this.partners = await getPartneri();
+    this.$Progress.start();
+    this.partners = await getData('/partneri');
+    this.$Progress.finish();
   },
 };
 </script>
