@@ -43,7 +43,25 @@
 </template>
 
 <script>
-export default {};
+export default {
+  created() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
+  methods: {
+    handleScroll() {
+      const el = document.getElementsByClassName('sponsors')[0];
+      const viewportOffset = el.getBoundingClientRect();
+      const topDistance = viewportOffset.top;
+
+      if (topDistance < 0) el.classList.add('sticky');
+      else if (topDistance > 0 && el.classList.contains('sticky'))
+        el.classList.remove('sticky');
+    },
+  },
+};
 </script>
 
 <style lang="sass" scoped>
@@ -67,4 +85,9 @@ export default {};
     @include transition(filter)
     &:hover
       filter: brightness(100%)
+
+.sponsors.sticky
+  position: sticky
+  top: 0
+  z-index: 1
 </style>
