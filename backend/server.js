@@ -115,6 +115,15 @@ server.get('/hrac/:game/:name', async (req, res) => {
   });
 });
 
+server.get('/links', async (req, res) => {
+  var result = await db
+    .collection('links')
+    .find({})
+    .toArray();
+
+  res.json(result);
+});
+
 server.listen(port, () =>
   console.log(`<Website Backend server> listening on port ${port}`)
 );

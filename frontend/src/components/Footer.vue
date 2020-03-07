@@ -7,21 +7,15 @@
       </div>
 
       <div class="links">
-        <a href="https://www.facebook.com/Team.iNvolute/">
-          <b>Facebook</b>
-          <p>/teaminvolute</p>
-        </a>
-        <a href="https://twitter.com/iNvoluteGG">
-          <b>Twitter</b>
-          <p>/teaminvolute</p>
-        </a>
-        <a href="https://www.twitch.tv/teaminvolute">
-          <b>Twitch</b>
-          <p>/teaminvolute</p>
-        </a>
-        <a href="https://www.youtube.com/channel/involute">
-          <b>YouTube</b>
-          <p>/teaminvoluteTV</p>
+        <a
+          v-for="link in links"
+          :key="link._id"
+          :href="link.url"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <b>{{ link.name }}</b>
+          <p>{{ link.sub }}</p>
         </a>
       </div>
     </div>
@@ -34,7 +28,18 @@
 </template>
 
 <script>
-export default {};
+import { getData } from '../assets/js/dataFetcher';
+
+export default {
+  data() {
+    return {
+      links: [],
+    };
+  },
+  async created() {
+    this.links = await getData('/links');
+  },
+};
 </script>
 
 <style lang="sass" scoped>
