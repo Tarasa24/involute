@@ -1,14 +1,16 @@
 <template>
-  <div>
+  <div id="home">
     <Nav />
     <div class="head">
-      <h1>Nové <span>iNvolute</span> stránky?</h1>
-      <h1>Tady je máš!</h1>
-      <h2>
-        Zase změna, ale teď je to tak, jak jsme chtěli. Product placement
-        nechceme, na novinky z her jsou jiné portály, tak tady vidíš, kdo jsme
-        prostě MY!
-      </h2>
+      <span>
+        <h1>Nové <span>iNvolute</span> stránky?</h1>
+        <h1>Tady je máš!</h1>
+        <h2>
+          Zase změna, ale teď je to tak, jak jsme chtěli. Product placement
+          nechceme, na novinky z her jsou jiné portály, tak tady vidíš, kdo jsme
+          prostě MY!
+        </h2>
+      </span>
     </div>
 
     <Sponsors />
@@ -31,15 +33,21 @@ export default {
 
 <style lang="sass" scoped>
 .head
-  padding: 20vh 25vw 23vh 25vw
+  padding: 25vh 0
   text-align: left
   background-color: #02021f
   color: $textGray
-
+  display: grid
+  justify-items: center
   @include large-device
-    padding: 10% 0 10% 10%
+    padding-left: 5%
   @include small-device-portrait
     padding-left: 5%
+
+  span
+    width: $baselineWidth
+    @include large-device
+      width: auto
 
   h1
     font-size: 55px

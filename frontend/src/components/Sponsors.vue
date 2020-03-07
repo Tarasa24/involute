@@ -1,44 +1,58 @@
 <template>
-  <div class="sponsors">
-    <a href="https://zowie.benq.com/" target="_blank" rel="noopener noreferrer">
-      <img src="../assets/img/sponsors/zowie.png" alt="Zowie logo" />
-    </a>
-    <a
-      href="https://steelseries.com/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <img
-        src="../assets/img/sponsors/steelseries.png"
-        alt="Steelseries logo"
-      />
-    </a>
-    <a
-      href="https://ultimateguard.com/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <img
-        src="../assets/img/sponsors/ultimate-guard.png"
-        alt="Ultimate Guard logo"
-      />
-    </a>
-    <a
-      href="https://www.fantomprint.cz/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <img
-        src="../assets/img/sponsors/fantomprint.png"
-        alt="Fantomprint logo"
-      />
-    </a>
-    <a href="http://www.gigabyte.cz/" target="_blank" rel="noopener noreferrer">
-      <img src="../assets/img/sponsors/gigabyte.png" alt="Gigabyte logo" />
-    </a>
-    <a href="https://www.aorus.com/" target="_blank" rel="noopener noreferrer">
-      <img src="../assets/img/sponsors/aorus.png" alt="Aorus logo" />
-    </a>
+  <div class="wrapper">
+    <div class="sponsors">
+      <a
+        href="https://zowie.benq.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img src="../assets/img/sponsors/zowie.png" alt="Zowie logo" />
+      </a>
+      <a
+        href="https://steelseries.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src="../assets/img/sponsors/steelseries.png"
+          alt="Steelseries logo"
+        />
+      </a>
+      <a
+        href="https://ultimateguard.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src="../assets/img/sponsors/ultimate-guard.png"
+          alt="Ultimate Guard logo"
+        />
+      </a>
+      <a
+        href="https://www.fantomprint.cz/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src="../assets/img/sponsors/fantomprint.png"
+          alt="Fantomprint logo"
+        />
+      </a>
+      <a
+        href="http://www.gigabyte.cz/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img src="../assets/img/sponsors/gigabyte.png" alt="Gigabyte logo" />
+      </a>
+      <a
+        href="https://www.aorus.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img src="../assets/img/sponsors/aorus.png" alt="Aorus logo" />
+      </a>
+    </div>
   </div>
 </template>
 
@@ -52,7 +66,7 @@ export default {
   },
   methods: {
     handleScroll() {
-      const el = document.getElementsByClassName('sponsors')[0];
+      const el = document.getElementsByClassName('wrapper')[1];
       const viewportOffset = el.getBoundingClientRect();
       const topDistance = viewportOffset.top;
 
@@ -65,18 +79,27 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.sponsors
+.wrapper
+  height: 100px
+  display: grid
+  justify-self: center
+  justify-items: center
+  position: sticky
+  bottom: 0
   background-color: black
+  @include medium-device
+    padding: 0 1%
+  @include small-device
+    height: auto
+
+.sponsors
+  width: $baselineWidth
   display: grid
   grid-template-columns: repeat(6, 1fr)
   column-gap: 4vw
   align-items: center
-  padding: 0 20vw
   @include large-device
-    padding: 0 1%
-  @include small-device-portrait
-    grid-template-columns: repeat(3, 1fr)
-    padding: 0 10%
+    width: 100%
   img
     padding: 5px 0
     object-fit: cover
@@ -86,7 +109,7 @@ export default {
     &:hover
       filter: brightness(100%)
 
-.sponsors.sticky
+.sticky
   position: sticky
   top: 0
   z-index: 1

@@ -10,43 +10,49 @@
           ')'
       "
     >
-      <h1>{{ game.name }}</h1>
+      <div>
+        <h1>{{ game.name }}</h1>
 
-      <div class="portraits">
-        <div class="portrait" v-for="player in game.players" :key="player.name">
-          <router-link :to="url(game.name, player.name)">
-            <img
-              :src="'../img/players/' + player.name.toLowerCase() + '.png'"
-              :alt="player.name"
-            />
+        <div class="portraits">
+          <div
+            class="portrait"
+            v-for="player in game.players"
+            :key="player.name"
+          >
+            <router-link :to="url(game.name, player.name)">
+              <img
+                :src="'../img/players/' + player.name.toLowerCase() + '.png'"
+                :alt="player.name"
+              />
 
-            <br />
-            <h2>
-              {{ player.name }}
-            </h2>
-          </router-link>
-          <span>
-            <a
-              v-if="player.links.facebook"
-              class="fab fa-facebook-f"
-              :href="player.links.facebook"
-            />
-            <a
-              v-if="player.links.instagram"
-              class="fab fa-instagram"
-              :href="player.links.instagram"
-            />
-            <a
-              v-if="player.links.twitch"
-              class="fab fa-twitch"
-              :href="player.links.twitch"
-            />
-            <a
-              v-if="player.links.twitter"
-              class="fab fa-twitter"
-              :href="player.links.twitter"
-            />
-          </span>
+              <br />
+              <h2>
+                {{ player.name }}
+              </h2>
+            </router-link>
+            <span>
+              <a
+                v-if="player.links.facebook"
+                class="fab fa-facebook-f"
+                :href="player.links.facebook"
+              />
+              <a
+                v-if="player.links.instagram"
+                class="fab fa-instagram"
+                :href="player.links.instagram"
+              />
+              <a
+                v-if="player.links.twitch"
+                class="fab fa-twitch"
+                :href="player.links.twitch"
+              />
+              <a
+                v-if="player.links.twitter"
+                class="fab fa-twitter"
+                :href="player.links.twitter"
+              />
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -82,17 +88,19 @@ export default {
 <style lang="sass" scoped>
 .players
   .game
-    background-repeat: no-repeat
-    background-size: cover
-    background-position: center center
-    width: 100%
+    background-repeat: no-repeat !important
+    background-size: cover !important
+    background-position: center center !important
+    display: grid
+    justify-items: center
+    align-items: left
     h1, h2
       text-transform: uppercase
       color: $purple
     h1
       text-align: left
       font-size: 45px
-      padding: 40px 20vw
+      padding: 40px 0
       @include large-device
         font-size: 2rem
         padding-left: 5%
@@ -106,18 +114,20 @@ export default {
       margin: 15px 0 10px 0
       font-size: 20px
 
+    > div
+      width: $baselineWidth
+      display: grid
+      @include large-device
+        width: 100%
+
     .portraits
       display: inline-flex
-
-      @include large-device
-        overflow: auto
-        width: 100%
-        @include scrollbar(5px, gray, transparent)
-
+      overflow: auto
+      @include scrollbar(5px, gray, transparent)
       .portrait
-        margin: 0 15px 25px 0
+        margin: 0 10px 25px 0
         img
-          width: 200px
+          width: 165px
           @include small-device-landscape
             width: 125px
         a

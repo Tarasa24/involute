@@ -1,29 +1,31 @@
 <template>
   <div>
     <div class="support">
-      <div class="header">
-        <h1>Podpoř <span>Involute</span></h1>
-        <h2>Sleduj, lajkuj, sdílej a podporuj... Nebudeš litovat!</h2>
+      <div>
+        <div class="header">
+          <h1>Podpoř <span>Involute</span></h1>
+          <h2>Sleduj, lajkuj, sdílej a podporuj... Nebudeš litovat!</h2>
+        </div>
+
+        <div class="links">
+          <a
+            v-for="link in links"
+            :key="link._id"
+            :href="link.url"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <b>{{ link.name }}</b>
+            <p>{{ link.sub }}</p>
+          </a>
+        </div>
       </div>
 
-      <div class="links">
-        <a
-          v-for="link in links"
-          :key="link._id"
-          :href="link.url"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <b>{{ link.name }}</b>
-          <p>{{ link.sub }}</p>
-        </a>
-      </div>
+      <footer>
+        Esport tým <a href=".">iNvolute</a> 2011 - 2020 | iNvolute s.r.o.,
+        Primátorská 296/38, Libeň, 180 00 Praha 8, IČ: 06180167
+      </footer>
     </div>
-
-    <footer>
-      Esport tým <a href=".">iNvolute</a> 2011 - 2020 | iNvolute s.r.o.,
-      Primátorská 296/38, Libeň, 180 00 Praha 8, IČ: 06180167
-    </footer>
   </div>
 </template>
 
@@ -45,6 +47,8 @@ export default {
 <style lang="sass" scoped>
 .support
   background-color: black
+  display: grid
+  justify-items: center
 
   .header
     @include medium-device
@@ -77,10 +81,10 @@ export default {
     a
       text-decoration: none
       color: unset
-      padding: 0 5vw
+      padding: 0 90px
       border-bottom: 5px solid black
       @include transition(border-bottom-color)
-      @include medium-device
+      @include large-device
         padding: 0 20px
       @include small-device
         margin-bottom: 5%

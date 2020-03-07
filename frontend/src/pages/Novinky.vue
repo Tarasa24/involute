@@ -105,6 +105,7 @@ export default {
     border-left-width: 0px
     width: 3rem
     padding: 0.5rem 0
+    background-color: white
     &:first-child, &:last-child
       padding: calc( 0.5rem + 1px ) 0 calc( 0.5rem + 3px ) 0
       &[disabled]

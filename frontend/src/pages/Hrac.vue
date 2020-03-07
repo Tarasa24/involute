@@ -125,7 +125,9 @@ export default {
   text-align: left
 
   .header
-    background-color: #02021f
+    background-repeat: no-repeat !important
+    background-size: cover !important
+    background-position: center center !important
     justify-self: left
     padding: 37.5vh 0 5vh 0
     @include left()
