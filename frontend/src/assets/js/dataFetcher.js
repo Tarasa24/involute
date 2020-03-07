@@ -1,6 +1,10 @@
 const baseUrl = '/api';
 
 async function getData(path, options = { code: false, params: [] }) {
+  if (path.charAt(0) == '/') {
+    path = path.substring(1);
+  }
+
   var url = `${baseUrl}/${path}`;
   options.params.forEach(e => {
     url += `/${e}`;
