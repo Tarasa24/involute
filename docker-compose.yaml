@@ -10,18 +10,35 @@ services:
   mongodb:
     restart: always
     image: mongo
+    logging:
+      driver: "none"
     ports:
       - 27017:27017
     volumes:
       - mongodb_data:/data/db
   nginx:
     restart: always
-    build: nginx
+    build: 
+      context: nginx
+      args:
+        - jwtSecret=F-JaNdRgUkXp2s5v8y/B?D(G+KbPeShVmYq3t6w9z$C&F)H@McQfTjWnZr4u7x!A
     ports:
       - 80:80
+      - 7890:7890
+    volumes:
+      - ./nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+      - ./nginx/access.log:/var/log/nginx/access.log
+      - ./GoAccess/index.html:/www/goaccess/index.html
     depends_on:
       - frontend
       - backend
+
+  goaccess:
+    image: allinurl/goaccess
+    volumes:
+      - ./nginx/access.log:/goaccess/log/access.log
+      - ./GoAccess/index.html:/goaccess/index.html
+    command: /goaccess/log/access.log -o /goaccess/index.html --log-format=COMBINED --real-time-html
 
 volumes:
   mongodb_data:
