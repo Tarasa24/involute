@@ -1,6 +1,5 @@
 <template>
   <div id="home">
-    <Nav />
     <div class="head">
       <span>
         <h1>Nové <span>iNvolute</span> stránky?</h1>
@@ -16,18 +15,16 @@
     <Sponsors />
     <News />
     <Players />
-    <Footer />
   </div>
 </template>
 
 <script>
-import Nav from '../components/Nav.vue';
 import Sponsors from '../components/Sponsors.vue';
 import News from '../components/News.vue';
 import Players from '../components/Players.vue';
-import Footer from '../components/Footer.vue';
+
 export default {
-  components: { Nav, Sponsors, News, Players, Footer },
+  components: { Sponsors, News, Players },
 };
 </script>
 

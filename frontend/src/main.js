@@ -8,8 +8,8 @@ import Home from './pages/Home';
 import Novinky from './pages/Novinky';
 import Novinka from './pages/Novinka';
 import Hraci from './pages/Hraci';
-import Partneri from './pages/Partneri';
 import Hrac from './pages/Hrac';
+import Partneri from './pages/Partneri';
 import NotFound from './pages/NotFound';
 
 Vue.use(VueRouter);
@@ -29,8 +29,8 @@ const routes = [
   },
   { path: '/novinka/:id', component: Novinka },
   { path: '/hraci', component: Hraci },
-  { path: '/partneri', component: Partneri },
   { path: '/hrac/:game/:name', component: Hrac },
+  { path: '/partneri', component: Partneri },
   { path: '*', component: NotFound },
 ];
 

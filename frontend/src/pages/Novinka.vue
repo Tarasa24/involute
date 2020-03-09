@@ -1,7 +1,5 @@
 <template>
   <div>
-    <Nav />
-    <Sponsors />
     <div class="header" v-touch:swipe="swipeHandler">
       <span>
         <router-link
@@ -51,19 +49,13 @@
         adipisci, id dolor modi ipsum.
       </p>
     </main>
-    <Footer />
   </div>
 </template>
 
 <script>
-import Nav from '../components/Nav.vue';
-import Sponsors from '../components/Sponsors.vue';
-import Footer from '../components/Footer.vue';
-
 import { getData } from '../assets/js/dataFetcher';
 
 export default {
-  components: { Nav, Sponsors, Footer },
   data() {
     return {
       novinka: {},

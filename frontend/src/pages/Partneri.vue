@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Nav />
     <div class="wrapper">
       <div class="partneri">
         <div class="header">
@@ -20,17 +19,13 @@
         </div>
       </div>
     </div>
-    <Footer />
   </div>
 </template>
 
 <script>
-import Nav from '../components/Nav.vue';
-import Footer from '../components/Footer.vue';
 import { getData } from '../assets/js/dataFetcher';
 
 export default {
-  components: { Nav, Footer },
   data() {
     return {
       partners: null,

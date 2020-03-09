@@ -1,8 +1,5 @@
 <template>
   <div>
-    <Nav />
-    <Sponsors />
-
     <div class="hrac">
       <div
         class="header"
@@ -71,20 +68,13 @@
         </main>
       </div>
     </div>
-
-    <Footer />
   </div>
 </template>
 
 <script>
-import Nav from '../components/Nav.vue';
-import Sponsors from '../components/Sponsors.vue';
-import Footer from '../components/Footer.vue';
-
 import { getData } from '../assets/js/dataFetcher';
 
 export default {
-  components: { Nav, Sponsors, Footer },
   data() {
     return {
       player: { name: '', sestava: {}, links: [] },

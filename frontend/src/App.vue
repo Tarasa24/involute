@@ -1,13 +1,21 @@
 <template>
   <div id="app">
     <vue-progress-bar />
+    <Nav />
+    <Sponsors v-if="!['/', '/partneri'].includes(this.$route.path)" />
     <router-view />
+    <Footer />
   </div>
 </template>
 
 <script>
+import Nav from './components/Nav.vue';
+import Sponsors from './components/Sponsors.vue';
+import Footer from './components/Footer.vue';
+
 export default {
   name: 'App',
+  components: { Nav, Sponsors, Footer },
 };
 </script>
 

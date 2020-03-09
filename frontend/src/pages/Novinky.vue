@@ -1,7 +1,5 @@
 <template>
   <div>
-    <Nav />
-    <Sponsors />
     <News ref="News" :page="current_page" :n="length" />
     <div class="picker">
       <a v-if="current_page - 1 < 1" disabled class="fas fa-chevron-left" />
@@ -35,20 +33,16 @@
         class="fas fa-chevron-right"
       />
     </div>
-    <Footer />
   </div>
 </template>
 
 <script>
-import Nav from '../components/Nav.vue';
-import Sponsors from '../components/Sponsors.vue';
 import News from '../components/News.vue';
-import Footer from '../components/Footer.vue';
 
 import { getData } from '../assets/js/dataFetcher';
 
 export default {
-  components: { Nav, Sponsors, News, Footer },
+  components: { News },
   data() {
     return {
       pages: [],

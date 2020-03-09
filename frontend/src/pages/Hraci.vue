@@ -1,24 +1,18 @@
 <template>
   <div>
-    <Nav />
-    <Sponsors />
     <div class="header">
       <h1>Seznamte se</h1>
       <h1>To jsme my!</h1>
     </div>
     <Players />
-    <Footer />
   </div>
 </template>
 
 <script>
-import Nav from '../components/Nav.vue';
-import Sponsors from '../components/Sponsors.vue';
 import Players from '../components/Players.vue';
-import Footer from '../components/Footer.vue';
 
 export default {
-  components: { Nav, Sponsors, Players, Footer },
+  components: { Players },
 };
 </script>
 
