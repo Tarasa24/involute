@@ -1,18 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <link href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" rel="stylesheet">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta name="title" content="iNvolute" />
+    <meta
+      name="description"
+      content="iNvolute, založen 1. března 2016, je e-sportová organizace řadící se do nejmladších profesionálních týmů na české a slovenské herní scéně"
+    />
+    <meta name="keywords" content="esport, gaming, cz, sk, cz/sk, team" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="cs-CZ" />
+    <meta
+      name="author"
+      content="Tarasa24 (Petr Gajdošík) https://github.com/Tarasa24"
+    />
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <link
+      href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+      rel="stylesheet"
+    />
+    <title>Team iNvolute</title>
   </head>
-  <body>
+  <body onload="handleLoad()">
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong>Omlouváme se, ale tato stránka nefunguje bez Javascriptu</strong>
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+  <script>
+    function handleLoad() {
+      console.log(
+        '%cMade with ❤️ by %cTarasa24\n%cFull-stack developer\n%cGithub: https://github.com/Tarasa24\n%c© 2020',
+        'color: white; font-size: 2rem; font-family: Segoe UI',
+        'color: white; font-size: 2rem; font-weight: bold',
+        'font-size: 1.5rem',
+        'font-size: .8rem',
+        'color: gray; font-size: .6rem'
+      );
+    }
+  </script>
 </html>
