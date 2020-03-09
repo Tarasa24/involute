@@ -9,7 +9,7 @@
         :to="'/novinka/' + novinka._id"
         class="novinka"
         v-for="novinka in novinky"
-        :key="novinka.id"
+        :key="novinka._id"
       >
         <span>
           <h6>{{ novinka.game }}</h6>
