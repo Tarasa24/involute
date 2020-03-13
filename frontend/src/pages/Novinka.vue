@@ -83,8 +83,8 @@ export default {
         this.$router.push('/novinka');
         this.$Progress.fail();
       } else {
-        this.soused = await getData('novinka', {
-          params: [this.$route.params.id, '/neighbors'],
+        this.soused = await getData('/novinka', {
+          params: [this.$route.params.id, 'neighbors'],
         });
         this.$Progress.finish();
       }

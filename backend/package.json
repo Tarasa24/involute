@@ -7,7 +7,9 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jest": "^25.1.0",
-    "mongodb": "^3.5.4"
+    "mongodb": "^3.5.4",
+    "yup": "^0.28.3",
+    "yup-locale-cs": "git+https://github.com/svobik7/yup-locale-cs.git"
   },
   "devDependencies": {},
   "scripts": {

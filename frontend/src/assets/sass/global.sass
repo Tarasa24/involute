@@ -4,6 +4,21 @@ $bgGray: #e0e0e0
 
 $baselineWidth: 1100px
 
+@mixin btn($color, $hover)
+  font-size: 1rem
+  padding: 2.5%
+  overflow: hidden
+  border-width: 0
+  outline: none
+  border-radius: 2px
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .6)
+  background-color: $color
+  color: white
+  @include transition(background-color)
+  cursor: pointer
+  &:hover
+    background-color: $hover
+
 @mixin transition($effect)
   transition: $effect .35s ease-in-out
 

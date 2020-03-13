@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vue2TouchEvents from 'vue2-touch-events';
 import VueProgressBar from 'vue-progressbar';
+import ZoomOnHover from 'vue-zoom-on-hover';
 
 import App from './App.vue';
 import Home from './pages/Home';
@@ -10,6 +11,9 @@ import Novinka from './pages/Novinka';
 import Hraci from './pages/Hraci';
 import Hrac from './pages/Hrac';
 import Partneri from './pages/Partneri';
+import Eshop from './pages/Eshop';
+import Produkt from './pages/Produkt';
+import Kosik from './pages/Kosik';
 import NotFound from './pages/NotFound';
 
 Vue.use(VueRouter);
@@ -19,6 +23,7 @@ Vue.use(VueProgressBar, {
   failedColor: 'red',
   height: '2px',
 });
+Vue.use(ZoomOnHover);
 
 const routes = [
   { path: '/', component: Home },
@@ -31,6 +36,9 @@ const routes = [
   { path: '/hraci', component: Hraci },
   { path: '/hrac/:game/:name', component: Hrac },
   { path: '/partneri', component: Partneri },
+  { path: '/eshop', component: Eshop },
+  { path: '/eshop/produkt/:id', component: Produkt },
+  { path: '/eshop/kosik', component: Kosik },
   { path: '*', component: NotFound },
 ];
 

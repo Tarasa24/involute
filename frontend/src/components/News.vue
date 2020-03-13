@@ -118,7 +118,9 @@ export default {
       @include small-device
         margin: 10px
 
+      @include transition(transform)
       &:hover
+        transform: scale(.96)
         a
           color: $purple
 
