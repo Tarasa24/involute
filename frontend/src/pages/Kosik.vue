@@ -1,9 +1,9 @@
 <template>
   <main>
     <BasketList ref="basket" />
-    <div class="header">
-      <h1>Doprava a platba</h1>
-    </div>
+    <Header>
+      <h2>Doprava a platba</h2>
+    </Header>
 
     <div class="wrapper">
       <div class="doprava">
@@ -136,12 +136,13 @@
 
 <script>
 import BasketList from '../components/eshop/BasketList';
+import Header from '../components/misc/Header';
 import PayButton from '../components/eshop/PayButton';
 
 import { postData } from '../assets/js/dataFetcher';
 
 export default {
-  components: { BasketList, PayButton },
+  components: { BasketList, Header, PayButton },
   data() {
     return {
       basket: { total: [0, 0] },
@@ -230,14 +231,6 @@ main
   padding-bottom: 5vh
   display: grid
   justify-items: center
-
-.header
-  background-color: $bgGray
-  padding: 30px 0
-  h1
-    font-size: 2rem
-    letter-spacing: 3px
-    text-transform: uppercase
 
 .wrapper
   display: inline-flex

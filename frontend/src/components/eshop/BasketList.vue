@@ -1,9 +1,9 @@
 <template>
   <div class="basketlist">
-    <div class="header">
-      <h1 class="fas fa-shopping-basket"></h1>
+    <Header>
+      <span class="fas fa-shopping-basket" />
       <h2>Košík</h2>
-    </div>
+    </Header>
 
     <div class="wrapper" v-if="basket.length !== 0">
       <table>
@@ -53,9 +53,12 @@
 </template>
 
 <script>
+import Header from '../misc/Header';
+
 import { getData } from '../../assets/js/dataFetcher';
 
 export default {
+  components: { Header },
   data() {
     return {
       basket: [],
@@ -121,18 +124,6 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.header
-  background-color: $bgGray
-  padding: 30px 0
-  h1
-    color: $purple
-    font-size: 4rem
-
-  h2
-    font-size: 2rem
-    letter-spacing: 3px
-    text-transform: uppercase
-
 .basketlist
   background-color: $bgGray
   display: grid

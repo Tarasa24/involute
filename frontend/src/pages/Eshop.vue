@@ -1,10 +1,9 @@
 <template>
   <div>
-    <Basket />
-    <div class="header">
+    <Header>
       <h1>Eshop</h1>
       <h2>Vlastní a bez prostředníka</h2>
-    </div>
+    </Header>
 
     <main>
       <router-link
@@ -21,16 +20,18 @@
         </span>
       </router-link>
     </main>
+    <Basket />
   </div>
 </template>
 
 <script>
 import Basket from '../components/eshop/Basket';
+import Header from '../components/misc/Header';
 
 import { getData } from '../assets/js/dataFetcher';
 
 export default {
-  components: { Basket },
+  components: { Basket, Header },
   data() {
     return {
       produkty: null,
@@ -50,18 +51,6 @@ div
   display: grid
   justify-items: center
   padding-bottom: 5vh
-.header
-  background-color: $bgGray
-  padding: 30px 0
-  h1
-    text-transform: uppercase
-    color: $purple
-    font-size: 45px
-    letter-spacing: 3px
-  h2
-    font-weight: normal
-    font-size: 25px
-    margin-bottom: 25px
 
 main
   width: $baselineWidth
