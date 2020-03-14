@@ -135,8 +135,8 @@
 </template>
 
 <script>
-import BasketList from '../components/BasketList';
-import PayButton from '../components/PayButton';
+import BasketList from '../components/eshop/BasketList';
+import PayButton from '../components/eshop/PayButton';
 
 import { postData } from '../assets/js/dataFetcher';
 

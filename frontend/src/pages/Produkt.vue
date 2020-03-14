@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import Basket from '../components/Basket';
+import Basket from '../components/eshop/Basket';
 import { getData } from '../assets/js/dataFetcher';
 
 export default {

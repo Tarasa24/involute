@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { getData } from '../assets/js/dataFetcher';
+import { getData } from '../../assets/js/dataFetcher';
 
 export default {
   data() {

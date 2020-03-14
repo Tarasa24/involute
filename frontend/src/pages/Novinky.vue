@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import News from '../components/News.vue';
+import News from '../components/news/News.vue';
 
 import { getData } from '../assets/js/dataFetcher';
 

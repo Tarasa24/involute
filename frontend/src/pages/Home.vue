@@ -20,8 +20,8 @@
 
 <script>
 import Sponsors from '../components/Sponsors.vue';
-import News from '../components/News.vue';
-import Players from '../components/Players.vue';
+import News from '../components/news/News.vue';
+import Players from '../components/players/Players.vue';
 
 export default {
   components: { Sponsors, News, Players },

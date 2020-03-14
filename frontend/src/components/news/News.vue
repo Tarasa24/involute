@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import { getData } from '../assets/js/dataFetcher';
-import { numberOfCards } from '../assets/js/responsive';
+import { getData } from '../../assets/js/dataFetcher';
+import { numberOfCards } from '../../assets/js/responsive';
 
 export default {
   props: {
@@ -102,7 +102,7 @@ export default {
       grid-template-columns: 1fr
 
     .novinka
-      background: url("../assets/novinka_template.png")
+      background: url("../../assets/novinka_template.png")
       width: 360px
       height: 230px
       position: relative
