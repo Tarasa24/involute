@@ -28,23 +28,35 @@ body {
 }
 
 .container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  display: -ms-grid;
+  display: grid;
   width: 100%;
+  height: 100vh;
+  justify-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.container h1 {
-  color: #693e94;
-  font-size: 3rem;
-  text-transform: uppercase;
+.container .clock {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (auto)[4];
+      grid-template-columns: repeat(4, auto);
+  -webkit-column-gap: 20px;
+          column-gap: 20px;
 }
 
-.container span {
-  display: block;
-  font-size: 50px;
-  text-shadow: 0 0 5px white, 0 0 10px white, 0 0 20px white, 0 0 40px #a051ee, 0 0 80px #a051ee, 0 0 90px #a051ee, 0 0 100px #a051ee, 0 0 150px #a051ee;
+.container .clock span {
+  width: 20vw;
+  font-size: 6em;
+  text-shadow: 0 0 5px white, 0 0 10px white, 0 0 20px white, 0 0 40px #f900f2, 0 0 80px #f900f2, 0 0 90px #f900f2, 0 0 100px #f900f2, 0 0 150px #f900f2;
+}
+
+@media (max-width: 640px) and (orientation: portrait) {
+  .container .clock span {
+    font-size: 3.25em;
+    width: 70px;
+  }
 }
 /*# sourceMappingURL=style.css.map */

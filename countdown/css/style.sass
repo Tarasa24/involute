@@ -1,3 +1,7 @@
+@mixin small-device-portrait
+  @media (max-width: 640px) and (orientation: portrait)
+    @content
+  
 @font-face
   font-family: 'skoda'
   src: url('./fonts/SkodaPro-Regular.woff') format('woff')
@@ -16,10 +20,10 @@
   font-weight: bolder
   font-style: normal
 
-$purple: #693e94
+$pink: #f900f2
 
 @mixin glow($color1, $color2)
-  text-shadow: 0 0 5px $color1, 0 0 10px $color1, 0 0 20px $color1, 0 0 40px $color2, 0 0 80px $color2, 0 0 90px $color2, 0 0 100px $color2, 0 0 150px $color2;
+  text-shadow: 0 0 5px $color1, 0 0 10px $color1, 0 0 20px $color1, 0 0 40px $color2, 0 0 80px $color2, 0 0 90px $color2, 0 0 100px $color2, 0 0 150px $color2
 
 body
   font-family: skoda, Avenir, Helvetica, Arial, sans-serif
@@ -29,18 +33,19 @@ body
   text-align: center
 
 .container
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  display: grid
   width: 100%
-  h1
-    color: $purple
-    font-size: 3rem
-    text-transform: uppercase
-  
-  span
-    display: block
-    font-size: 50px
-    @include glow($color1: white, $color2: #a051ee)
-    
+  height: 100vh
+  justify-items: center
+  align-items: center
+  .clock
+    display: grid
+    grid-template-columns: repeat(4, auto)
+    column-gap: 20px
+    span
+      width: 20vw
+      font-size: 6em
+      @include glow($color1: white, $color2: $pink)
+      @include small-device-portrait
+        font-size: 3.25em 
+        width: 70px
