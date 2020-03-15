@@ -1,4 +1,4 @@
-const baseUrl = '/api';
+const baseUrl = process.env.PROD ? '/api' : 'http://localhost:8081';
 
 function pathMiddleware(path) {
   if (path.charAt(0) == '/') {
@@ -38,6 +38,4 @@ async function postData(path, data) {
 
 module.exports = { getData, postData };
 
-if (process.env.NODE_ENV === 'test') {
-  module.exports = baseUrl;
-}
+if (process.env.NODE_ENV === 'test') module.exports = baseUrl;

@@ -1,6 +1,7 @@
-var assert = require('assert');
-
-test('Mongodb url variable should point to the mongodb container', () => {
-  let url = require('../modules/credentials');
-  expect(url).toBe('mongodb://mongodb:27017');
+describe('Mongodb connection', () => {
+  it('Mongodb url variable in production should point to the mongodb container', () => {
+    process.env.PROD = true;
+    let url = require('../modules/credentials').url;
+    expect(url).toBe('mongodb://mongodb:27017');
+  });
 });

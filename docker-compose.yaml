@@ -2,8 +2,12 @@ version: '3.7'
 services:
   frontend:
     build: frontend
+    environment:
+      - PROD=true
   backend:
     build: backend
+    environment:
+      - PROD=true
     depends_on:
       - mongodb
 
@@ -11,14 +15,14 @@ services:
     restart: always
     image: mongo
     logging:
-      driver: "none"
+      driver: 'none'
     ports:
       - 27017:27017
     volumes:
       - mongodb_data:/data/db
   nginx:
     restart: always
-    build: 
+    build:
       context: nginx
       args:
         - jwtSecret=F-JaNdRgUkXp2s5v8y/B?D(G+KbPeShVmYq3t6w9z$C&F)H@McQfTjWnZr4u7x!A

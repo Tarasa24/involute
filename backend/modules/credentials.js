@@ -1,10 +1,8 @@
 var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://mongodb:27017';
+var url = process.env.PROD
+  ? 'mongodb://mongodb:27017'
+  : 'mongodb://localhost:27017';
 const client = new MongoClient(url, {
   useUnifiedTopology: true,
 });
-module.exports = { client };
-
-if (process.env.NODE_ENV === 'test') {
-  module.exports = url;
-}
+module.exports = { client, url };
