@@ -3,6 +3,7 @@ const novinky = require('./modules/novinky');
 const hraci = require('./modules/hraci');
 const eshop = require('./modules/eshop');
 const express = require('express');
+const compression = require('compression');
 const cors = require('cors');
 const port = 8081;
 const server = express();
@@ -13,6 +14,7 @@ credentials.client.connect((err, client) => {
   db = client.db('iNvolute');
 });
 
+server.use(compression());
 server.use(cors());
 server.use(express.json());
 
