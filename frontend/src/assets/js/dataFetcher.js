@@ -1,4 +1,4 @@
-const baseUrl = process.env.PROD ? '/api' : 'http://localhost:8081';
+const baseUrl = process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:8081';
 
 function pathMiddleware(path) {
   if (path.charAt(0) == '/') {

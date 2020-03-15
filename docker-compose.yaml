@@ -2,12 +2,10 @@ version: '3.7'
 services:
   frontend:
     build: frontend
-    environment:
-      - PROD=true
   backend:
     build: backend
     environment:
-      - PROD=true
+      - NODE_ENV=production
     depends_on:
       - mongodb
 
@@ -25,7 +23,7 @@ services:
     build:
       context: nginx
       args:
-        - jwtSecret=F-JaNdRgUkXp2s5v8y/B?D(G+KbPeShVmYq3t6w9z$C&F)H@McQfTjWnZr4u7x!A
+        - jwtSecret=placeholder
     ports:
       - 80:80
       - 7890:7890
