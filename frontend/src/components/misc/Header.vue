@@ -10,7 +10,7 @@ export default {};
 
 <style lang="sass" scoped>
 .header
-  background-color: $bgGray
+  background-color: transparent
   padding: 30px 0
   h1
     text-transform: uppercase

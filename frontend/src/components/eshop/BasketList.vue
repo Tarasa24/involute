@@ -125,7 +125,6 @@ export default {
 
 <style lang="sass" scoped>
 .basketlist
-  background-color: $bgGray
   display: grid
   justify-items: center
 

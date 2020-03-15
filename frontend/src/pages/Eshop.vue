@@ -47,7 +47,7 @@ export default {
 
 <style lang="sass" scoped>
 div
-  background-color: #e0e0e0
+  background-color: $bgGray
   display: grid
   justify-items: center
   padding-bottom: 5vh
