@@ -88,7 +88,7 @@ export default {
 .basket
   @include btn(white, white)
   position: fixed
-  top: 2%
+  bottom: 2%
   right: 2%
   z-index: 9
 
@@ -98,9 +98,6 @@ export default {
   width: 40px
   opacity: .4
   @include transition(opacity)
-  @include large-device
-    top: unset
-    bottom: 2%
   &:hover
     opacity: 1
     & ~ .tooltip
@@ -112,14 +109,10 @@ export default {
   text-align: left
   opacity: 0
   position: fixed
-  top: 2%
-  right: 7%
+  bottom: 10%
+  right: 2%
   z-index: 9
   color: white
   @include transition(opacity)
   background-color: rgba(0, 0, 0, .5)
-  @include large-device
-    top: unset
-    bottom: 10%
-    right: 2%
 </style>

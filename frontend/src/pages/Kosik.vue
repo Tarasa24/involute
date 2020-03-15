@@ -65,8 +65,8 @@
         <div>
           <div class="jmeno_prijmeni">
             <label>Jméno *</label>
-            <label>Příjmení *</label>
             <input required type="text" name="Jmeno" />
+            <label>Příjmení *</label>
             <input required type="text" name="Příjmení" />
           </div>
           <label>Ulice a číslo popisné *</label>
@@ -90,7 +90,7 @@
           <label for="fakturacni">Fakturační adresa je jiná než dodací</label>
         </div>
 
-        <div v-if="fakturacni">
+        <div v-if="fakturacni" class="fakturacni_contents">
           <label>Jméno a příjmení nebo Firma *</label>
           <input
             required
@@ -231,6 +231,9 @@ main
   padding-bottom: 5vh
   display: grid
   justify-items: center
+  @include small-device-portrait
+    label
+      font-size: 1rem
 
 .wrapper
   display: inline-flex
@@ -239,6 +242,11 @@ main
     cursor: pointer
   div
     margin: 0 4vw
+  @include small-device-portrait
+    .doprava
+      margin: 0 2vw 0 0
+    .platba
+      margin: 0 0 0 2vw
   input[type=radio]
     border: 0px
     width: 1.5em
@@ -246,6 +254,8 @@ main
   label
     position: relative
     bottom: 4px
+    @include small-device-portrait
+      font-size: .9rem
 .recap
   display: grid
   justify-items: center
@@ -253,6 +263,8 @@ main
   margin-bottom: 1%
   border-top: 1px solid black
   width: $baselineWidth / 2
+  @include small-device-portrait
+    width: 95%
   td
     padding: 0
   img
@@ -262,25 +274,46 @@ main
     padding-right: 5%
   div
     margin: 0
+  @include small-device-portrait
+    h4
+      font-size: .9rem
 
 .adresa
   text-align: left
+  @include small-device-portrait
+  padding: 0 5px
   h1
     font-weight: normal
+    padding-left: 10px
+    @include small-device-portrait
+      padding: 0 5px
   .wrapper
     display: grid
     width: $baselineWidth
     grid-template-columns: repeat(2, 50%)
     justify-items: start
-    input,label
+    @include large-device
+      width: 100%
+      margin: 0 auto
+    input, label
       cursor: auto
     div
       margin: 0
       padding: 10px
+      @include small-device
+        padding: 0
+        width: 100%
+        &:nth-of-type(1)
+          grid-column: 1 / span 2
+        &:nth-of-type(2)
+          grid-column: 1 / span 2
+
       label
         position: relative
         top: 0
         font-size: 1.25rem
+        @include small-device
+          font-size: 1rem
       input[type="text"], input[type="email"], input[type="tel"]
         border-radius: .25rem
         border: 1px solid #ced4da
@@ -288,30 +321,60 @@ main
         padding-left: 5px
         width: 100%
         margin-bottom: 10px
+        @include small-device
+          width: calc( 100% - 5px )
       .jmeno_prijmeni
         padding: 0
         display: grid
-        grid-template-columns: repeat(2, 50%)
-        *:nth-of-type(1)
-          margin-right: 2.5%
-          width: 97.5%
-        *:nth-of-type(2)
-          margin-left: 2.5%
-          width: 97.5%
+        grid-template-columns: repeat(2, calc( 50% - 5px / 2 - 5px))
+        column-gap: 15px
+        input
+          width: 100%
+        input:nth-of-type(1)
+          grid-row: 2
+        @include small-device
+          grid-template-columns: 100%
+          input
+            width: calc( 100% - 5px )
+
     .fakturacni
       input,label
         cursor: pointer
       label
         font-size: 1rem
+      @include small-device
+        grid-row: 3
+        grid-column: 1 / span 2
+        padding-bottom: 5%
+    .fakturacni_contents
+      @include small-device
+        grid-row: 4
+        grid-column: 1 / span 2
+
     .objednat
       grid-row: 2 / span 3
       grid-column: 2
-      input[type="submit"]
-        @include btn($purple, #7a43a1)
+      @include small-device
+        padding: 0 0 0 5px
+        grid-column: 1 / span 2
+        grid-row: 5
+      input[type="submit"], button
+        @include btn($purple, #7f0c91)
         margin-top: 5%
         font-size: 2rem
         text-transform: uppercase
         padding: 20px
+        &:active
+          position: relative
+          top: 2.5px
+        @include small-device
+          padding: 5% 0
+          width: 100%
+          font-size: 1.5rem
       h1
         font-weight: normal
+        padding: 0
+        @include small-device
+          font-size: 1.5rem
+          padding: 0
 </style>

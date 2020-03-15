@@ -133,13 +133,18 @@ export default {
     text-align: left
     border-collapse: collapse
     margin-bottom: 5%
+    @include medium-device
+      width: 95vw
+      margin: 0 auto
     tr
       td
-        padding: 10px 0
+        padding: 10px 5px
         width: 40%
         &:last-of-type
           span
             color: red
+            @include small-device-portrait
+              display: block
       a
         color: black
         text-decoration: none
@@ -152,6 +157,8 @@ export default {
       span
         margin: 0 5px
         cursor: pointer
+        @include small-device-portrait
+          display: none
       &:last-of-type
         border-top: 1px black solid
 </style>
