@@ -71,6 +71,16 @@ server.post('/objednat', (req, res) => {
   eshop.objednat(req, res, db);
 });
 
+server.get('/oceneni', async (req, res) => {
+  var result = await db
+    .collection('oceneni')
+    .find({})
+    .sort({ _id: -1 })
+    .toArray();
+
+  res.json(result);
+});
+
 server.listen(port, () =>
   console.log(`<Website Backend server> listening on port ${port}`)
 );

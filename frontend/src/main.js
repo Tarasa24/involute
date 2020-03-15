@@ -11,6 +11,7 @@ import Novinka from './pages/Novinka';
 import Hraci from './pages/Hraci';
 import Hrac from './pages/Hrac';
 import Partneri from './pages/Partneri';
+import Oceneni from './pages/Oceneni';
 import Eshop from './pages/Eshop';
 import Produkt from './pages/Produkt';
 import Kosik from './pages/Kosik';
@@ -36,6 +37,7 @@ const routes = [
   { path: '/hraci', component: Hraci },
   { path: '/hrac/:game/:name', component: Hrac },
   { path: '/partneri', component: Partneri },
+  { path: '/oceneni', component: Oceneni },
   { path: '/eshop', component: Eshop },
   { path: '/eshop/produkt/:id', component: Produkt },
   { path: '/eshop/kosik', component: Kosik },
