@@ -11,7 +11,7 @@
         class="produkt"
         v-for="produkt in produkty"
         :key="produkt._id"
-        :style="`background-image: url(${produkt.img})`"
+        :style="`background: url(${produkt.img}), white`"
         :disabled="produkt.stock <= 0"
       >
         <span>
@@ -65,7 +65,6 @@ main
     background-repeat: no-repeat !important
     background-size: cover !important
     background-position: center center !important
-    background-color: white
     height: calc( 100vh / 2)
     width: 100%
     text-decoration: none
