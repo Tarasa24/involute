@@ -15,6 +15,7 @@ import Oceneni from './pages/Oceneni';
 import Eshop from './pages/Eshop';
 import Produkt from './pages/Produkt';
 import Kosik from './pages/Kosik';
+import Kontakt from './pages/Kontakt';
 import NotFound from './pages/NotFound';
 
 Vue.use(VueRouter);
@@ -41,6 +42,7 @@ const routes = [
   { path: '/eshop', component: Eshop },
   { path: '/eshop/produkt/:id', component: Produkt },
   { path: '/eshop/kosik', component: Kosik },
+  { path: '/kontakt', component: Kontakt },
   { path: '*', component: NotFound },
 ];
 
