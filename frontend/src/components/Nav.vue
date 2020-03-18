@@ -2,7 +2,7 @@
   <nav>
     <div class="wrapper">
       <router-link to="/" class="img"
-        ><img src="../assets/logo.png" alt=""
+        ><img src="../assets/img/logo.png" alt="involute logo"
       /></router-link>
       <span>
         <router-link to="/">Home</router-link>
@@ -50,16 +50,18 @@ nav
 
   .img
     align-self: right
-    @include small-device-portrait
-      display: none
+    height: 100px
+    img
+      object-fit: scale-down
+      max-height: 80%
+      padding: 15% 0
+
 
   span
     grid-area: links
     justify-self: start
     display: inline-table
 
-    @include small-device
-      justify-self: center
 
     a
       text-transform: uppercase
@@ -76,7 +78,4 @@ nav
       &:hover
         color: $purple
         border-bottom: 2px $purple solid
-
-      @include medium-device
-        padding: 40px 1%
 </style>
