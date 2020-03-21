@@ -103,10 +103,17 @@ form
   padding: 5% 0
   width: 550px
 
+  @include medium-device
+    width: 80%
+
 button
   @include btn($purple, #7f0c91)
   margin-top: 10%
   font-size: 2rem
   text-transform: uppercase
   padding: 20px
+  @include small-device
+    padding: 15px
+  @include small-device-portrait
+    margin-top: 20%
 </style>
