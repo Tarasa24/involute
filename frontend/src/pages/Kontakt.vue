@@ -19,7 +19,7 @@
       <div class="contact">
         <h2>Kontakt</h2>
         <p>
-          Máte otázku, opravu jakoukoliv? Napište nám na email, nebo na naše
+          Máte otázku, opravdu jakoukoliv? Napište nám na email, nebo na naše
           sociální sítě. Rádi Vám odpovíme co nejdříve.
         </p>
         <br />
@@ -70,11 +70,15 @@ main
 .wrapper
   display: grid
   width: $baselineWidth
-  display: grid
   grid-template-columns: repeat(2, 1fr)
+  @include large-device
+    width: 100%
+    grid-template-columns: auto
 
   .history
     padding-right: 2.5%
+    @include large-device
+      padding-left: 2.5%
   .contact
     padding-left: 2.5%
 
