@@ -1,5 +1,6 @@
 const { ObjectId } = require('mongodb');
 const yup = require('yup');
+const stripe = require('stripe')('sk_test_y0YZ2Dhv7jGwaliKMnHiSVuJ005DnBeT12');
 
 const yupLocaleCs = require('yup-locale-cs');
 yup.setLocale(yupLocaleCs);
@@ -34,6 +35,7 @@ function objednat(req, res, db) {
     timestamp: yup.number().default(function() {
       return Math.floor(Date.now() / 1000);
     }),
+    meta: yup.object(),
     basket: yup
       .array()
       .of(
@@ -55,7 +57,7 @@ function objednat(req, res, db) {
       )
       .required()
       .min(1),
-    adress: yup
+    address: yup
       .object()
       .required()
       .shape({
@@ -117,7 +119,7 @@ function objednat(req, res, db) {
               .required()
               .max(20),
           })
-          .strip(req.body.adress.Fakturační === undefined),
+          .strip(req.body.address.Fakturační === undefined),
       }),
     delivery: yup
       .object()
@@ -138,11 +140,37 @@ function objednat(req, res, db) {
 
   schema
     .validate(req.body, { strict: true })
-    .then(data => {
-      db.collection('eshop-objednavky').insertOne(
-        schema.noUnknown().cast(data)
-      );
-      res.sendStatus(202);
+    .then(async data => {
+      if (data.delivery.payment == 'Online kartou') {
+        const paymentIntent = await stripe.paymentIntents.create({
+          amount: data.totalPrice * 100,
+          currency: 'czk',
+          payment_method_types: ['card'],
+          receipt_email: data.address.Email,
+        });
+
+        data.meta = {
+          id: paymentIntent.id,
+          client_secret: paymentIntent.client_secret,
+        };
+      }
+
+      const result = await db
+        .collection('eshop-objednavky')
+        .insertOne(schema.noUnknown().cast(data));
+
+      if (data.delivery.payment == 'Online kartou') {
+        res.status(202);
+        res.json({
+          id: result.insertedId,
+          client_secret: data.meta.client_secret,
+        });
+      } else {
+        res.json({
+          id: result.insertedId,
+        });
+        res.status(200);
+      }
     })
     .catch(err => {
       res.status(400);

@@ -77,6 +77,9 @@ export default {
     this.total = this.totalHandle();
   },
   methods: {
+    clear() {
+      localStorage.removeItem('basket');
+    },
     save() {
       localStorage.setItem('basket', JSON.stringify(this.basket));
       this.total = this.totalHandle();
@@ -116,7 +119,11 @@ export default {
         const produkty = await getData('/produkty');
         this.$Progress.finish();
 
-        this.random = produkty[Math.floor(Math.random() * produkty.length)];
+        var found = false;
+        while (!found) {
+          this.random = produkty[Math.floor(Math.random() * produkty.length)];
+          if (this.random.stock > 0) found = true;
+        }
       }
     },
   },

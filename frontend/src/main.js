@@ -15,6 +15,8 @@ import Oceneni from './pages/Oceneni';
 import Eshop from './pages/Eshop';
 import Produkt from './pages/Produkt';
 import Kosik from './pages/Kosik';
+import Platba from './pages/Platba';
+import Objednavka from './pages/Objednavka';
 import Kontakt from './pages/Kontakt';
 import NotFound from './pages/NotFound';
 
@@ -42,6 +44,8 @@ const routes = [
   { path: '/eshop', component: Eshop },
   { path: '/eshop/produkt/:id', component: Produkt },
   { path: '/eshop/kosik', component: Kosik },
+  { path: '/eshop/platba', component: Platba },
+  { path: '/eshop/objednavka/:type', component: Objednavka },
   { path: '/kontakt', component: Kontakt },
   { path: '*', component: NotFound },
 ];

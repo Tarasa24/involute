@@ -1,135 +1,140 @@
 <template>
   <main>
     <BasketList ref="basket" />
-    <Header>
-      <h2>Doprava a platba</h2>
-    </Header>
+    <div v-if="basket.total[1] !== 0">
+      <Header>
+        <h2>Doprava a platba</h2>
+      </Header>
+      <div class="wrapper">
+        <div class="doprava">
+          <form @change="handleChange">
+            <span v-for="(value, index) in delivery" :key="index">
+              <input
+                :checked="Object.keys(delivery).indexOf(index) === 0"
+                type="radio"
+                name="delivery"
+                :id="index"
+                :value="index"
+              />
+              <label :for="index">{{ index }} ({{ value.cost }} Kč)</label>
+              <br />
+            </span>
+          </form>
+        </div>
 
-    <div class="wrapper">
-      <div class="doprava">
-        <form @change="handleChange">
-          <span v-for="(value, index) in delivery" :key="index">
-            <input
-              :checked="Object.keys(delivery).indexOf(index) === 0"
-              type="radio"
-              name="delivery"
-              :id="index"
-              :value="index"
-            />
-            <label :for="index">{{ index }} ({{ value.cost }} Kč)</label>
-            <br />
-          </span>
-        </form>
+        <div class="platba">
+          <form @change="handleChange">
+            <span v-for="(value, index) in payment" :key="index">
+              <input
+                :checked="Object.keys(payment).indexOf(index) === 0"
+                type="radio"
+                name="payment"
+                :id="value.id"
+                :value="index"
+              />
+              <label :for="value.id">{{ index }} ({{ value.cost }} Kč)</label>
+              <br />
+            </span>
+          </form>
+        </div>
+      </div>
+      <br />
+      <div class="recap">
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <img :src="delivery[data.delivery].img" :alt="data.delivery" />
+              </td>
+              <td>
+                <div>
+                  <h4>
+                    {{ data.delivery }} - {{ data.payment }} -
+                    {{ Intl.NumberFormat().format(totalDeliveryCost()) }} Kč
+                  </h4>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <div class="platba">
-        <form @change="handleChange">
-          <span v-for="(value, index) in payment" :key="index">
-            <input
-              :checked="Object.keys(payment).indexOf(index) === 0"
-              type="radio"
-              name="payment"
-              :id="value.id"
-              :value="index"
-            />
-            <label :for="value.id">{{ index }} ({{ value.cost }} Kč)</label>
-            <br />
-          </span>
-        </form>
-      </div>
-    </div>
-    <br />
-    <div class="recap">
-      <table>
-        <tbody>
-          <tr>
-            <td>
-              <img :src="delivery[data.delivery].img" :alt="data.delivery" />
-            </td>
-            <td>
-              <div>
-                <h4>
-                  {{ data.delivery }} - {{ data.payment }} -
-                  {{ Intl.NumberFormat().format(totalDeliveryCost()) }} Kč
-                </h4>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="adresa">
-      <h1>Dodací adresa:</h1>
-      <form class="wrapper" @submit="handleSubmit">
-        <div>
-          <div class="jmeno_prijmeni">
-            <label>Jméno *</label>
-            <input required type="text" name="Jmeno" />
-            <label>Příjmení *</label>
-            <input required type="text" name="Příjmení" />
+      <div class="adresa">
+        <h1>Dodací adresa:</h1>
+        <form class="wrapper" @submit="handleSubmit">
+          <div>
+            <div class="jmeno_prijmeni">
+              <label>Jméno *</label>
+              <input required type="text" name="Jmeno" />
+              <label>Příjmení *</label>
+              <input required type="text" name="Příjmení" />
+            </div>
+            <label>Ulice a číslo popisné *</label>
+            <input required type="text" name="Ulice" />
+            <label>Město *</label>
+            <input required type="text" name="Město" />
+            <label>PSČ *</label>
+            <input required type="text" name="PSČ" />
           </div>
-          <label>Ulice a číslo popisné *</label>
-          <input required type="text" name="Ulice" />
-          <label>Město *</label>
-          <input required type="text" name="Město" />
-          <label>PSČ *</label>
-          <input required type="text" name="PSČ" />
-        </div>
-        <div>
-          <label>Email *</label>
-          <input required type="email" name="Email" />
-          <label>Telefonní číslo *</label>
-          <input required type="tel" name="Phone" />
-          <label>Slevový kupón</label>
-          <input type="text" name="Slevový kupón" />
-        </div>
+          <div>
+            <label>Email *</label>
+            <input required type="email" name="Email" />
+            <label>Telefonní číslo *</label>
+            <input required type="tel" name="Phone" />
+            <label>Slevový kupón</label>
+            <input type="text" name="Slevový kupón" />
+          </div>
 
-        <div class="fakturacni">
-          <input type="checkbox" id="fakturacni" @change="fakturaHandle" />
-          <label for="fakturacni">Fakturační adresa je jiná než dodací</label>
-        </div>
+          <div class="fakturacni">
+            <input type="checkbox" id="fakturacni" @change="fakturaHandle" />
+            <label for="fakturacni">Fakturační adresa je jiná než dodací</label>
+          </div>
 
-        <div v-if="fakturacni" class="fakturacni_contents">
-          <label>Jméno a příjmení nebo Firma *</label>
-          <input
-            required
-            type="text"
-            name="Fakturační Jméno a příjmení nebo Firma"
-          />
-          <label>Ulice a číslo popisné *</label>
-          <input required type="text" name="Fakturační Ulice a číslo popisné" />
-          <label>Město *</label>
-          <input required type="text" name="Fakturační Město" />
-          <label>PSČ *</label>
-          <input required type="text" name="Fakturační PSČ" />
-          <label>IČ *</label>
-          <input required type="text" name="Fakturační IČ" />
-          <label>DIČ *</label>
-          <input required type="text" name="Fakturační DIČ" />
-        </div>
+          <div v-if="fakturacni" class="fakturacni_contents">
+            <label>Jméno a příjmení nebo Firma *</label>
+            <input
+              required
+              type="text"
+              name="Fakturační Jméno a příjmení nebo Firma"
+            />
+            <label>Ulice a číslo popisné *</label>
+            <input
+              required
+              type="text"
+              name="Fakturační Ulice a číslo popisné"
+            />
+            <label>Město *</label>
+            <input required type="text" name="Fakturační Město" />
+            <label>PSČ *</label>
+            <input required type="text" name="Fakturační PSČ" />
+            <label>IČ *</label>
+            <input required type="text" name="Fakturační IČ" />
+            <label>DIČ *</label>
+            <input required type="text" name="Fakturační DIČ" />
+          </div>
 
-        <div class="objednat">
-          <strong>
-            Objednáním souhlasíte s
-            <a href="/podminky" target="_blank" rel="noopener noreferrer">
-              obchodními podmínkami
-            </a>
-          </strong>
+          <div class="objednat">
+            <strong>
+              Objednáním souhlasíte s
+              <a href="/podminky" target="_blank" rel="noopener noreferrer">
+                obchodními podmínkami
+              </a>
+            </strong>
 
-          <h1>
-            <b>Cena celkem: </b>
-            {{ Intl.NumberFormat().format(total()) }} Kč
-          </h1>
+            <h1>
+              <b>Cena celkem: </b>
+              {{ Intl.NumberFormat().format(total()) }} Kč
+            </h1>
 
-          <input
-            v-if="data.payment != 'Online kartou'"
-            type="submit"
-            value="Objednat"
-          />
-          <PayButton v-else />
-        </div>
-      </form>
+            <input
+              v-if="data.payment != 'Online kartou'"
+              type="submit"
+              value="Objednat"
+            />
+            <input v-else type="submit" value="Zaplatit" />
+          </div>
+        </form>
+      </div>
     </div>
   </main>
 </template>
@@ -137,12 +142,11 @@
 <script>
 import BasketList from '../components/eshop/BasketList';
 import Header from '../components/misc/Header';
-import PayButton from '../components/eshop/PayButton';
 
 import { postData } from '../assets/js/dataFetcher';
 
 export default {
-  components: { BasketList, Header, PayButton },
+  components: { BasketList, Header },
   data() {
     return {
       basket: { total: [0, 0] },
@@ -174,7 +178,7 @@ export default {
       event.preventDefault();
       const formElements = event.target.elements;
 
-      var adress = {};
+      var address = {};
       var fakturacni = {};
       for (let i = 0; i < formElements.length; i++) {
         const element = formElements[i];
@@ -182,19 +186,19 @@ export default {
         else if (element.name === '') continue;
 
         if (!element.name.includes('Fakturační'))
-          adress[element.name] = element.value;
+          address[element.name] = element.value;
         else
           fakturacni[element.name.replace('Fakturační ', '')] = element.value;
       }
 
-      if (Object.keys(fakturacni).length !== 0) adress.Fakturační = fakturacni;
+      if (Object.keys(fakturacni).length !== 0) address.Fakturační = fakturacni;
 
-      const coupon = adress['Slevový kupón'];
-      delete adress['Slevový kupón'];
+      const coupon = address['Slevový kupón'];
+      delete address['Slevový kupón'];
 
       const toSend = {
         basket: this.$refs.basket.basket,
-        adress: adress,
+        address: address,
         delivery: this.data,
         coupon: coupon,
         totalPrice: this.total(),
@@ -204,8 +208,19 @@ export default {
 
       if (result.status === 400) {
         alert(await result.text());
-      } else if (result.ok) {
-        this.$router.push('/eshop/platba');
+      } else {
+        this.basket.clear();
+
+        if (result.status === 202) {
+          this.$router.push({
+            path: '/eshop/platba',
+            query: await result.json(),
+          });
+        } else if (result.ok)
+          this.$router.push({
+            path: `/eshop/objednavka/${this.payment[this.data.payment].id}`,
+            query: await result.json(),
+          });
       }
     },
     totalDeliveryCost() {
@@ -261,8 +276,7 @@ main
   justify-items: center
   padding-top: 1%
   margin-bottom: 1%
-  border-top: 1px solid black
-  width: $baselineWidth / 2
+  width: 100%
   @include small-device-portrait
     width: 95%
   td
