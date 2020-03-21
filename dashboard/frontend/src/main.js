@@ -13,6 +13,7 @@ const routes = [
   { path: '/*', component: NotFound },
 ];
 const router = new VueRouter({
+  base: '/dashboard/',
   routes,
   mode: 'history',
 });

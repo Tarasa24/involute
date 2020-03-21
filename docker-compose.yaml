@@ -9,6 +9,9 @@ services:
     depends_on:
       - mongodb
 
+  dashboard_frontend:
+    build: dashboard/frontend/
+
   mongodb:
     restart: always
     image: mongo
@@ -34,6 +37,7 @@ services:
     depends_on:
       - frontend
       - backend
+      - dashboard_frontend
 
   goaccess:
     image: allinurl/goaccess
