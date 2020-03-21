@@ -96,7 +96,7 @@ export default {
       this.game = data.game;
     } else {
       this.$Progress.fail();
-      this.$router.push('/hraci/');
+      this.$router.replace('/hraci');
     }
 
     this.$Progress.finish();
