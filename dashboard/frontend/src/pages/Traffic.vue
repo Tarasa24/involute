@@ -11,14 +11,7 @@
       <Box title="Idling connections" icon="fas fa-clock" number="69420" />
     </div>
 
-    <iframe
-      @load="handleLoad"
-      :src="
-        process.env.NODE_ENV === 'production'
-          ? '/goaccess'
-          : 'http://localhost/goaccess'
-      "
-    />
+    <iframe @load="handleLoad" :src="iframeSrc" />
   </main>
 </template>
 
@@ -27,6 +20,14 @@ import Box from '../components/Box';
 
 export default {
   components: { Box },
+  data() {
+    return {
+      iframeSrc: 
+        process.env.NODE_ENV === 'production'
+          ? '/goaccess'
+          : 'http://localhost/goaccess'
+    }
+  },
   methods: {
     handleLoad(event) {
       const iframe = event.target;
