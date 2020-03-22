@@ -38,8 +38,10 @@ export default {};
 aside
   display: grid
   grid-template-columns: auto
+  grid-auto-rows: 50px
   text-align: left
   width: 100%
+  min-height: calc( 100vh - 58px )
   background-color: $lighterGray
 
 a
