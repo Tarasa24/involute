@@ -6,7 +6,4 @@
 export default {};
 </script>
 
-<style lang="sass" scoped>
-main
-  padding: 1%
-</style>
+<style lang="sass" scoped></style>

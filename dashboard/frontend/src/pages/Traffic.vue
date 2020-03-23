@@ -78,14 +78,10 @@ export default {
 .wrapper
   display: flex
   *
-    margin: auto
     &:first-child
       margin-left: 0
     &:last-child
       margin-right: 0
-
-main
-  padding: 2%
 
 iframe
   border: 0

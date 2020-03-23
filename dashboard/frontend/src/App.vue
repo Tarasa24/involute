@@ -3,7 +3,7 @@
     <vue-progress-bar />
     <TopNav class="topnav" />
     <SideBar class="sidebar" />
-    <router-view />
+    <router-view class="main" />
   </div>
 </template>
 
@@ -18,8 +18,18 @@ export default {
 </script>
 
 <style lang="sass">
+html
+  scroll-behavior: smooth
+
 body
   margin: 0
+
+h1, h2, h3, h4, h5, h6
+  font-weight: 300
+
+a
+  text-decoration: none
+  color: inherit
 
 #app
   font-family: Roboto, Arial
@@ -37,4 +47,7 @@ body
 .sidebar
   grid-row: 2 / span -1
   grid-column: 1
+
+.main
+  padding: 2%
 </style>
