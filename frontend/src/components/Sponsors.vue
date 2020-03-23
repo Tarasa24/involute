@@ -70,8 +70,9 @@ export default {
       const viewportOffset = el.getBoundingClientRect();
       const topDistance = viewportOffset.top;
 
-      if (topDistance < 0) el.classList.add('sticky');
-      else if (topDistance > 0 && el.classList.contains('sticky'))
+      if (topDistance < 5 && !el.classList.contains('sticky'))
+        el.classList.add('sticky');
+      else if (topDistance > 5 && el.classList.contains('sticky'))
         el.classList.remove('sticky');
     },
   },
