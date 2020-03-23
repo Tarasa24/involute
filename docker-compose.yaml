@@ -37,7 +37,7 @@ services:
     volumes:
       - ./nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
       - ./nginx/access.log:/var/log/nginx/access.log
-      - ./GoAccess/index.html:/www/goaccess/index.html
+      - ./dashboard/GoAccess/index.html:/www/goaccess/index.html
     depends_on:
       - frontend
       - backend
@@ -49,7 +49,7 @@ services:
     image: allinurl/goaccess
     volumes:
       - ./nginx/access.log:/goaccess/log/access.log
-      - ./GoAccess/index.html:/goaccess/index.html
+      - ./dashboard/GoAccess/index.html:/goaccess/index.html
     command: /goaccess/log/access.log -o /goaccess/index.html --log-format=COMBINED --real-time-html
 
 volumes:
