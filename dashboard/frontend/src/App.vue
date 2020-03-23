@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <vue-progress-bar />
     <TopNav class="topnav" />
     <SideBar class="sidebar" />
     <router-view />
