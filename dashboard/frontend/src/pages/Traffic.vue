@@ -46,10 +46,17 @@ export default {
   created() {
     const url =
       process.env.NODE_ENV === 'production'
-        ? '/dashboard/api'
+        ? window.location.hostname
         : 'http://localhost:8081';
+
+    const path =
+      process.env.NODE_ENV === 'production'
+        ? '/dashboard/api/socket.io'
+        : '/socket.io';
+
     this.socket = io(url, {
       transports: ['websocket'],
+      path: path,
     });
 
     this.socket.on('status', data => {

@@ -19,8 +19,12 @@ io.on('connect', socket => {
   checkStatus(socket);
 });
 
-async function checkStatus(socket, status = {}) {
-  axios.get('http://localhost/nginx_status').then(res => {
+function checkStatus(socket, status = {}) {
+  const url = 
+    process.env.NODE_ENV === 'production'
+      ? 'http://nginx/nginx_status'
+      : 'http://localhost/nginx_status';
+  axios.get(url).then(res => {
     res = res.data.split('\n');
 
     const thirdRow = res[3]

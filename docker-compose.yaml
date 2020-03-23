@@ -13,6 +13,8 @@ services:
     build: dashboard/frontend/
   dashboard_backend:
     build: dashboard/backend/
+    environment:
+      - NODE_ENV=production
 
   mongodb:
     restart: always
@@ -41,6 +43,7 @@ services:
       - backend
       - goaccess
       - dashboard_frontend
+      - dashboard_backend
 
   goaccess:
     image: allinurl/goaccess
