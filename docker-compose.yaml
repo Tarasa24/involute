@@ -11,6 +11,8 @@ services:
 
   dashboard_frontend:
     build: dashboard/frontend/
+  dashboard_backend:
+    build: dashboard/backend/
 
   mongodb:
     restart: always

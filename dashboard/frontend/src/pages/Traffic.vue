@@ -1,14 +1,26 @@
 <template>
   <main>
     <div class="wrapper">
-      <Box title="Active connections" icon="fas fa-users" number="69420" />
+      <Box
+        title="Active connections"
+        icon="fas fa-users"
+        :number="connections.active || 0"
+      />
       <Box
         title="Reading connections"
         icon="fas fa-envelope-open-text"
-        number="69420"
+        :number="connections.reading || 0"
       />
-      <Box title="Writing connections" icon="fas fa-pen-alt" number="69420" />
-      <Box title="Idling connections" icon="fas fa-clock" number="69420" />
+      <Box
+        title="Writing connections"
+        icon="fas fa-pen-alt"
+        :number="connections.writing || 0"
+      />
+      <Box
+        title="Idling connections"
+        icon="fas fa-clock"
+        :number="connections.idling || 0"
+      />
     </div>
 
     <iframe @load="handleLoad" :src="iframeSrc" />
@@ -17,16 +29,32 @@
 
 <script>
 import Box from '../components/Box';
+import io from 'socket.io-client';
 
 export default {
   components: { Box },
   data() {
     return {
-      iframeSrc: 
+      iframeSrc:
         process.env.NODE_ENV === 'production'
           ? '/goaccess'
-          : 'http://localhost/goaccess'
-    }
+          : 'http://localhost/goaccess',
+      socket: undefined,
+      connections: {},
+    };
+  },
+  created() {
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? '/dashboard/api'
+        : 'http://localhost:8081';
+    this.socket = io(url, {
+      transports: ['websocket'],
+    });
+
+    this.socket.on('status', data => {
+      this.connections = JSON.parse(data);
+    });
   },
   methods: {
     handleLoad(event) {
@@ -42,9 +70,12 @@ export default {
 <style lang="sass" scoped>
 .wrapper
   display: flex
-  padding: 0 3%
   *
     margin: auto
+    &:first-child
+      margin-left: 0
+    &:last-child
+      margin-right: 0
 
 main
   padding: 2%
