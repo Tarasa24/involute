@@ -2,48 +2,40 @@ const express = require('express');
 const compression = require('compression');
 const cors = require('cors');
 const socket = require('socket.io');
-const axios = require('axios');
+
+const fetchFromFrontendApi = require('./modules/fetcher');
+const { checkStatus } = require('./modules/socket');
 
 const port = 8081;
 const server = express();
 
 server.use(compression());
 server.use(cors());
+server.use(express.json());
+
+server.get('/*', async (req, res) => {
+  const response = await fetchFromFrontendApi(req.url);
+  if (response.error) {
+    res.status(400);
+    res.send(response.message);
+  } else res.json(response);
+});
+
+server.post('/*', async (req, res) => {
+  const response = await fetchFromFrontendApi(req.url, 'post', req.body);
+  if (response.error) {
+    res.status(400);
+    res.send(response.message);
+  } else res.json(response);
+});
 
 const app = server.listen(port, () =>
-  console.log(`<Website Backend server> listening on port ${port}`)
+  console.log(
+    `<${require(__dirname + '/package.json').name}> listening on port ${port}`
+  )
 );
 
 const io = socket(app);
 io.on('connect', socket => {
   checkStatus(socket);
 });
-
-function checkStatus(socket, status = {}) {
-  const url = 
-    process.env.NODE_ENV === 'production'
-      ? 'http://nginx/nginx_status'
-      : 'http://localhost/nginx_status';
-  axios.get(url).then(res => {
-    res = res.data.split('\n');
-
-    const thirdRow = res[3]
-      .replace(/[^0-9., ]+/g, '')
-      .slice(1, -1)
-      .split(' ');
-    const temp = {
-      active: Number(res[0].substring(res[0].search(':') + 1, res[0].length)),
-      reading: Number(thirdRow[0]),
-      writing: Number(thirdRow[2]),
-      idling: Number(thirdRow[4]),
-    };
-    if (JSON.stringify(status) !== JSON.stringify(temp)) {
-      status = temp;
-      socket.emit('status', JSON.stringify(status));
-    }
-  });
-
-  setTimeout(() => {
-    checkStatus(socket, status);
-  }, 1000);
-}
