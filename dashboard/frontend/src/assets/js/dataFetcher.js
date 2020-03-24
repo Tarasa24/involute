@@ -39,4 +39,19 @@ async function postData(path, data) {
   return result;
 }
 
-module.exports = { getData, postData };
+async function deleteData(path, data) {
+  path = pathMiddleware(path);
+  var url = `${baseUrl}/${path}`;
+
+  var result = await fetch(url, {
+    method: 'DELETE',
+    body: data,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return result;
+}
+
+module.exports = { getData, postData, deleteData };

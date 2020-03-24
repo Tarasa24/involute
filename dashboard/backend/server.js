@@ -5,6 +5,7 @@ const socket = require('socket.io');
 
 const fetchFromFrontendApi = require('./modules/fetcher');
 const { checkStatus } = require('./modules/socket');
+const db = require('./modules/db');
 
 const port = 8081;
 const server = express();
@@ -12,6 +13,14 @@ const server = express();
 server.use(compression());
 server.use(cors());
 server.use(express.json());
+
+server.post('/produkt/:id', async (req, res) => {
+  db.replaceProdukt(req, res);
+});
+
+server.delete('/produkt/:id', async (req, res) => {
+  db.deleteProdukt(req, res);
+});
 
 server.get('/*', async (req, res) => {
   const response = await fetchFromFrontendApi(req.url);
