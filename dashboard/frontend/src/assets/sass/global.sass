@@ -6,5 +6,43 @@ $grayOutline: #DDDDDD
 
 $purple: #9f05b8
 
+@mixin btn($color)
+  font-size: 1rem
+  padding: 15px
+  overflow: hidden
+  border-width: 0
+  outline: none
+  border-radius: 2px
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .6)
+  background-color: $color
+  color: white
+  @include transition(filter)
+  cursor: pointer
+  &:hover
+    filter: brightness(.9)
+  &:active
+    position: relative
+    top: 2px
+
 @mixin transition($effect)
   transition: $effect .35s ease-in-out
+
+@mixin small-device
+  @media (max-width: 767px) 
+    @content
+
+@mixin small-device-landscape
+  @media (max-width: 767px) and (orientation: landscape)
+    @content
+  
+@mixin small-device-portrait
+  @media (max-width: 767px) and (orientation: portrait)
+    @content
+
+@mixin medium-device
+  @media (max-width: 991px)
+    @content
+
+@mixin large-device
+  @media (max-width: 1199px)
+    @content
