@@ -5,6 +5,7 @@ import VueProgressBar from 'vue-progressbar';
 import App from './App.vue';
 import Home from './pages/Home';
 import Traffic from './pages/Traffic';
+import Eshop from './pages/Eshop';
 import NotFound from './pages/NotFound';
 
 Vue.config.productionTip = false;
@@ -19,6 +20,7 @@ Vue.use(VueRouter);
 const routes = [
   { path: '/', component: Home },
   { path: '/traffic', component: Traffic },
+  { path: '/eshop', component: Eshop },
   { path: '/*', component: NotFound },
 ];
 const router = new VueRouter({
