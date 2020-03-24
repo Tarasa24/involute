@@ -16,6 +16,10 @@ services:
     environment:
       - NODE_ENV=production
 
+  static:
+    restart: always
+    build: static
+
   mongodb:
     restart: always
     image: mongo
@@ -44,6 +48,7 @@ services:
       - goaccess
       - dashboard_frontend
       - dashboard_backend
+      - static
 
   goaccess:
     image: allinurl/goaccess
