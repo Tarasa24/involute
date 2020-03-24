@@ -7,7 +7,7 @@ module.exports = async function fetchFromFrontendApi(
 ) {
   const url =
     process.env.NODE_ENV === 'production'
-      ? 'http://backend'
+      ? 'http://backend:8081'
       : 'http://localhost/api';
 
   try {
