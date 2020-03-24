@@ -19,6 +19,8 @@ services:
   static:
     restart: always
     build: static
+    volumes:
+      - ./static/public:/public
 
   mongodb:
     restart: always
