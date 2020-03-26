@@ -22,6 +22,10 @@ server.delete('/produkt/:id', async (req, res) => {
   db.deleteProdukt(req, res);
 });
 
+server.get('/novinky', async (req, res) => {
+  db.findNovinky(req, res);
+});
+
 server.get('/*', async (req, res) => {
   const response = await fetchFromFrontendApi(req.url);
   if (response.error) {

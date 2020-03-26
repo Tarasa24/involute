@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Traffic from './pages/Traffic';
 import Eshop from './pages/Eshop';
 import Produkt from './pages/Produkt';
+import Novinky from './pages/Novinky';
 import NotFound from './pages/NotFound';
 
 Vue.config.productionTip = false;
@@ -23,6 +24,7 @@ const routes = [
   { path: '/traffic', component: Traffic },
   { path: '/eshop', component: Eshop },
   { path: '/eshop/produkt/:id', component: Produkt },
+  { path: '/novinky', component: Novinky },
   { path: '/*', component: NotFound },
 ];
 const router = new VueRouter({
