@@ -6,11 +6,14 @@
     <router-link to="./eshop">
       <i class="fas fa-shopping-basket" />Eshop
     </router-link>
+    <router-link to="./novinky">
+      <i class="fas fa-newspaper" />Novinky
+    </router-link>
+    <router-link to="./uzivatele">
+      <i class="fas fa-user-cog" />Uživatelé
+    </router-link>
     <router-link to="./databaze">
       <i class="fas fa-database" />Databáze
-    </router-link>
-    <router-link to="./novinky" class="tab">
-      <i class="fas fa-newspaper" />Novinky
     </router-link>
     <router-link to="./hry_hraci" class="tab">
       <i class="fas fa-gamepad" />Hry/Hráči
@@ -23,9 +26,6 @@
     </router-link>
     <router-link to="./odkazy" class="tab">
       <i class="fas fa-external-link-alt" />Odkazy
-    </router-link>
-    <router-link to="./uzivatele" class="tab">
-      <i class="fas fa-user-cog" />Uživatelé
     </router-link>
   </aside>
 </template>
