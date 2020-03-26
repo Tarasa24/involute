@@ -1,30 +1,30 @@
 <template>
   <aside>
-    <router-link to="./traffic">
+    <router-link to="/traffic">
       <i class="fas fa-chart-line" />Traffic
     </router-link>
-    <router-link to="./eshop">
+    <router-link to="/eshop">
       <i class="fas fa-shopping-basket" />Eshop
     </router-link>
-    <router-link to="./novinky">
+    <router-link to="/novinky">
       <i class="fas fa-newspaper" />Novinky
     </router-link>
-    <router-link to="./uzivatele">
+    <router-link to="/uzivatele">
       <i class="fas fa-user-cog" />Uživatelé
     </router-link>
-    <router-link to="./databaze">
+    <router-link to="/databaze">
       <i class="fas fa-database" />Databáze
     </router-link>
-    <router-link to="./hry_hraci" class="tab">
+    <router-link to="/hry_hraci" class="tab">
       <i class="fas fa-gamepad" />Hry/Hráči
     </router-link>
-    <router-link to="./partneri" class="tab">
+    <router-link to="/partneri" class="tab">
       <i class="fas fa-handshake" />Partneři
     </router-link>
-    <router-link to="./sponzori" class="tab">
+    <router-link to="/sponzori" class="tab">
       <i class="fas fa-money-bill-wave" />Sponzoři
     </router-link>
-    <router-link to="./odkazy" class="tab">
+    <router-link to="/odkazy" class="tab">
       <i class="fas fa-external-link-alt" />Odkazy
     </router-link>
   </aside>
