@@ -83,7 +83,7 @@ export default {
 };
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 input
   border: 0
   width: calc( 100% - 10px )
@@ -150,6 +150,9 @@ textarea
       &:nth-of-type(2)
         margin-left: 5%
         @include btn(#dc322f)
+      &:active
+        position: relative
+        top: 2px
 
   .notification
     @keyframes blink-animation
