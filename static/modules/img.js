@@ -22,6 +22,7 @@ module.exports = function img(req, res) {
   const heightString = req.query.height;
   const format = req.query.format;
   const imgPath = req.path;
+  const selfFormat = imgPath.slice(imgPath.indexOf('.')).toLowerCase();
 
   let width, height;
   if (widthString) width = parseInt(widthString);
@@ -30,6 +31,12 @@ module.exports = function img(req, res) {
   if (imgPath.includes('..')) res.sendStatus(400);
   else if (!fs.existsSync(path.join(__dirname, `../public/${imgPath}`)))
     res.sendStatus(404);
+  else if (
+    !['.png', '.jpg', '.jpeg', '.webp', '.tiff', '.gif', '.svg'].includes(
+      selfFormat
+    )
+  )
+    res.sendFile(path.join(__dirname, `../public/${imgPath}`));
   else {
     try {
       res.type(`image/${format || 'png'}`);
