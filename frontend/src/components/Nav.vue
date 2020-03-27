@@ -68,8 +68,7 @@ nav
       text-decoration: none
       color: #B4B4B4
 
-      padding: 0 1.5vw
-      padding-bottom: 40px
+      padding: 40px 1.5vw
       position: relative
       top: 25%
 
