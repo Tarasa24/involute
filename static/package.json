@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
+    "directory-tree": "^2.2.4",
     "express": "^4.17.1",
     "sharp": "^0.25.2"
   }

@@ -1,7 +1,11 @@
 <template>
   <main>
+    <FilePicker ref="FilePicker" />
     <div class="wrapper">
-      <img :src="data.img" :alt="data.name" />
+      <div class="container" @click="handleClick">
+        <img :src="data.img" :alt="data.name" />
+        <span><b>Změnit obrázek</b></span>
+      </div>
       <aside>
         <input class="h1" type="text" v-model="data.name" />
         <input class="h2" type="text" v-model="data.sub" />
@@ -26,9 +30,12 @@
 </template>
 
 <script>
+import FilePicker from '../components/FilePicker';
+
 import { getData, postData, deleteData } from '../assets/js/dataFetcher';
 
 export default {
+  components: { FilePicker },
   data() {
     return {
       data: {},
@@ -79,6 +86,9 @@ export default {
         }
       }
     },
+    handleClick() {
+      this.$refs.FilePicker.show = true;
+    },
   },
 };
 </script>
@@ -99,7 +109,7 @@ input
 textarea
   padding: 5px 10px
   width: calc( 100% - 20px )
-  min-height: 20%
+  min-height: 145px
   height: 25%
   resize: vertical
   font-family: unset
@@ -127,8 +137,29 @@ textarea
   @include medium-device
     grid-template-columns: auto
 
-  img
-    width: 100%
+  .container
+    position: relative
+    text-align: center
+    color: white
+    img
+      width: 100%
+      @include transition(filter)
+    span
+      visibility: hidden
+      opacity: 0
+      position: absolute
+      top: 50%
+      left: 50%
+      transform: translate(-50%, -50%)
+      @include transition(opacity)
+    &:hover
+      cursor: pointer
+      img
+        filter: brightness(.9)
+      span
+        visibility: visible
+        opacity: 1
+
   textarea
     margin: 2.5% 0
 
