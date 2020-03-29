@@ -1,5 +1,5 @@
 <template>
-  <main v-if="show">
+  <main v-if="show" @click="handleClickOutside">
     <div class="overlay">
       <div>
         <span class="fas fa-times" @click="handleClose" />
@@ -39,7 +39,11 @@
         </div>
       </div>
 
-      <div class="selected" ref="selected">
+      <div
+        class="selected"
+        ref="selected"
+        v-if="Object.entries(selected).length !== 0"
+      >
         <a
           :href="selected.url + '?format=png'"
           target="_blank"
@@ -47,7 +51,7 @@
         >
           <img :src="selected.url" :alt="selected.name" />
         </a>
-        <div class="info" v-if="Object.entries(selected).length !== 0">
+        <div class="info">
           <div>
             <h2>{{ selected.name }}</h2>
             <i>{{ humanFileSize(selected.size) }}</i>
@@ -136,6 +140,9 @@ export default {
     handleClose() {
       this.show = false;
     },
+    handleClickOutside(e) {
+      if (e.target.tagName == 'MAIN') this.handleClose();
+    },
   },
 };
 </script>
@@ -178,6 +185,7 @@ span
   overflow: auto
   height: 70%
   padding: 0 10px
+  border-bottom: 2px $grayOutline dashed
   .icon
     width: 128px
     height: 128px
@@ -193,7 +201,6 @@ span
       word-wrap: break-word
 
 .selected
-  border-top: 2px $grayOutline dashed
   padding: 2%
   display: grid
   grid-template-columns: 50% 50%
