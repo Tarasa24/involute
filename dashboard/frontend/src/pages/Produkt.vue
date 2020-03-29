@@ -177,10 +177,10 @@ textarea
       min-width: 10%
       &:nth-of-type(1)
         margin-right: 5%
-        @include btn(#2ecc71)
+        @include btn($acceptGreen)
       &:nth-of-type(2)
         margin-left: 5%
-        @include btn(#dc322f)
+        @include btn($deleteRed)
       &:active
         position: relative
         top: 2px
