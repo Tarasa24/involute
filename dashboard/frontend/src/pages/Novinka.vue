@@ -1,6 +1,16 @@
 <template>
   <main>
-    <div class="header">
+    <FilePicker ref="FilePicker" v-model="bg" />
+    <div
+      class="header"
+      :style="
+        'background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url(' +
+          staticUrl +
+          bg +
+          ')'
+      "
+    >
+      <i class="far fa-edit" @click="handleClick" />
       <input placeholder="Nadpis" type="text" class="title" v-model="title" />
       <span>
         <input placeholder="Hra" type="text" v-model="game" class="game" />
@@ -31,6 +41,9 @@ import ImageResize from 'quill-image-resize-module';
 import VideoResize from 'quill-video-resize-module';
 import Datepicker from 'vuejs-datepicker';
 import { cs } from 'vuejs-datepicker/dist/locale';
+import FilePicker from '../components/FilePicker';
+
+import { staticUrl } from '../assets/js/dev';
 
 import {
   getData,
@@ -40,7 +53,7 @@ import {
 } from '../assets/js/dataFetcher';
 
 export default {
-  components: { VueEditor, Datepicker },
+  components: { VueEditor, Datepicker, FilePicker },
   props: {
     newArticle: {
       type: Boolean,
@@ -79,8 +92,11 @@ export default {
       game: undefined,
       date: new Date(),
       sub: undefined,
+      bg: undefined,
       text: undefined,
       created: undefined,
+
+      staticUrl: staticUrl,
     };
   },
   async created() {
@@ -91,6 +107,7 @@ export default {
       this.game = result.game;
       this.date = new Date(result.date * 1000);
       this.sub = result.sub;
+      this.bg = result.bg;
       this.text = result.text;
       this.created = result.created;
     }
@@ -109,6 +126,7 @@ export default {
         game: this.game,
         date: date,
         sub: this.sub,
+        bg: this.bg,
         text: this.text,
         created: this.created,
       };
@@ -134,16 +152,20 @@ export default {
       }
     },
     async handleDelete() {
-      this.$Progress.start();
-      const result = await deleteData('/novinka/' + this.$route.params.id);
-
-      if (result.status == 202) {
-        this.$Progress.finish();
-        this.$router.push('/novinky');
-      } else {
-        this.$Progress.fail();
-        alert('Vyskytla se chyba');
+      if (confirm('Opravdu chcete tento článek smazat z databáze?')) {
+        this.$Progress.start();
+        const result = await deleteData('/novinka/' + this.$route.params.id);
+        if (result.status == 202) {
+          this.$Progress.finish();
+          this.$router.push('/novinky');
+        } else {
+          this.$Progress.fail();
+          alert('Vyskytla se chyba');
+        }
       }
+    },
+    handleClick() {
+      this.$refs.FilePicker.show = true;
     },
   },
 };
@@ -158,17 +180,37 @@ main
   margin: 0 auto
 
 .header
-  text-align: left
+  text-align: center
+  background-repeat: no-repeat !important
+  background-size: cover !important
+  background-position: center center !important
+  margin-bottom: 1%
+  i
+    font-size: 2.5rem
+    color: white
+    margin: 2.5% auto
+    cursor: pointer
+    opacity: .2
+    @include transition(opacity)
+    &:hover
+      opacity: 1
+
   /deep/ input, textarea
+    color: white
     border: 0
     width: 100%
     margin: 0
     padding: 10px
     font-family: inherit
     font-size: 1rem
+    background: none
     &:focus
       outline: 1px $grayOutline solid
+    &::placeholder
+      color: $grayOutline
+      font-style: italic
   .title
+    width: calc(100% - 20px)
     text-transform: uppercase
     font-size: 2.5rem
     color: $purple

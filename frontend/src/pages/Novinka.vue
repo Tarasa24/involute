@@ -1,6 +1,15 @@
 <template>
   <div>
-    <div class="header" v-touch:swipe="swipeHandler">
+    <div
+      class="header"
+      v-touch:swipe="swipeHandler"
+      :style="
+        'background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url(' +
+          staticUrl +
+          novinka.bg +
+          ')'
+      "
+    >
       <span>
         <router-link
           v-if="soused.pervious != null"
@@ -19,47 +28,23 @@
 
       <h1>{{ novinka.title }}</h1>
       <p>{{ novinka.game }}</p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
-        sunt quas soluta, laboriosam dignissimos odio itaque? Ratione ducimus
-        magnam perspiciatis maxime reiciendis?
-      </p>
+      <p>{{ novinka.sub }}</p>
     </div>
 
-    <main>
-      <p>{{ novinka.text }}</p>
-      <img src="/img/csgo.jpg" alt="csgo" />
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum nulla
-        officiis quo ipsum unde corporis mollitia odit fugiat perspiciatis,
-        corrupti commodi modi accusamus officia nemo repudiandae amet blanditiis
-        obcaecati molestiae! Lorem ipsum dolor sit amet consectetur adipisicing
-        elit. Dolores nobis tempora voluptates voluptate hic. Sapiente ut, quas
-        maiores reprehenderit ea, quia tempora pariatur eveniet quibusdam harum
-        voluptatibus iste mollitia! Commodi. Lorem ipsum dolor, sit amet
-        consectetur adipisicing elit. Minima saepe accusamus, repellendus
-        aliquam incidunt molestiae labore ad velit mollitia veritatis corporis
-        non qui ducimus? Praesentium quos aspernatur necessitatibus libero
-        distinctio? Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-        Doloremque ratione cum laudantium! Unde modi alias quod pariatur omnis
-        consequatur doloribus accusantium neque dignissimos, hic illo nisi vitae
-        cupiditate animi repellat! Lorem ipsum, dolor sit amet consectetur
-        adipisicing elit. Sunt ab, odit accusantium iure vitae exercitationem
-        perferendis. Earum illo vel ex accusantium veniam, a harum quaerat,
-        adipisci, id dolor modi ipsum.
-      </p>
-    </main>
+    <main v-html="novinka.text" />
   </div>
 </template>
 
 <script>
 import { getData } from '../assets/js/dataFetcher';
+import { staticUrl } from '../assets/js/dev';
 
 export default {
   data() {
     return {
       novinka: {},
       soused: {},
+      staticUrl: staticUrl,
     };
   },
   watch: {
@@ -80,7 +65,7 @@ export default {
       });
 
       if (this.novinka === 400) {
-        this.$router.push('/novinka');
+        this.$router.replace('/novinka');
         this.$Progress.fail();
       } else {
         this.soused = await getData('/novinka', {
@@ -105,6 +90,9 @@ export default {
   padding: 5.5vh calc(30% + 20px)
   text-align: left
   background-color: #02021f
+  background-repeat: no-repeat !important
+  background-size: cover !important
+  background-position: center center !important
   @include large-device
     padding: 5vh 15%
   @include small-device
@@ -138,16 +126,18 @@ export default {
     @include small-device
       font-size: 1rem
 
-main
+/deep/ main
   background-color: white
-  text-align: left
+  text-align: center
   padding: 5vh calc(30% + 20px)
   @include large-device
     padding: 5vh 15%
   @include small-device
     padding: 5%
-  img
+
+  /deep/ *:not(img, iframe)
+    text-align: left
+  /deep/ img, iframe
+    margin: 0 aut
     max-width: 100%
-    max-height: 100%
-    display: block
 </style>
