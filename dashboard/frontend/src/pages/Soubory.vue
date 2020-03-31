@@ -204,7 +204,7 @@ export default {
 
       if (dirName != null) {
         const response = await fetch(
-          this.baseUrl + this.target.currentPath + dirName,
+          this.baseUrl + this.target.currentPath + '/' + dirName,
           {
             method: 'PUT',
           }
