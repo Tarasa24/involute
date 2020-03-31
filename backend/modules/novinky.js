@@ -52,8 +52,8 @@ async function novinky(req, res, db) {
   let result = await db
     .collection('novinky')
     .find()
+    .sort({ date: 1, created: 1 })
     .skip(skip)
-    .sort({ _id: -1 })
     .limit(limit)
     .toArray();
   res.json(result);
