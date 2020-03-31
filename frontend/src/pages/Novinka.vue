@@ -23,7 +23,7 @@
           :to="'/novinka/' + soused.next"
           class="fas fa-chevron-right"
         />
-        <a v-else disabled class="fas fa-chevron-left" />
+        <a v-else disabled class="fas fa-chevron-right" />
       </span>
 
       <h1>{{ novinka.title }}</h1>
