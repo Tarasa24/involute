@@ -52,7 +52,7 @@ async function novinky(req, res, db) {
   let result = await db
     .collection('novinky')
     .find()
-    .sort({ date: 1, created: 1 })
+    .sort({ date: -1, created: -1 })
     .skip(skip)
     .limit(limit)
     .toArray();
