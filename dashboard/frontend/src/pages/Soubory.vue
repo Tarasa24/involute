@@ -200,16 +200,20 @@ export default {
       await this.created();
     },
     async handleNewDirectory() {
-      const response = await fetch(
-        this.baseUrl + this.target.currentPath + prompt('Zadejte název složky'),
-        {
-          method: 'PUT',
-        }
-      );
+      const dirName = prompt('Zadejte název složky');
 
-      if (response.status === 202) {
-        this.created();
-      } else alert('Vyskytla se chyba');
+      if (dirName != null) {
+        const response = await fetch(
+          this.baseUrl + this.target.currentPath + dirName,
+          {
+            method: 'PUT',
+          }
+        );
+
+        if (response.status === 202) {
+          this.created();
+        } else alert('Vyskytla se chyba');
+      }
     },
     async handleDelete() {
       if (
