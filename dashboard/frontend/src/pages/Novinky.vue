@@ -28,6 +28,13 @@
     <div class="row" v-for="novinka in novinky" :key="novinka.id">
       <a class="title" :href="'/novinka/' + novinka._id">{{ novinka.title }}</a>
       <i>{{ novinka.game }}</i>
+      <span>{{
+        new Date(novinka.date * 1000).toLocaleDateString('cs', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        })
+      }}</span>
       <router-link :to="'/novinka/' + novinka._id" class="fas fa-edit" />
     </div>
   </main>
@@ -41,6 +48,11 @@ export default {
     return {
       novinky: [],
     };
+  },
+  async created() {
+    this.$Progress.start();
+    this.novinky = await getData(`/novinky`);
+    this.$Progress.finish();
   },
   methods: {
     async handleSubmit(event) {
@@ -113,7 +125,7 @@ export default {
   width: calc(80% - 20px)
   margin: 0 auto
   padding: 10px
-  grid-template-columns: 250px auto 20px
+  grid-template-columns: 250px auto 120px 20px
   border: 2px $grayOutline solid
   border-bottom-width: 0
   border-radius: 2px
