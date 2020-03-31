@@ -1,5 +1,5 @@
 <template>
-  <main v-if="show" @click="handleClickOutside">
+  <div class="container" v-if="show" @click="handleClickOutside">
     <div class="overlay">
       <div>
         <span class="fas fa-times" @click="handleClose" />
@@ -45,11 +45,11 @@
         v-if="Object.entries(selected).length !== 0"
       >
         <a
-          :href="selected.url + '?format=png'"
+          :href="staticUrl + selected.url + '?format=png'"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img :src="selected.url" :alt="selected.name" />
+          <img :src="staticUrl + selected.url" :alt="selected.name" />
         </a>
         <div class="info">
           <div>
@@ -60,11 +60,14 @@
         </div>
       </div>
     </div>
-  </main>
+  </div>
 </template>
 
 <script>
+import { staticUrl } from '../assets/js/dev';
+
 export default {
+  prop: ['value'],
   data() {
     return {
       show: false,
@@ -72,6 +75,7 @@ export default {
       currentDepth: [],
       target: {},
       selected: {},
+      staticUrl: staticUrl,
     };
   },
   async created() {
@@ -111,21 +115,12 @@ export default {
       } else {
         var url = target.path
           .slice(target.path.search('/public/'))
-          .replace(
-            '/public',
-            process.env.NODE_ENV === 'production'
-              ? '/static'
-              : 'http://localhost:3000'
-          );
-        var urlSafe = target.path
-          .slice(target.path.search('/public/'))
-          .replace('/public', '/static');
+          .replace('/public', '');
 
         this.selected = {
           name: target.name,
           size: target.size,
           url: url,
-          urlSafe: urlSafe,
         };
       }
     },
@@ -134,7 +129,7 @@ export default {
       this.geturrentDirectory();
     },
     handleSubmit() {
-      this.$parent.data.img = this.selected.urlSafe;
+      this.$emit('input', this.selected.url);
       this.handleClose();
     },
     handleClose() {
@@ -148,7 +143,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-main
+.container
   position: fixed
   top: 0
   left: 0

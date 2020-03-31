@@ -1,9 +1,9 @@
 <template>
   <main>
-    <FilePicker ref="FilePicker" />
+    <FilePicker ref="FilePicker" v-model="data.img" />
     <div class="wrapper">
       <div class="container" @click="handleClick">
-        <img :src="data.img" :alt="data.name" />
+        <img :src="staticUrl + data.img" :alt="data.name" />
         <span><b>Změnit obrázek</b></span>
       </div>
       <aside>
@@ -33,12 +33,14 @@
 import FilePicker from '../components/FilePicker';
 
 import { getData, postData, deleteData } from '../assets/js/dataFetcher';
+import { staticUrl } from '../assets/js/dev';
 
 export default {
   components: { FilePicker },
   data() {
     return {
       data: {},
+      staticUrl: staticUrl,
     };
   },
   async created() {
