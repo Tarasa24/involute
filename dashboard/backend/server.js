@@ -26,6 +26,18 @@ server.get('/novinky', async (req, res) => {
   db.findNovinky(req, res);
 });
 
+server.post('/novinka/:id', (req, res) => {
+  db.replaceNovinka(req, res);
+});
+
+server.put('/novinka', (req, res) => {
+  db.createNovinka(req, res);
+});
+
+server.delete('/novinka/:id', (req, res) => {
+  db.deleteNovinka(req, res);
+});
+
 server.get('/*', async (req, res) => {
   const response = await fetchFromFrontendApi(req.url);
   if (response.error) {

@@ -3,7 +3,7 @@
     <div>
       <div class="header">
         <h2>Přidat nový článek</h2>
-        <router-link to="/novinka/přidat" class="fas fa-plus-circle" />
+        <router-link to="/novinka/pridat" class="fas fa-plus-circle" />
       </div>
       <div class="nebo">
         <hr />

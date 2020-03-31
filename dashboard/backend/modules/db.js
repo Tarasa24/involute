@@ -74,4 +74,45 @@ async function findNovinky(req, res) {
   }
 }
 
-module.exports = { replaceProdukt, deleteProdukt, findNovinky };
+async function replaceNovinka(req, res) {
+  try {
+    let result = await db
+      .collection('novinky')
+      .replaceOne({ _id: ObjectId(req.params.id) }, req.body);
+    if (result === null) throw 400;
+    res.sendStatus(202);
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
+async function createNovinka(req, res) {
+  try {
+    let result = await db.collection('novinky').insertOne(req.body);
+    if (result === null) throw 400;
+    res.sendStatus(202);
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
+async function deleteNovinka(req, res) {
+  try {
+    let result = await db
+      .collection('novinky')
+      .deleteOne({ _id: ObjectId(req.params.id) });
+    if (result === null) throw 400;
+    res.sendStatus(202);
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
+module.exports = {
+  replaceProdukt,
+  deleteProdukt,
+  findNovinky,
+  replaceNovinka,
+  createNovinka,
+  deleteNovinka,
+};
