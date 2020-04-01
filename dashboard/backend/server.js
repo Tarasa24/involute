@@ -7,7 +7,7 @@ const fetchFromFrontendApi = require('./modules/fetcher');
 const { checkStatus } = require('./modules/socket');
 const db = require('./modules/db');
 
-const port = 8081;
+const port = 8181;
 const server = express();
 
 server.use(compression());

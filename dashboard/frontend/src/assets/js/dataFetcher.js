@@ -1,7 +1,7 @@
 const baseUrl =
   process.env.NODE_ENV === 'production'
     ? '/dashboard/api'
-    : 'http://localhost:8081';
+    : 'http://localhost:8181';
 
 function pathMiddleware(path) {
   if (path.charAt(0) == '/') {

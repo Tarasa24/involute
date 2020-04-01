@@ -16,7 +16,8 @@
   "devDependencies": {},
   "scripts": {
     "start": "node server.js",
-    "test": "jest"
+    "test": "jest",
+    "serve": "nodemon"
   },
   "author": "",
   "license": "ISC"
