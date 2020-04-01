@@ -98,6 +98,8 @@
 </template>
 
 <script>
+import { staticUrl } from '../assets/js/dev';
+
 export default {
   data() {
     return {
@@ -105,10 +107,7 @@ export default {
       currentDepth: [],
       target: {},
       selected: {},
-      baseUrl:
-        process.env.NODE_ENV === 'production'
-          ? '/static'
-          : 'http://localhost:3000',
+      baseUrl: staticUrl,
     };
   },
   async created() {
