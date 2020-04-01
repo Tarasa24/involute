@@ -10,10 +10,14 @@
           ')'
       "
     >
-      <i class="far fa-edit" @click="handleClick" />
+      <i
+        class="far fa-edit"
+        title="Přidat hlavní náhledový obrázek"
+        @click="handleClick"
+      />
       <input placeholder="Nadpis" type="text" class="title" v-model="title" />
       <span>
-        <input placeholder="Hra" type="text" v-model="game" class="game" />
+        <input placeholder="Hra/Téma" type="text" v-model="game" class="game" />
         <datepicker :language="datepicker.cs" v-model="date" />
       </span>
       <textarea placeholder="Krátký popiskek" v-model="sub" />
@@ -185,10 +189,12 @@ main
   background-size: cover !important
   background-position: center center !important
   margin-bottom: 1%
+  padding: 12px 15px
   i
     font-size: 2.5rem
     color: white
     margin: 2.5% auto
+    margin-bottom: 7.5%
     cursor: pointer
     opacity: .2
     @include transition(opacity)
@@ -200,21 +206,24 @@ main
     border: 0
     width: 100%
     margin: 0
-    padding: 10px
+    padding: 15px 0
     font-family: inherit
     font-size: 1rem
     background: none
     &:focus
-      outline: 1px $grayOutline solid
+      outline: 0
     &::placeholder
       color: $grayOutline
       font-style: italic
   .title
-    width: calc(100% - 20px)
+    width: 100%
     text-transform: uppercase
+    font-weight: bold
     font-size: 2.5rem
     color: $purple
-    font-weight: bold
+    font-family: sans-serif
+    &::placeholder
+      font-family: Roboto
   span
     display: flex
     .game
@@ -229,8 +238,12 @@ main
         &:hover
           border: 1px solid $grayOutline
   textarea
-    width: calc( 100% - 20px )
+    width: 100%
     resize: none
+    padding-bottom: 0
+    height: 8vh
+    @include medium-device
+      height: 8rem
 
 button
   margin-top: 5vh

@@ -27,7 +27,18 @@
       </span>
 
       <h1>{{ novinka.title }}</h1>
-      <p>{{ novinka.game }}</p>
+      <div class="game_n_date">
+        <span>{{ novinka.game }}</span>
+        <span>
+          {{
+            new Date(novinka.date * 1000).toLocaleDateString('cs', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })
+          }}
+        </span>
+      </div>
       <p>{{ novinka.sub }}</p>
     </div>
 
@@ -88,6 +99,7 @@ export default {
 .header
   color: #d9d9d9
   padding: 5.5vh calc(30% + 20px)
+  padding-bottom: 1%
   text-align: left
   background-color: #02021f
   background-repeat: no-repeat !important
@@ -95,8 +107,9 @@ export default {
   background-position: center center !important
   @include large-device
     padding: 5vh 15%
+    padding-bottom: 2%
   @include small-device
-    padding: 5%
+    padding: 4%
 
   span
     display: grid
@@ -119,9 +132,18 @@ export default {
   h1
     text-transform: uppercase
     margin-top: 5vh
+    margin-bottom: 2%
     font-size: 3.5rem
+    color: $purple
     @include small-device
       font-size: 2.2rem
+  .game_n_date
+    display: flex
+    span
+      display: block
+      width: 50%
+      &:last-of-type
+        text-align: right
   p
     @include small-device
       font-size: 1rem
@@ -129,15 +151,19 @@ export default {
 /deep/ main
   background-color: white
   text-align: center
-  padding: 5vh calc(30% + 20px)
+  padding: 3.5vh calc(30% + 20px)
   @include large-device
-    padding: 5vh 15%
+    padding: 3.5vh 15%
   @include small-device
-    padding: 5%
+    padding: 4%
 
   /deep/ *:not(img, iframe)
     text-align: left
   /deep/ img, iframe
-    margin: 0 aut
+    margin: 0 auto
     max-width: 100%
+    cursor: auto !important
+  /deep/ p
+    margin: 1px 0
+    display: flex
 </style>
