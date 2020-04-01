@@ -79,11 +79,7 @@ export default {
     };
   },
   async created() {
-    const baseUrl =
-      process.env.NODE_ENV === 'production'
-        ? '/static'
-        : 'http://localhost:3000';
-    const result = await fetch(baseUrl + '/tree');
+    const result = await fetch(staticUrl + '/tree');
     this.tree = await result.json();
     this.geturrentDirectory();
   },

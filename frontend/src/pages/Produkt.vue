@@ -2,9 +2,9 @@
   <div class="produkt">
     <Basket ref="basket" />
     <main>
-      <a :href="produkt.img">
+      <a :href="staticUrl + produkt.img">
         <zoom-on-hover
-          :img-normal="produkt.img"
+          :img-normal="staticUrl + produkt.img"
           :alt="produkt.sub"
           :scale="1.5"
         />
@@ -64,6 +64,7 @@
 <script>
 import Basket from '../components/eshop/Basket';
 import { getData } from '../assets/js/dataFetcher';
+import { staticUrl } from '../assets/js/dev';
 
 export default {
   components: { Basket },
@@ -71,6 +72,7 @@ export default {
     return {
       produkt: {},
       location: window.location.href,
+      staticUrl: staticUrl,
     };
   },
   mounted() {
