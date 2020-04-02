@@ -18,6 +18,7 @@ import Kosik from './pages/Kosik';
 import Platba from './pages/Platba';
 import Objednavka from './pages/Objednavka';
 import Kontakt from './pages/Kontakt';
+import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 
 Vue.use(VueRouter);
@@ -47,6 +48,7 @@ const routes = [
   { path: '/eshop/platba', component: Platba },
   { path: '/eshop/objednavka/:type', component: Objednavka },
   { path: '/kontakt', component: Kontakt },
+  { path: '/login', component: Login },
   { path: '*', component: NotFound },
 ];
 

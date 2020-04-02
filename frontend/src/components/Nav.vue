@@ -12,13 +12,38 @@
         <router-link to="/oceneni">Ocenění</router-link>
         <router-link to="/eshop">Eshop</router-link>
         <router-link to="/kontakt">Kontakt</router-link>
+        <router-link class="login" v-if="!authenticated" to="/login"
+          >Login</router-link
+        >
+        <div v-else>
+          <a :href="dashboardUrl">Dashboard</a>
+          <a :href="authUrl + '/logout'">Logout</a>
+        </div>
       </span>
     </div>
   </nav>
 </template>
 
 <script>
-export default {};
+import { authUrl, dashboardUrl } from '../assets/js/dev';
+
+export default {
+  data() {
+    return {
+      authenticated: false,
+      authUrl: authUrl,
+      dashboardUrl: dashboardUrl,
+    };
+  },
+  async created() {
+    const result = await fetch(authUrl + '/validateJWT', {
+      method: 'POST',
+      credentials: 'include',
+    });
+
+    this.authenticated = result.status == 204;
+  },
+};
 </script>
 
 <style lang="sass" scoped>
@@ -56,12 +81,10 @@ nav
       max-height: 80%
       padding: 15% 0
 
-
   span
     grid-area: links
     justify-self: start
     display: inline-table
-
 
     a
       text-transform: uppercase
@@ -77,4 +100,15 @@ nav
       &:hover
         color: $purple
         border-bottom: 2px $purple solid
+
+  .login
+    color: $purple
+    &:hover
+      color: $pink
+  div
+    display: contents
+    a
+      color: $purple
+      &:hover
+        color: $pink
 </style>
