@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-async function validateUser(username, password, db) {
+module.exports = async function validateUser(username, password, db) {
   async function getUser(username) {
     return new Promise(async (resolve, reject) => {
       try {
@@ -42,6 +42,4 @@ async function validateUser(username, password, db) {
         reject('Username does not match');
       });
   });
-}
-
-module.exports = validateUser;
+};

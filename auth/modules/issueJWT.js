@@ -3,34 +3,19 @@ const validateUser = require('./validateUser');
 const jwt = require('jsonwebtoken');
 
 async function issueJWT(username, password, remember, realIP, db) {
-  function createJWT() {
+  function createJWT(tier) {
     const secret = jwtSecret;
-    var token;
-    if (remember) {
-      token = jwt.sign(
-        {
-          Name: username,
-          ip: realIP || '<missing X-Real-IP header>',
-        },
-        secret,
-        {
-          algorithm: 'HS256',
-          expiresIn: '30d',
-        }
-      );
-    } else {
-      token = jwt.sign(
-        {
-          Name: username,
-          ip: 'false',
-        },
-        secret,
-        {
-          algorithm: 'HS256',
-          expiresIn: '1h',
-        }
-      );
-    }
+    const token = jwt.sign(
+      {
+        tier: tier,
+        ip: remember ? realIP || '<missing X-Real-IP header>' : 'false',
+      },
+      secret,
+      {
+        algorithm: 'HS256',
+        expiresIn: remember ? '30d' : '1h',
+      }
+    );
 
     return token;
   }
@@ -38,7 +23,7 @@ async function issueJWT(username, password, remember, realIP, db) {
   return new Promise(async (resolve, reject) => {
     try {
       userData = await validateUser(username, password, db);
-      const token = createJWT();
+      const token = createJWT(userData.tier);
       resolve(token);
     } catch (e) {
       reject(401);
