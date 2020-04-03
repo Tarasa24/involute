@@ -11,7 +11,7 @@
         <br />
         <input required type="password" placeholder="Heslo" />
         <br />
-        <input type="checkbox" id="remeber" value="on" />
+        <input type="checkbox" id="remeber" />
         <label title="Vázano na IP adresu" for="remeber"
           >Zapamatovat na 30 dní</label
         >
@@ -116,7 +116,7 @@ export default {
       this.body = {
         username: event.target[0].value,
         password: event.target[1].value,
-        remeber: event.target[2].checked,
+        remember: event.target[2].checked,
       };
 
       this.stage = 'loading';
