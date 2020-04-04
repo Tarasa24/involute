@@ -69,6 +69,6 @@ const app = server.listen(port, () =>
 );
 
 const io = socket(app);
-io.on('connect', socket => {
+io.on('connect', (socket) => {
   checkStatus(socket);
 });
