@@ -153,7 +153,7 @@ export default {
         setTimeout(() => {
           window.location.href = '/';
         }, 3000);
-      } else this.stage = 'totp';
+      } else this.stage = 'error';
     },
     handleInput(event) {
       const el = event.target;

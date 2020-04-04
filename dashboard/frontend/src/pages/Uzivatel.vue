@@ -43,7 +43,7 @@
               type="password"
               :value="props.value"
               @input="props.updatePassword"
-              :required="newUser"
+              required
             />
           </template>
         </VuePasswordAuto>
