@@ -69,4 +69,19 @@ async function putData(path, data) {
   return result;
 }
 
-module.exports = { getData, postData, deleteData, putData };
+async function getTokenPayload() {
+  if (process.env.NODE_ENV === 'production') {
+    const authUrl =
+      process.env.NODE_ENV === 'production'
+        ? '/api/auth'
+        : 'http://localhost:300';
+
+    const result = await fetch(authUrl + '/tokenPayload', {
+      method: 'GET',
+      credentials: 'include',
+    });
+    return await result.json();
+  } else return { name: 'Admin', tier: 9 };
+}
+
+module.exports = { getData, postData, deleteData, putData, getTokenPayload };

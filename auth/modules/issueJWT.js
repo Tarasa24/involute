@@ -7,6 +7,7 @@ async function issueJWT(username, password, remember, realIP, db) {
     const secret = jwtSecret;
     const token = jwt.sign(
       {
+        name: username,
         tier: tier,
         ip: remember ? realIP || '<missing X-Real-IP header>' : 'false',
       },

@@ -38,6 +38,14 @@ server.delete('/novinka/:id', (req, res) => {
   db.deleteNovinka(req, res);
 });
 
+server.get('/uzivatele', (req, res) => {
+  db.getUzivatele(req, res);
+});
+
+server.get('/uzivatel/:name', (req, res) => {
+  db.getUzivatel(req, res);
+});
+
 server.get('/*', async (req, res) => {
   const response = await fetchFromFrontendApi(req.url);
   if (response.error) {

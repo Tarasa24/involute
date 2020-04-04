@@ -8,15 +8,16 @@ const issueJWT = require('./modules/issueJWT');
 const validateJWT = require('./modules/validateJWT');
 const validateTotp = require('./modules/totp');
 const { log } = require('./modules/misc');
-const { client } = require('./modules/credentials');
+const { client, jwtSecret } = require('./modules/credentials');
+
+const jwt = require('jsonwebtoken');
 
 const port = 300;
 const app = express();
 
 app.use(
   cors({
-    origin:
-      process.env.NODE_ENV == 'production' ? '*' : 'http://localhost:8080',
+    origin: process.env.NODE_ENV == 'production' ? '*' : true,
     credentials: true,
   })
 );
@@ -94,6 +95,18 @@ app.get('/logout', (req, res) => {
   res.redirect(
     process.env.NODE_ENV == 'production' ? '/' : 'http://localhost:8080'
   );
+});
+
+app.get('/tokenPayload', (req, res) => {
+  try {
+    const payload = jwt.verify(req.cookies.Authorization, jwtSecret, {
+      ignoreExpiration: false,
+    });
+    res.json(payload);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(403);
+  }
 });
 
 app.listen(port, () =>

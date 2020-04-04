@@ -111,6 +111,35 @@ async function deleteNovinka(req, res) {
   }
 }
 
+async function getUzivatele(req, res) {
+  try {
+    let result = await db
+      .collection('users')
+      .find({ tier: { $lt: 9 } })
+      .project({ password: false, totp: false })
+      .sort({ tier: 1 })
+      .toArray();
+    if (result === null) throw 400;
+    res.json(result);
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
+async function getUzivatel(req, res) {
+  try {
+    let result = await db
+      .collection('users')
+      .find({ name: req.params.name, tier: { $lt: 9 } })
+      .project({ password: false, totp: false })
+      .next();
+    if (result === null) throw 400;
+    res.json(result);
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
 module.exports = {
   replaceProdukt,
   deleteProdukt,
@@ -118,4 +147,6 @@ module.exports = {
   replaceNovinka,
   createNovinka,
   deleteNovinka,
+  getUzivatele,
+  getUzivatel,
 };
