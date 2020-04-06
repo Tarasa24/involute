@@ -46,6 +46,10 @@ server.get('/uzivatel/:name', (req, res) => {
   db.getUzivatel(req, res);
 });
 
+server.get('/dbstats', (req, res) => {
+  db.stats(req, res);
+});
+
 server.get('/*', async (req, res) => {
   const response = await fetchFromFrontendApi(req.url);
   if (response.error) {

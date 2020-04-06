@@ -2,9 +2,11 @@ const { client } = require('./credentials');
 const { ObjectId } = require('mongodb');
 
 let db;
+let adminDb;
 client.connect((err, client) => {
   if (err) throw err;
   db = client.db('iNvolute');
+  adminDb = client.db('admin');
 });
 
 async function replaceProdukt(req, res) {
@@ -140,6 +142,20 @@ async function getUzivatel(req, res) {
   }
 }
 
+async function stats(req, res) {
+  try {
+    const stats = await db.stats();
+    const { url } = await adminDb.command({ getFreeMonitoringStatus: 1 });
+
+    stats.url = url;
+
+    res.json(stats);
+  } catch (e) {
+    res.sendStatus(500);
+    console.error(e);
+  }
+}
+
 module.exports = {
   replaceProdukt,
   deleteProdukt,
@@ -149,4 +165,5 @@ module.exports = {
   deleteNovinka,
   getUzivatele,
   getUzivatel,
+  stats,
 };
