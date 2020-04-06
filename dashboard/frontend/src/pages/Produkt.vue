@@ -1,9 +1,8 @@
 <template>
   <main>
-    <FilePicker ref="FilePicker" v-model="data.img" />
     <div class="wrapper">
       <div class="container" @click="handleClick">
-        <img :src="staticUrl + data.img" :alt="data.name" />
+        <img :src="data.img" :alt="data.name" />
         <span><b>Změnit obrázek</b></span>
       </div>
       <aside>
@@ -26,21 +25,20 @@
         <i class="notification" />
       </aside>
     </div>
+
+    <FileUpload ref="FileUpload" v-model="data.img" />
   </main>
 </template>
 
 <script>
-import FilePicker from '../components/FilePicker';
-
+import FileUpload from '../components/FileUpload';
 import { getData, postData, deleteData } from '../assets/js/dataFetcher';
-import { staticUrl } from '../assets/js/dev';
 
 export default {
-  components: { FilePicker },
+  components: { FileUpload },
   data() {
     return {
       data: {},
-      staticUrl: staticUrl,
     };
   },
   async created() {
@@ -89,7 +87,7 @@ export default {
       }
     },
     handleClick() {
-      this.$refs.FilePicker.show = true;
+      this.$refs.FileUpload.open();
     },
   },
 };

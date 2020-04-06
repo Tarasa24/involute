@@ -12,7 +12,7 @@ const server = express();
 
 server.use(compression());
 server.use(cors());
-server.use(express.json());
+server.use(express.json({ limit: '15mb' }));
 
 server.post('/produkt/:id', async (req, res) => {
   db.replaceProdukt(req, res);

@@ -27,9 +27,6 @@
     <router-link to="/odkazy" class="tab">
       <i class="fas fa-external-link-alt" />Odkazy
     </router-link>
-    <router-link to="/soubory">
-      <i class="fas fa-folder-open" />Soubory
-    </router-link>
   </aside>
 </template>
 

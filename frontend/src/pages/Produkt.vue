@@ -2,9 +2,9 @@
   <div class="produkt">
     <Basket ref="basket" />
     <main>
-      <a :href="staticUrl + produkt.img">
+      <a :href="produkt.img">
         <zoom-on-hover
-          :img-normal="staticUrl + produkt.img"
+          :img-normal="produkt.img"
           :alt="produkt.sub"
           :scale="1.5"
         />
@@ -26,7 +26,7 @@
           <a
             :href="
               'https://twitter.com/intent/tweet?text=' +
-                `${produkt.name}%20(${produkt.sub})%20v%20@iNvolute.GG%20eshopu%0A%23iNvolute%20%23merch%20%23gaming%20%23esport%20%23czech%20%23cz%20%23cz/sk%0A${location}`
+              `${produkt.name}%20(${produkt.sub})%20v%20@iNvolute.GG%20eshopu%0A%23iNvolute%20%23merch%20%23gaming%20%23esport%20%23czech%20%23cz%20%23cz/sk%0A${location}`
             "
             target="popup"
             rel="noopener noreferrer"
@@ -37,7 +37,7 @@
           <a
             :href="
               'https://www.facebook.com/sharer/sharer.php?u=' +
-                encodeURI(location)
+              encodeURI(location)
             "
             target="popup"
             rel="noopener noreferrer"
@@ -64,7 +64,6 @@
 <script>
 import Basket from '../components/eshop/Basket';
 import { getData } from '../assets/js/dataFetcher';
-import { staticUrl } from '../assets/js/dev';
 
 export default {
   components: { Basket },
@@ -72,7 +71,6 @@ export default {
     return {
       produkt: {},
       location: window.location.href,
-      staticUrl: staticUrl,
     };
   },
   mounted() {

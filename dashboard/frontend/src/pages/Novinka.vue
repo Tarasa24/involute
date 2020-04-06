@@ -1,13 +1,11 @@
 <template>
   <main>
-    <FilePicker ref="FilePicker" v-model="bg" />
     <div
       class="header"
       :style="
         'background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url(' +
-          staticUrl +
-          bg +
-          ')'
+        bg +
+        ')'
       "
     >
       <i
@@ -36,6 +34,8 @@
       <button @click="handleSubmit">Uložit</button>
       <button @click="handleDelete">Odstranit</button>
     </span>
+
+    <FileUpload ref="FileUpload" v-model="bg" />
   </main>
 </template>
 
@@ -45,9 +45,8 @@ import ImageResize from 'quill-image-resize-module';
 import VideoResize from 'quill-video-resize-module';
 import Datepicker from 'vuejs-datepicker';
 import { cs } from 'vuejs-datepicker/dist/locale';
-import FilePicker from '../components/FilePicker';
 
-import { staticUrl } from '../assets/js/dev';
+import FileUpload from '../components/FileUpload';
 
 import {
   getData,
@@ -57,7 +56,7 @@ import {
 } from '../assets/js/dataFetcher';
 
 export default {
-  components: { VueEditor, Datepicker, FilePicker },
+  components: { VueEditor, Datepicker, FileUpload },
   props: {
     newArticle: {
       type: Boolean,
@@ -99,8 +98,6 @@ export default {
       bg: undefined,
       text: undefined,
       created: undefined,
-
-      staticUrl: staticUrl,
     };
   },
   async created() {
@@ -169,7 +166,7 @@ export default {
       }
     },
     handleClick() {
-      this.$refs.FilePicker.show = true;
+      this.$refs.FileUpload.open();
     },
   },
 };

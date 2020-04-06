@@ -16,11 +16,6 @@ services:
     environment:
       - NODE_ENV=production
 
-  static:
-    restart: always
-    build: static
-    volumes:
-      - ./static/public:/public
   auth:
     restart: always
     build: auth
@@ -57,7 +52,6 @@ services:
       - goaccess
       - dashboard_frontend
       - dashboard_backend
-      - static
       - auth
 
   goaccess:

@@ -11,7 +11,7 @@
         class="produkt"
         v-for="produkt in produkty"
         :key="produkt._id"
-        :style="`background: url(${staticUrl + produkt.img}), white`"
+        :style="`background: url(${produkt.img}), white`"
         :disabled="produkt.stock <= 0"
       >
         <span>
@@ -29,14 +29,12 @@ import Basket from '../components/eshop/Basket';
 import Header from '../components/misc/Header';
 
 import { getData } from '../assets/js/dataFetcher';
-import { staticUrl } from '../assets/js/dev';
 
 export default {
   components: { Basket, Header },
   data() {
     return {
       produkty: null,
-      staticUrl: staticUrl,
     };
   },
   async created() {

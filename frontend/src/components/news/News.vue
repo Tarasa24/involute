@@ -10,7 +10,7 @@
         class="novinka"
         v-for="novinka in novinky"
         :key="novinka._id"
-        :style="'background: url(' + staticUrl + novinka.bg + '), white'"
+        :style="'background: url(' + novinka.bg + '), white'"
       >
         <span>
           <h6>{{ novinka.game }}</h6>
@@ -24,7 +24,6 @@
 <script>
 import { getData } from '../../assets/js/dataFetcher';
 import { numberOfCards } from '../../assets/js/responsive';
-import { staticUrl } from '../../assets/js/dev';
 
 export default {
   props: {
@@ -39,7 +38,6 @@ export default {
     return {
       novinky: null,
       length: numberOfCards(this.n),
-      staticUrl: staticUrl,
     };
   },
   watch: {

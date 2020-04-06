@@ -11,7 +11,6 @@ import Novinky from './pages/Novinky';
 import Novinka from './pages/Novinka';
 import Uzivatele from './pages/Uzivatele';
 import Uzivatel from './pages/Uzivatel';
-import Soubory from './pages/Soubory';
 import NotFound from './pages/NotFound';
 
 Vue.config.productionTip = false;
@@ -34,7 +33,6 @@ const routes = [
   { path: '/uzivatele', component: Uzivatele },
   { path: '/uzivatel/pridat', component: Uzivatel, props: { newUser: true } },
   { path: '/uzivatel/:name', component: Uzivatel },
-  { path: '/soubory', component: Soubory },
   { path: '/*', component: NotFound },
 ];
 const router = new VueRouter({

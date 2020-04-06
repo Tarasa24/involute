@@ -50,13 +50,13 @@
         </td>
         <td>
           Může manipulovat se všemi položkami databáze, vytvářet nové a
-          upravovat stávající uživatele a mazat soubory
+          upravovat stávající uživatele
         </td>
       </tr>
       <tr>
         <td><i class="fas fa-circle" style="color: gray;" /> Kdokoliv</td>
         <td>
-          Může měnit vlastní profil, sledovat traffic, a přidávat nové soubory
+          Může měnit vlastní profil, monitorovat traffic a databázi
         </td>
       </tr>
     </table>
