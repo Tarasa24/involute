@@ -59,7 +59,7 @@ export default {
       path: path,
     });
 
-    this.socket.on('status', data => {
+    this.socket.on('status', (data) => {
       this.connections = JSON.parse(data);
     });
   },
@@ -89,5 +89,5 @@ iframe
   margin-top: 5%
   width: 100%
   // height is being replaced in production
-  height: 4000px
+  height: 460vh
 </style>
