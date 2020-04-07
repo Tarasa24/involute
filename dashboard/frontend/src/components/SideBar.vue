@@ -51,7 +51,7 @@ h1
     font-size: 0
     margin: 10%
     height: calc( 53px - 2 * 5.3px )
-    background-image: url('/img/logo.png')
+    background-image: url('/dashboard/img/logo.png')
     background-repeat: no-repeat
     background-size: cover
     background-position: center center
