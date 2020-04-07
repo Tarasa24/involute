@@ -51,10 +51,8 @@ export default {
 
 <style lang="sass" scoped>
 .wrapper
-  display: flex
-  margin: 0 auto 6% auto
-  a
-    margin: auto
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(220px + 2*10px, 1fr))
 
 h1
   font-size: 2.5rem
@@ -83,4 +81,15 @@ h1
   .fas
     justify-self: center
     color: $purple
+  @include small-device
+    width: calc(95% - 20px)
+    i
+      font-size: 0
+  @include small-device-portrait
+    grid-template-columns: 150px repeat(4, auto)
+    span
+      font-size: 0
+    .fas
+      justify-self: right
+      padding-right: 5%
 </style>

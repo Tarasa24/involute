@@ -47,7 +47,7 @@ export default {
     const url =
       process.env.NODE_ENV === 'production'
         ? window.location.hostname
-        : 'http://localhost:8081';
+        : 'http://localhost:8181';
 
     const path =
       process.env.NODE_ENV === 'production'
@@ -76,12 +76,8 @@ export default {
 
 <style lang="sass" scoped>
 .wrapper
-  display: flex
-  *
-    &:first-child
-      margin-left: 0
-    &:last-child
-      margin-right: 0
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(190px + 2*10px, 1fr))
 
 iframe
   border: 0
@@ -89,5 +85,5 @@ iframe
   margin-top: 5%
   width: 100%
   // height is being replaced in production
-  height: 460vh
+  height: 3900px
 </style>

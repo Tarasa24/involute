@@ -13,8 +13,8 @@ export default {
 
 <style lang="sass" scoped>
 .box
-  margin: auto
-  width: 15vw
+  margin: 5% 5% 0 5%
+  width: calc( 100% - 20px - 10% )
   background-color: white
   box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.1)
   padding: 10px

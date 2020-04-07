@@ -19,7 +19,7 @@
             <option value="Datum">Datum</option>
             <option value="ID">ID</option>
           </select>
-          <input type="text" placeholder="Řetězec, /regex/ nebo nic" />
+          <input type="text" placeholder="Řetězec, nebo /regex/" />
           <button type="submit">Hledat</button>
         </form>
       </div>
@@ -91,6 +91,8 @@ export default {
     display: block
     margin: 0 auto
     width: 80px
+  @include small-device
+    margin-top: 10%
 
 .vyhledat
   h2
@@ -118,6 +120,12 @@ export default {
     button
       @include btn($purple)
       box-shadow: 0
+    @include small-device
+      width: 95%
+    @include small-device-portrait
+      grid-template-columns: 75px auto 70px
+      button
+        font-size: .9rem
 
 .row
   display: grid
@@ -143,4 +151,9 @@ export default {
   .fas
     justify-self: center
     color: $purple
+  @include small-device
+    width: calc(95% - 20px)
+    grid-template-columns: auto 0 0 20px
+    i, span
+      font-size: 0
 </style>

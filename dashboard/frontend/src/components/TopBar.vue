@@ -1,6 +1,5 @@
 <template>
   <nav>
-    <router-link to="/"><h1>iNvolute</h1></router-link>
     <span>DASHBOARD</span>
     <a href="/" class="fas fa-sign-out-alt" />
   </nav>
@@ -14,20 +13,20 @@ export default {};
 nav
   width: 100%
   display: grid
-  grid-template-columns: 265px auto 75px
+  grid-template-columns: auto 75px
   justify-items: center
   align-items: center
   background-color: $lighterGray
-  h1
-    font-weight: 100
-    font-size: 1.8rem
-    margin: 10px 0
+  @include small-device-portrait
+    grid-template-columns: auto 50px
   span
     height: fit-content
     letter-spacing: 3vw
     color: #e6e6e6
     font-weight: bold
     font-size: 1.5rem
+    @include small-device-portrait
+      font-size: 1.2rem
   a
     font-size: 2rem
     text-decoration: none

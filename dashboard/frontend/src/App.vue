@@ -40,14 +40,17 @@ a
 
   display: grid
   grid-template-columns: 265px auto
+  grid-template-rows: calc( 38px + 2 * 7.5px ) auto
+  grid-template-areas: "sidebar topnav" "sidebar main"
+  @include medium-device
+    grid-template-columns: 50px auto
 
 .topnav
-  grid-column: 1 / span 2
+  grid-area: topnav
 
 .sidebar
-  grid-row: 2 / span -1
-  grid-column: 1
-
+  grid-area: sidebar
 .main
   padding: 2%
+  grid-area: main
 </style>

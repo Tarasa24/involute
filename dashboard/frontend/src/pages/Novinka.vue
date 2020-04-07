@@ -4,8 +4,8 @@
       class="header"
       :style="
         'background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url(' +
-        bg +
-        ')'
+          bg +
+          ')'
       "
     >
       <i
@@ -179,6 +179,8 @@ export default {
 main
   width: 80%
   margin: 0 auto
+  @include small-device
+    width: calc( 100% - 4% )
 
 .header
   text-align: center

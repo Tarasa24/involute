@@ -119,4 +119,9 @@ table
       white-space: nowrap
   th, td
     padding: 5px
+  @include small-device-portrait
+    td:nth-of-type(1)
+      font-size: 0
+      i
+        font-size: 1rem
 </style>
