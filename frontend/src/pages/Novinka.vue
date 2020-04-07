@@ -5,8 +5,8 @@
       v-touch:swipe="swipeHandler"
       :style="
         'background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url(' +
-        novinka.bg +
-        ')'
+          novinka.bg +
+          ')'
       "
     >
       <span>
@@ -160,6 +160,13 @@ export default {
     margin: 0 auto
     max-width: 100%
     cursor: auto !important
+  /deep/ iframe
+    width: 100%
+    height: 350px
+    @include small-device-portrait
+      height: 200px
+    @include small-device-landscape
+      height: 80vh
   /deep/ p
     margin: 1px 0
     display: flex
