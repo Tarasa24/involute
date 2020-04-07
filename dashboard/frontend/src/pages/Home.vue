@@ -1,7 +1,7 @@
 <template>
   <main>
     <div>
-      <img src="./img/logo.png" alt="logo" />
+      <img src="/dashboard/img/logo.png" alt="logo" />
       <h1>Vítejte, {{ name }}</h1>
     </div>
   </main>
