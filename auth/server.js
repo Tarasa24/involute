@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 const validateUser = require('./modules/validateUser');
 const issueJWT = require('./modules/issueJWT');
 const validateJWT = require('./modules/validateJWT');
-const { validateTotp, encrypt } = require('./modules/totp');
+const { validate, encrypt } = require('./modules/totp');
 const { log } = require('./modules/misc');
 const { client, jwtSecret } = require('./modules/credentials');
 
@@ -60,7 +60,7 @@ app.post('/issueJWT', async (req, res) => {
   const totp = req.body.totp;
   const remember = req.body.remember;
   try {
-    const valid = await validateTotp(totp, username, password, db);
+    const valid = await validate(totp, username, password, db);
     if (!valid) {
       log(req, 'Failed totp');
       throw 401;
