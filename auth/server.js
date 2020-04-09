@@ -3,10 +3,12 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 
+const bcrypt = require('bcrypt');
+
 const validateUser = require('./modules/validateUser');
 const issueJWT = require('./modules/issueJWT');
 const validateJWT = require('./modules/validateJWT');
-const validateTotp = require('./modules/totp');
+const { validateTotp, encrypt } = require('./modules/totp');
 const { log } = require('./modules/misc');
 const { client, jwtSecret } = require('./modules/credentials');
 
@@ -106,6 +108,127 @@ app.get('/tokenPayload', (req, res) => {
   } catch (e) {
     console.error(e);
     res.sendStatus(403);
+  }
+});
+
+app.post('/createUser', async (req, res) => {
+  var user = req.body;
+  try {
+    const payload = jwt.verify(req.cookies.Authorization, jwtSecret, {
+      ignoreExpiration: false,
+    });
+    if (payload.tier < 3) throw 403;
+
+    const matchingUsername = await db
+      .collection('users')
+      .find({ name: user.name })
+      .next();
+
+    if (matchingUsername != null) throw 409;
+
+    user.totp = encrypt(user.totp, user.password);
+    user.password = await bcrypt.hash(user.password, 12);
+
+    await db.collection('users').insertOne(user);
+    res.sendStatus(202);
+  } catch (e) {
+    if (typeof e == Number) res.sendStatus(e);
+    else res.status(403).send(e);
+  }
+});
+
+app.delete('/deleteUser/:name', (req, res) => {
+  try {
+    const payload = jwt.verify(req.cookies.Authorization, jwtSecret, {
+      ignoreExpiration: false,
+    });
+    if (payload.tier < 3) throw 403;
+
+    db.collection('users').remove({ name: req.params.name });
+    res.sendStatus(202);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.post('/updatePass/:name', async (req, res) => {
+  var user = req.body;
+  try {
+    //JWT check
+    const payload = jwt.verify(req.cookies.Authorization, jwtSecret, {
+      ignoreExpiration: false,
+    });
+    //Provided pass check
+    if (payload.name == req.params.name) {
+      const result = await db
+        .collection('users')
+        .find({ name: req.params.name })
+        .next();
+      const match = await bcrypt.compare(user.oldPass, result.password);
+      if (!match) throw 403;
+    } else if (payload.name !== req.params.name && payload.tier < 3) throw 403;
+
+    console.log(user.totp, user.newPass);
+    user.totp = encrypt(user.totp, user.newPass);
+    user.newPass = await bcrypt.hash(user.newPass, 12);
+
+    await db
+      .collection('users')
+      .updateOne(
+        { name: req.params.name },
+        { $set: { password: user.newPass, totp: user.totp } }
+      );
+
+    res.sendStatus(301);
+  } catch (e) {
+    if (typeof e == Number) res.sendStatus(e);
+    else res.status(403).send(e);
+  }
+});
+
+app.post('/updateTotp/:name', async (req, res) => {
+  var user = req.body;
+  try {
+    const payload = jwt.verify(req.cookies.Authorization, jwtSecret, {
+      ignoreExpiration: false,
+    });
+    if (payload.tier < 3 && payload.name != req.params.name) throw 403;
+    //Provided pass check
+    const result = await db
+      .collection('users')
+      .find({ name: req.params.name })
+      .next();
+    const match = await bcrypt.compare(user.password, result.password);
+    if (!match) throw 403;
+
+    user.totp = encrypt(user.totp, user.password);
+
+    await db
+      .collection('users')
+      .updateOne({ name: req.params.name }, { $set: { totp: user.totp } });
+    res.sendStatus(301);
+  } catch (e) {
+    console.error(e);
+    if (typeof e == Number) res.sendStatus(e);
+    else res.status(403).send(e);
+  }
+});
+
+app.post('/updateUser/:name', async (req, res) => {
+  var user = req.body;
+  try {
+    const payload = jwt.verify(req.cookies.Authorization, jwtSecret, {
+      ignoreExpiration: false,
+    });
+    if (payload.tier < 3 && payload.name != req.params.name) throw 403;
+
+    await db
+      .collection('users')
+      .updateOne({ name: req.params.name }, { $set: user });
+    res.sendStatus(202);
+  } catch (e) {
+    if (typeof e == Number) res.sendStatus(e);
+    else res.status(403).send(e);
   }
 });
 

@@ -10,6 +10,8 @@ import Produkt from './pages/Produkt';
 import Novinky from './pages/Novinky';
 import Novinka from './pages/Novinka';
 import Uzivatele from './pages/Uzivatele';
+import UzivatelHeslo from './pages/UzivatelHeslo';
+import Uzivatel2FA from './pages/Uzivatel2FA';
 import Uzivatel from './pages/Uzivatel';
 import Databaze from './pages/Databaze';
 import NotFound from './pages/NotFound';
@@ -34,6 +36,8 @@ const routes = [
   { path: '/uzivatele', component: Uzivatele },
   { path: '/uzivatel/pridat', component: Uzivatel, props: { newUser: true } },
   { path: '/uzivatel/:name', component: Uzivatel },
+  { path: '/uzivatel/:name/heslo', component: UzivatelHeslo },
+  { path: '/uzivatel/:name/2FA', component: Uzivatel2FA },
   { path: '/databaze', component: Databaze },
   { path: '/*', component: NotFound },
 ];

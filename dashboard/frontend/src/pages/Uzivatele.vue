@@ -104,7 +104,6 @@ export default {
     &:hover
       transform: scale(.95)
 
-
 table
   margin: 0 auto
   border: 1px $grayOutline solid

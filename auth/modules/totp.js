@@ -1,7 +1,7 @@
 const speakeasy = require('speakeasy');
 const crypto = require('crypto');
 
-module.exports = async function validate(totp, username, password, db) {
+async function validate(totp, username, password, db) {
   async function getSecret(username, password) {
     function decrypt(text, secret) {
       var decipher = crypto.createDecipher('aes-128-cbc', secret);
@@ -39,4 +39,14 @@ module.exports = async function validate(totp, username, password, db) {
       reject(code);
     }
   });
-};
+}
+
+function encrypt(totp, password) {
+  const c = crypto.createCipher('aes-128-cbc', password);
+  var encrypted = c.update(totp, 'ascii', 'hex');
+  encrypted += c.final('hex');
+
+  return encrypted;
+}
+
+module.exports = { validate, encrypt };

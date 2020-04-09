@@ -1,6 +1,6 @@
 <template>
   <main>
-    <form action="">
+    <form v-if="newUser" @submit="handleSubmitNew">
       <div class="header">
         <h1 class="fas fa-user-circle" />
         <br />
@@ -17,7 +17,7 @@
         <VueNumberInput
           v-model="user.tier"
           :min="1"
-          :max="8"
+          :max="3"
           controls
           inline
           :disabled="!canEdit.all"
@@ -25,68 +25,68 @@
         />
       </div>
 
-      <div class="editUser" v-if="!editMode">
-        <button :disabled="!canEdit.self" @click="handleEdit">
-          Změnit heslo / 2FA
+      <EditPassword v-model="user.password" :oldPass="false" />
+      <Edit2FA v-model="user" :oldPass="false" />
+      <button type="submit" class="submitBtn">Přidat</button>
+    </form>
+
+    <form v-else @submit="handleSubmit">
+      <div class="header">
+        <h1 class="fas fa-user-circle" />
+        <br />
+        <input
+          type="text"
+          v-model="user.name"
+          :disabled="!canEdit.self"
+          placeholder="Jméno"
+          maxlength="32"
+          required
+        />
+        <br />
+        <h2>Tier</h2>
+        <VueNumberInput
+          v-model="user.tier"
+          :min="1"
+          :max="3"
+          controls
+          inline
+          :disabled="!canEdit.all"
+          required
+        />
+      </div>
+      <div class="editUser">
+        <button :disabled="!canEdit.self" @click="handlePageChange('/heslo')">
+          Změnit heslo
         </button>
-        <button :disabled="!canEdit.all">Odstranit účet</button>
+        <button :disabled="!canEdit.self" @click="handlePageChange('/2FA')">
+          Vygenerovat 2FA
+        </button>
+        <button :disabled="!canEdit.all" @click="handleRemove">
+          Odstranit uživatele
+        </button>
       </div>
-
-      <div v-else class="createUser">
-        <h2>
-          {{ newUser ? 'Heslo' : 'Heslo (stávající, nebo nové)' }}
-        </h2>
-
-        <VuePasswordAuto v-model="user.password">
-          <template v-slot:password-input="props">
-            <input
-              type="password"
-              :value="props.value"
-              @input="props.updatePassword"
-              required
-            />
-          </template>
-        </VuePasswordAuto>
-
-        <div v-if="user.name.length > 0">
-          <h2>
-            {{
-              newUser
-                ? '2FA kód'
-                : 'Nově vygenerovaný 2FA kód (nabyde platnosti po uložení)'
-            }}
-          </h2>
-          <i>{{ user.totp }}</i
-          ><br />
-          <img
-            :src="qr"
-            :title="
-              encodeURI(
-                `otpauth://totp/${this.user.name}?secret=${this.user.totp}&issuer=iNvolute`
-              )
-            "
-          />
-          <br />
-        </div>
-      </div>
-      <button type="submit">Uložit</button>
+      <button :disabled="!canEdit.self" type="submit">Uložit</button>
     </form>
   </main>
 </template>
 
 <script>
-import { VuePasswordAuto } from 'vue-password';
 import VueNumberInput from '@chenfengyuan/vue-number-input';
+import EditPassword from '../components/EditPassword';
+import Edit2FA from '../components/Edit2FA';
 
-import base32Encode from 'base32-encode';
-import QRCode from 'qrcode';
-
-import { getData, getTokenPayload } from '../assets/js/dataFetcher';
+import {
+  getData,
+  getTokenPayload,
+  postAuthData,
+  deleteAuthData,
+} from '../assets/js/dataFetcher';
 
 export default {
   components: {
-    VuePasswordAuto,
     VueNumberInput,
+    EditPassword,
+    Edit2FA,
   },
   props: {
     newUser: {
@@ -95,34 +95,28 @@ export default {
   },
   data() {
     return {
-      editUser: false,
       user: { tier: 1, name: '', password: '' },
       canEdit: { self: true, all: true },
-      qr: '',
     };
   },
   computed: {
-    name() {
-      return this.user.name;
-    },
     editMode() {
       return this.newUser || this.editUser;
     },
   },
-  watch: {
-    name: 'generateQR',
-  },
   async created() {
     if (!this.newUser) {
       try {
-        const { name, tier } = await getData(
+        const { _id, name, tier } = await getData(
           '/uzivatel/' + this.$route.params.name
         );
+        this.user._id = _id;
         this.user.name = name;
         this.user.tier = tier;
 
         const payload = await getTokenPayload();
-        this.canEdit.self = payload.name == this.user.name || payload.tier >= 3;
+        this.canEdit.self =
+          payload.name === this.user.name || payload.tier >= 3;
         this.canEdit.all = payload.tier >= 3;
       } catch (error) {
         this.$router.replace('/uzivatele');
@@ -130,23 +124,42 @@ export default {
     }
   },
   methods: {
-    async generateQR() {
-      if (this.user.name.length > 0) {
-        this.user.totp = base32Encode(
-          window.crypto.getRandomValues(new Uint8Array(35)),
-          'RFC3548',
-          { padding: false }
-        ).toLowerCase();
-        this.qr = await QRCode.toDataURL(
-          encodeURI(
-            `otpauth://totp/${this.user.name}?secret=${this.user.totp}&issuer=iNvolute`
-          )
-        );
-      } else this.qr = '';
+    handlePageChange(page) {
+      this.$router.push(this.$route.path + page);
     },
-    handleEdit(event) {
+    async handleRemove(event) {
       event.preventDefault();
-      this.editUser = true;
+      if (confirm(`Opravdu chcete ${this.user.name} odstranit?`)) {
+        const result = await deleteAuthData(
+          '/deleteUser/' + this.$route.params.name
+        );
+        if (result.status == 202) this.$router.replace('/uzivatele');
+        else alert('Vyskytla se chyba');
+      }
+    },
+    async handleSubmitNew(event) {
+      event.preventDefault();
+      if (this.user.password == '') alert('Zadaná hesla nejsou stejná');
+      else {
+        const result = await postAuthData(
+          '/createUser',
+          JSON.stringify(this.user)
+        );
+        if (result.status == 202) this.$router.push('/uzivatele');
+        else if (result.status == 409)
+          alert('Uživatel s tímto jménem již existuje');
+        else alert('Vyskytla se chyba');
+      }
+    },
+    async handleSubmit(event) {
+      event.preventDefault();
+      const result = await postAuthData(
+        '/updateUser/' + this.$route.params.name,
+        JSON.stringify({ name: this.user.name, tier: this.user.tier })
+      );
+
+      if (result.status == 202) this.$router.push('/uzivatele');
+      else alert('Vyskytla se chyba');
     },
   },
 };
@@ -154,7 +167,7 @@ export default {
 
 <style lang="sass" scoped>
 h2
-  margin: 40px 0 15px 0
+  margin: 25px 0 15px 0
 
 .header
   margin-bottom: 2.5%
@@ -163,7 +176,7 @@ h2
     font-size: 5rem
     margin-bottom: 10px
   input[type="text"]
-    width: 60%
+    width: 45%
     padding: 10px
     border: 0
     font-weight: bold
@@ -171,16 +184,21 @@ h2
     text-align: center
     &:focus
       outline: 1px $grayOutline solid
+    @include small-device
+      width: 90%
   input[disabled]
     background-color: white
     cursor: not-allowed
 
+  /deep/ .number-input__button:hover::before, /deep/ .number-input__button:hover::after
+      background-color: $purple
+
 .editUser
   button
     margin: 10px
-    &:nth-of-type(1)
+    &:nth-of-type(1), &:nth-of-type(2)
       @include btn($infoBlue)
-    &:nth-of-type(2)
+    &:nth-of-type(3)
       @include btn($deleteRed)
     &[disabled]
       filter: brightness(.8)
@@ -188,18 +206,12 @@ h2
       &:hover
         filter: brightness(.8)
 
-.createUser
-  .VuePassword
-    width: 60%
-    margin: 0 auto
-    input
-      width: 100%
-      border: 1px $grayOutline solid
-      padding: 5px
-      &:focus
-        outline: 0
-
 button[type="submit"]
-  margin-top: 2%
+  margin-top: 25px
   @include btn($acceptGreen)
+  &[disabled]
+      filter: brightness(.8)
+      cursor: not-allowed
+      &:hover
+        filter: brightness(.8)
 </style>
