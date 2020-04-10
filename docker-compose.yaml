@@ -36,15 +36,13 @@ services:
     command: mongod --enableFreeMonitoring on
   nginx:
     restart: always
-    build:
-      context: nginx
-      args:
-        - jwtSecret=placeholder
+    build: nginx
     ports:
       - 80:80
       - 7890:7890
     volumes:
       - ./nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+      - ./nginx/bearer.lua:/bearer.lua
       - ./nginx/access.log:/var/log/nginx/access.log
       - ./dashboard/GoAccess/index.html:/www/goaccess/index.html
     depends_on:

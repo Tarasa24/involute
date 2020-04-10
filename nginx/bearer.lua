@@ -1,21 +1,24 @@
-local jwt = require "resty.jwt"
-
-local token = ngx.var.cookie_Authorization
-
-if token == nil then
-    ngx.status = 401
-    ngx.exit(401)
+if ngx.var.cookie_Authorization == nil then
+	ngx.status = 401
+  ngx.exit(401)
+  return
 end
 
-local validators = require "resty.jwt-validators"
-local claim_spec = {
-    exp = validators.is_not_expired(),
-    ip = validators.equals_any_of({ngx.var.remote_addr, "<missing X-Real-IP header>", "false"})
-}
+local http = require "resty.http"
+local httpc = http.new()
+local res, err = httpc:request_uri("http://127.0.0.1/api/auth/validateJWT", {
+	method = "POST",
+	headers = {
+		["Cookie"] = "Authorization=" .. ngx.var.cookie_Authorization
+	}
+})
 
-local jwt_obj = jwt:verify("<jwtSecret>", token, claim_spec)
-if not jwt_obj["verified"] then
-    ngx.status = 401
-    ngx.log(ngx.WARN, jwt_obj.reason)
-    ngx.exit(401)
+if not res then
+	ngx.say("failed to request: ", err)
+  return
+end
+
+if res.status ~= 204 then
+	ngx.status = 401
+  ngx.exit(401)
 end
