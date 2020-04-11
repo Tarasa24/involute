@@ -87,7 +87,7 @@ app.post('/validateJWT', async (req, res) => {
 });
 
 app.get('/logout', async (req, res) => {
-  await db.collection('users').update(
+  await db.collection('users').updateOne(
     { 'lastJWT.token': req.cookies.Authorization },
     {
       $set: {

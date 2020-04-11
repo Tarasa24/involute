@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 
 module.exports = async function validateJWT(token, db, ip) {
   try {
+    if (token == undefined) return 404;
+
     const payload = jwt.verify(token, jwtSecret, { ignoreExpiration: false });
 
     if (![ip, false, '<missing X-Real-IP header>'].includes(payload.ip))

@@ -26,7 +26,7 @@ async function issueJWT(username, password, remember, realIP, db) {
       userData = await validateUser(username, password, db);
       const token = createJWT(userData.tier);
 
-      await db.collection('users').update(
+      await db.collection('users').updateOne(
         { name: username },
         {
           $set: {
