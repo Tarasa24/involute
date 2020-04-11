@@ -37,12 +37,17 @@
         <input
           type="text"
           v-model="user.name"
-          :disabled="!canEdit.self"
+          :disabled="!canEdit.self && !canEdit.all"
           placeholder="Jméno"
           maxlength="32"
           required
         />
-        <br />
+        <p>
+          Naposledy přihlášen(a):
+          <b>{{
+            new Date(user.timestamp * 1000).toLocaleString('cs-CS', {})
+          }}</b>
+        </p>
         <h2>Tier</h2>
         <VueNumberInput
           v-model="user.tier"
@@ -55,17 +60,25 @@
         />
       </div>
       <div class="editUser">
-        <button :disabled="!canEdit.self" @click="handlePageChange('/heslo')">
+        <button
+          :disabled="!canEdit.self && !canEdit.all"
+          @click="handlePageChange('/heslo')"
+        >
           Změnit heslo
         </button>
-        <button :disabled="!canEdit.self" @click="handlePageChange('/2FA')">
+        <button
+          :disabled="!canEdit.self && !canEdit.all"
+          @click="handlePageChange('/2FA')"
+        >
           Vygenerovat 2FA
         </button>
         <button :disabled="!canEdit.all" @click="handleRemove">
           Odstranit uživatele
         </button>
       </div>
-      <button :disabled="!canEdit.self" type="submit">Uložit</button>
+      <button :disabled="!canEdit.self && !canEdit.all" type="submit">
+        Uložit
+      </button>
     </form>
   </main>
 </template>
@@ -79,44 +92,39 @@ import {
   getData,
   getTokenPayload,
   postAuthData,
-  deleteAuthData,
+  deleteAuthData
 } from '../assets/js/dataFetcher';
 
 export default {
   components: {
     VueNumberInput,
     EditPassword,
-    Edit2FA,
+    Edit2FA
   },
   props: {
     newUser: {
-      type: Boolean,
-    },
+      type: Boolean
+    }
   },
   data() {
     return {
       user: { tier: 1, name: '', password: '' },
-      canEdit: { self: true, all: true },
+      canEdit: { self: true, all: true }
     };
-  },
-  computed: {
-    editMode() {
-      return this.newUser || this.editUser;
-    },
   },
   async created() {
     if (!this.newUser) {
       try {
-        const { _id, name, tier } = await getData(
+        const { _id, name, tier, lastJWT } = await getData(
           '/uzivatel/' + this.$route.params.name
         );
         this.user._id = _id;
         this.user.name = name;
         this.user.tier = tier;
+        this.user.timestamp = lastJWT.timestamp;
 
         const payload = await getTokenPayload();
-        this.canEdit.self =
-          payload.name === this.user.name || payload.tier >= 3;
+        this.canEdit.self = payload.name === this.user.name;
         this.canEdit.all = payload.tier >= 3;
       } catch (error) {
         this.$router.replace('/uzivatele');
@@ -158,10 +166,16 @@ export default {
         JSON.stringify({ name: this.user.name, tier: this.user.tier })
       );
 
-      if (result.status == 202) this.$router.push('/uzivatele');
+      if (result.status == 202 && !this.canEdit.self)
+        this.$router.push('/uzivatele');
+      else if (result.status == 202 && this.canEdit.self)
+        window.location.href =
+          process.env.NODE_ENV === 'production'
+            ? '/api/auth/logout'
+            : 'http://localhost:300/logout';
       else alert('Vyskytla se chyba');
-    },
-  },
+    }
+  }
 };
 </script>
 
