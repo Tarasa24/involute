@@ -17,7 +17,7 @@ async function validate(totp, username, password, db) {
           .find({ name: username })
           .next();
         if (result === null) return reject(401);
-
+        else if (result.totp === '') return resolve(null);
         return resolve(decrypt(result.totp, password));
       } catch (e) {
         return reject(401);
@@ -28,13 +28,16 @@ async function validate(totp, username, password, db) {
   return new Promise(async (resolve, reject) => {
     try {
       const secret = await getSecret(username, password);
-      const valid = speakeasy.totp.verify({
-        secret: secret,
-        encoding: 'base32',
-        token: totp,
-        window: 1,
-      });
-      resolve(valid);
+      if (secret === null) resolve(true);
+      else {
+        const valid = speakeasy.totp.verify({
+          secret: secret,
+          encoding: 'base32',
+          token: totp,
+          window: 1,
+        });
+        resolve(valid);
+      }
     } catch (code) {
       reject(code);
     }
