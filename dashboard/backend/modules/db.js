@@ -118,7 +118,12 @@ async function getUzivatele(req, res) {
     let result = await db
       .collection('users')
       .find({ tier: { $lt: 9 } })
-      .project({ password: false, totp: false })
+      .project({
+        password: false,
+        totp: false,
+        lastJWT: false,
+        _id: false,
+      })
       .sort({ tier: 1 })
       .toArray();
     if (result === null) throw 400;
@@ -133,7 +138,12 @@ async function getUzivatel(req, res) {
     let result = await db
       .collection('users')
       .find({ name: req.params.name, tier: { $lt: 9 } })
-      .project({ password: false, totp: false })
+      .project({
+        password: false,
+        totp: false,
+        'lastJWT.token': false,
+        _id: false,
+      })
       .next();
     if (result === null) throw 400;
     res.json(result);

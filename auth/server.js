@@ -80,11 +80,21 @@ app.post('/issueJWT', async (req, res) => {
   }
 });
 
-app.post('/validateJWT', (req, res) => {
-  res.sendStatus(validateJWT(req.cookies.Authorization));
+app.post('/validateJWT', async (req, res) => {
+  res.sendStatus(
+    await validateJWT(req.cookies.Authorization, db, req.header('X-Real-IP'))
+  );
 });
 
-app.get('/logout', (req, res) => {
+app.get('/logout', async (req, res) => {
+  await db.collection('users').update(
+    { 'lastJWT.token': req.cookies.Authorization },
+    {
+      $set: {
+        'lastJWT.token': '',
+      },
+    }
+  );
   res.clearCookie('Authorization');
   res.redirect(
     process.env.NODE_ENV == 'production' ? '/' : 'http://localhost:8080'

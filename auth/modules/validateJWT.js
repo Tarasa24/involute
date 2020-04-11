@@ -1,11 +1,26 @@
 const { jwtSecret } = require('./credentials');
 const jwt = require('jsonwebtoken');
 
-module.exports = function validateJWT(token) {
+module.exports = async function validateJWT(token, db, ip) {
   try {
-    jwt.verify(token, jwtSecret, { ignoreExpiration: false });
+    const payload = jwt.verify(token, jwtSecret, { ignoreExpiration: false });
+
+    if (![ip, false, '<missing X-Real-IP header>'].includes(payload.ip))
+      return 404;
+
+    const result = await db
+      .collection('users')
+      .find({ name: payload.name, tier: payload.tier })
+      .next();
+    if (result == null) return 404;
+    //detect account change
+    else if (result.name != payload.name || result.tier != payload.tier)
+      return 404;
+    if (result.lastJWT.token != token) return 404;
+
     return 204;
   } catch (err) {
+    console.error(err);
     return 404;
   }
 };
