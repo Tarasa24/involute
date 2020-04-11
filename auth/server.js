@@ -160,7 +160,6 @@ app.post('/updatePass/:name', async (req, res) => {
       if (!match) throw 403;
     } else if (payload.name !== req.params.name && payload.tier < 3) throw 403;
 
-    console.log(user.totp, user.newPass);
     user.totp = encrypt(user.totp, user.newPass);
     user.newPass = await bcrypt.hash(user.newPass, 12);
 
