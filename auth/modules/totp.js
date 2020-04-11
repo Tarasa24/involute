@@ -46,7 +46,7 @@ async function validate(totp, username, password, db) {
 
 function encrypt(totp, password) {
   const c = crypto.createCipher('aes-128-cbc', password);
-  var encrypted = c.update(totp, 'ascii', 'hex');
+  var encrypted = c.update(totp, 'utf8', 'hex');
   encrypted += c.final('hex');
 
   return encrypted;
