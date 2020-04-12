@@ -9,7 +9,8 @@ local httpc = http.new()
 local res, err = httpc:request_uri("http://127.0.0.1/api/auth/validateJWT", {
 	method = "POST",
 	headers = {
-		["Cookie"] = "Authorization=" .. ngx.var.cookie_Authorization
+		["Cookie"] = "Authorization=" .. ngx.var.cookie_Authorization,
+		["X-Real-IP"] = ngx.var.remote_addr
 	}
 })
 
