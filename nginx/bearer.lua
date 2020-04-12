@@ -6,7 +6,7 @@ end
 
 local http = require "resty.http"
 local httpc = http.new()
-local res, err = httpc:request_uri("http://127.0.0.1/api/auth/validateJWT", {
+local res, err = httpc:request_uri("http://auth:300/validateJWT", {
 	method = "POST",
 	headers = {
 		["Cookie"] = "Authorization=" .. ngx.var.cookie_Authorization,
