@@ -35,10 +35,7 @@ server.get('/novinky/:skip/:limit', async (req, res) => {
 });
 
 server.get('/partneri', async (req, res) => {
-  let result = await db
-    .collection('partneri')
-    .find()
-    .toArray();
+  let result = await db.collection('partneri').find().toArray();
   res.json(result);
 });
 
@@ -51,10 +48,7 @@ server.get('/hrac/:game/:name', async (req, res) => {
 });
 
 server.get('/links', async (req, res) => {
-  var result = await db
-    .collection('links')
-    .find({})
-    .toArray();
+  var result = await db.collection('links').find({}).toArray();
 
   res.json(result);
 });

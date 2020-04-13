@@ -9,8 +9,9 @@ function log(req, msg) {
   });
 
   console.log(
-    `[${now}] ${req.header('X-Real-IP') ||
-      '<missing X-Real-IP header>'}: ${msg}`
+    `[${now}] ${
+      req.header('X-Real-IP') || '<missing X-Real-IP header>'
+    }: ${msg}`
   );
 }
 

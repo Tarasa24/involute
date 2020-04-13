@@ -67,7 +67,7 @@ import {
   getData,
   postData,
   deleteData,
-  putData
+  putData,
 } from '../assets/js/dataFetcher';
 
 export default {
@@ -77,7 +77,7 @@ export default {
     return {
       data: {},
       randomPrice: this.randomNumber(50, 500, 2),
-      randomKs: this.randomNumber(50, 500, 0)
+      randomKs: this.randomNumber(50, 500, 0),
     };
   },
   async created() {
@@ -137,8 +137,8 @@ export default {
     },
     randomNumber(min, max, fixed) {
       return (Math.random() * (max - min) + min).toFixed(fixed);
-    }
-  }
+    },
+  },
 };
 </script>
 

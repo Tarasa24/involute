@@ -20,7 +20,7 @@
           )
         "
       />
-      <div v-else style="height: 200px" />
+      <div v-else style="height: 200px;" />
     </div>
     <br />
   </div>

@@ -92,24 +92,24 @@ import {
   getData,
   getTokenPayload,
   postAuthData,
-  deleteAuthData
+  deleteAuthData,
 } from '../assets/js/dataFetcher';
 
 export default {
   components: {
     VueNumberInput,
     EditPassword,
-    Edit2FA
+    Edit2FA,
   },
   props: {
     newUser: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   data() {
     return {
       user: { tier: 1, name: '', password: '' },
-      canEdit: { self: true, all: true }
+      canEdit: { self: true, all: true },
     };
   },
   async created() {
@@ -174,8 +174,8 @@ export default {
             ? '/api/auth/logout'
             : 'http://localhost:300/logout';
       else alert('Vyskytla se chyba');
-    }
-  }
+    },
+  },
 };
 </script>
 

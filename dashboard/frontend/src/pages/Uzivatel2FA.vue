@@ -24,10 +24,10 @@ export default {
     return {
       user: {
         name: this.$route.params.name,
-        totp: ''
+        totp: '',
       },
       tier: 0,
-      name: ''
+      name: '',
     };
   },
   async created() {
@@ -43,7 +43,7 @@ export default {
         '/updateTotp/' + this.$route.params.name,
         JSON.stringify({
           password: this.$refs['2FA'].pass,
-          totp: this.user.totp
+          totp: this.user.totp,
         })
       );
       if (result.status == 301 && this.user.name == this.name)
@@ -53,8 +53,8 @@ export default {
             : 'http://localhost:300/logout';
       else if (result.status == 301) this.$router.push('/uzivatele');
       else alert('Něco se pokazilo. Zkontroluje si prosím správnost hesla');
-    }
-  }
+    },
+  },
 };
 </script>
 

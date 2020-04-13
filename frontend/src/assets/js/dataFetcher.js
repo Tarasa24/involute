@@ -1,4 +1,5 @@
-const baseUrl = process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:8081';
+const baseUrl =
+  process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:8081';
 
 function pathMiddleware(path) {
   if (path.charAt(0) == '/') {
@@ -11,7 +12,7 @@ async function getData(path, options = { code: false, params: [] }) {
   path = pathMiddleware(path);
   var url = `${baseUrl}/${path}`;
 
-  options.params.forEach(e => {
+  options.params.forEach((e) => {
     url += `/${e}`;
   });
 

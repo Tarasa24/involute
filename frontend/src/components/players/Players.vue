@@ -6,8 +6,8 @@
       :key="game.name"
       :style="
         'background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url(' +
-          game.bg +
-          ')'
+        game.bg +
+        ')'
       "
     >
       <div>
@@ -75,10 +75,7 @@ export default {
   },
   methods: {
     url(game, player) {
-      let game_safe = game
-        .toLowerCase()
-        .replace(/:/g, '')
-        .replace(/ /g, '_');
+      let game_safe = game.toLowerCase().replace(/:/g, '').replace(/ /g, '_');
       return `/hrac/${game_safe}/${player}`;
     },
   },

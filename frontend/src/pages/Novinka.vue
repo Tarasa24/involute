@@ -5,8 +5,8 @@
       v-touch:swipe="swipeHandler"
       :style="
         'background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url(' +
-          novinka.bg +
-          ')'
+        novinka.bg +
+        ')'
       "
     >
       <span>

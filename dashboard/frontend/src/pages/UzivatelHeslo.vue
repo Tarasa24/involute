@@ -36,7 +36,7 @@ export default {
       user: { name: this.$route.params.name, totp: '' },
       password: '',
       tier: 1,
-      name: ''
+      name: '',
     };
   },
   async created() {
@@ -55,7 +55,7 @@ export default {
           JSON.stringify({
             oldPass: this.$refs.pass.pass0,
             newPass: this.password,
-            totp: this.user.totp
+            totp: this.user.totp,
           })
         );
 
@@ -67,8 +67,8 @@ export default {
         else if (result.status == 301) this.$router.push('/uzivatele');
         else alert('Něco se pokazilo. Zkontroluje si prosím správnost hesla');
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

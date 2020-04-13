@@ -7,7 +7,7 @@ function checkStatus(socket, status = {}) {
       : 'http://localhost/nginx_status';
   axios
     .get(url)
-    .then(res => {
+    .then((res) => {
       res = res.data.split('\n');
 
       const thirdRow = res[3]
@@ -29,7 +29,7 @@ function checkStatus(socket, status = {}) {
         checkStatus(socket, status);
       }, 1000);
     })
-    .catch(e => {
+    .catch((e) => {
       setTimeout(() => {
         checkStatus(socket, status);
       }, 10000);

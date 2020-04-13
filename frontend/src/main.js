@@ -35,7 +35,7 @@ const routes = [
   {
     path: '/novinky/:page?',
     component: Novinky,
-    props: route => ({ page: route.params.page || 1 }),
+    props: (route) => ({ page: route.params.page || 1 }),
   },
   { path: '/novinka/:id', component: Novinka },
   { path: '/hraci', component: Hraci },
@@ -58,6 +58,6 @@ const router = new VueRouter({
 });
 
 new Vue({
-  render: h => h(App),
+  render: (h) => h(App),
   router,
 }).$mount('#app');

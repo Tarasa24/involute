@@ -32,7 +32,7 @@ const routes = [
   {
     path: '/eshop/produkt/pridat',
     component: Produkt,
-    props: { newProdukt: true }
+    props: { newProdukt: true },
   },
   { path: '/eshop/produkt/:id', component: Produkt },
   { path: '/novinky', component: Novinky },

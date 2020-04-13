@@ -27,9 +27,9 @@ module.exports = async function validateUser(username, password, db) {
     });
   }
 
-  return new Promise(async function(resolve, reject) {
+  return new Promise(async function (resolve, reject) {
     getUser(username)
-      .then(userData => {
+      .then((userData) => {
         comparePass(password, userData.password)
           .then(() => {
             resolve(userData);
