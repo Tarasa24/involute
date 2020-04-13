@@ -17,14 +17,19 @@
       Produkty
     </h1>
 
-    <div class="row" v-for="produkt in produkty" :key="produkt.id">
-      <a class="name" :href="'/eshop/produkt/' + produkt._id">{{
-        produkt.name
-      }}</a>
-      <i>{{ produkt.sub }}</i>
-      <span>{{ Intl.NumberFormat().format(produkt.price) }} Kč</span>
-      <span>{{ Intl.NumberFormat().format(produkt.stock) }} ks</span>
-      <router-link :to="'/eshop/produkt/' + produkt._id" class="fas fa-edit" />
+    <div>
+      <div class="row" v-for="produkt in produkty" :key="produkt.id">
+        <a class="name" :href="'/eshop/produkt/' + produkt._id">{{
+          produkt.name
+        }}</a>
+        <i>{{ produkt.sub }}</i>
+        <span>{{ Intl.NumberFormat().format(produkt.price) }} Kč</span>
+        <span>{{ Intl.NumberFormat().format(produkt.stock) }} ks</span>
+        <router-link
+          :to="'/eshop/produkt/' + produkt._id"
+          class="fas fa-edit"
+        />
+      </div>
     </div>
 
     <div class="add">
