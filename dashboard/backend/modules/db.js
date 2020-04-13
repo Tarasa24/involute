@@ -33,6 +33,16 @@ async function deleteProdukt(req, res) {
   }
 }
 
+async function createProdukt(req, res) {
+  try {
+    let result = await db.collection('eshop-produkty').insertOne(req.body);
+    if (result === null) throw 400;
+    res.sendStatus(202);
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
 async function findNovinky(req, res) {
   const key = Object.keys(req.query)[0];
   var value;
@@ -169,6 +179,7 @@ async function stats(req, res) {
 module.exports = {
   replaceProdukt,
   deleteProdukt,
+  createProdukt,
   findNovinky,
   replaceNovinka,
   createNovinka,

@@ -29,6 +29,11 @@ const routes = [
   { path: '/', component: Home },
   { path: '/traffic', component: Traffic },
   { path: '/eshop', component: Eshop },
+  {
+    path: '/eshop/produkt/pridat',
+    component: Produkt,
+    props: { newProdukt: true }
+  },
   { path: '/eshop/produkt/:id', component: Produkt },
   { path: '/novinky', component: Novinky },
   { path: '/novinka/pridat', component: Novinka, props: { newArticle: true } },

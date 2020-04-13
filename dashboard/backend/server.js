@@ -22,6 +22,10 @@ server.delete('/produkt/:id', async (req, res) => {
   db.deleteProdukt(req, res);
 });
 
+server.put('/produkt', async (req, res) => {
+  db.createProdukt(req, res);
+});
+
 server.get('/novinky', async (req, res) => {
   db.findNovinky(req, res);
 });

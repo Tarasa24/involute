@@ -26,6 +26,11 @@
       <span>{{ Intl.NumberFormat().format(produkt.stock) }} ks</span>
       <router-link :to="'/eshop/produkt/' + produkt._id" class="fas fa-edit" />
     </div>
+
+    <div class="add">
+      <h2>Přidat nový</h2>
+      <router-link to="/eshop/produkt/pridat" class="fas fa-plus-circle" />
+    </div>
   </main>
 </template>
 
@@ -63,7 +68,7 @@ h1
   width: 80%
   margin: 0 auto
   padding: 10px
-  grid-template-columns: 150px auto 100px 120px 20px
+  grid-template-columns: 200px auto 100px 120px 20px
   border: 2px $grayOutline solid
   border-bottom-width: 0
   border-radius: 2px
@@ -75,21 +80,31 @@ h1
     border-bottom-width: 2px
 
   .name
+    padding-right: 5%
     &:hover
       font-weight: bold
+  i
+    padding-right: 5%
 
   .fas
     justify-self: center
     color: $purple
   @include small-device
     width: calc(95% - 20px)
+    grid-template-columns: auto 0 100px 120px 20px
     i
       font-size: 0
   @include small-device-portrait
-    grid-template-columns: 150px repeat(4, auto)
+    grid-template-columns: auto 0 0 0 auto
     span
       font-size: 0
     .fas
       justify-self: right
       padding-right: 5%
+
+.add
+  a
+    font-size: 5rem
+    color: $purple
+    margin-bottom: 15px
 </style>

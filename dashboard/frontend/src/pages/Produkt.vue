@@ -1,30 +1,61 @@
 <template>
   <main>
-    <div class="wrapper">
+    <form class="wrapper" @submit="handleSubmit">
       <div class="container" @click="handleClick">
         <img :src="data.img" :alt="data.name" />
-        <span><b>Změnit obrázek</b></span>
+        <span
+          :style="
+            +newProdukt && this.data.img == undefined
+              ? 'color: gray; opacity: 1; visibility: visible'
+              : ''
+          "
+        >
+          <b>Změnit obrázek</b>
+        </span>
       </div>
       <aside>
-        <input class="h1" type="text" v-model="data.name" />
-        <input class="h2" type="text" v-model="data.sub" />
-        <textarea v-model="data.text" />
+        <input
+          class="h1"
+          type="text"
+          v-model="data.name"
+          placeholder="Jméno produktu"
+          required
+        />
+        <input
+          class="h2"
+          type="text"
+          v-model="data.sub"
+          placeholder="Podnadpis"
+          required
+        />
+        <textarea v-model="data.text" placeholder="Popis" />
         <span>
           <b>Cena (v Kč):</b>
-          <input type="number" v-model="data.price" />
+          <input
+            type="number"
+            v-model="data.price"
+            :placeholder="randomPrice"
+            required
+          />
         </span>
         <span>
           <b>Počet kusů:</b>
-          <input type="number" v-model="data.stock" />
+          <input
+            type="number"
+            v-model="data.stock"
+            :placeholder="randomKs"
+            required
+          />
         </span>
 
         <div>
-          <button @click="handleSave">Uložit</button>
-          <button @click="handleDelete">Smazat</button>
+          <button type="submit">
+            {{ newProdukt ? 'Publikovat' : 'Uložit' }}
+          </button>
+          <button v-if="!newProdukt" @click="handleDelete">Smazat</button>
         </div>
-        <i class="notification" />
       </aside>
-    </div>
+    </form>
 
     <FileUpload ref="FileUpload" v-model="data.img" />
   </main>
@@ -32,39 +63,54 @@
 
 <script>
 import FileUpload from '../components/FileUpload';
-import { getData, postData, deleteData } from '../assets/js/dataFetcher';
+import {
+  getData,
+  postData,
+  deleteData,
+  putData
+} from '../assets/js/dataFetcher';
 
 export default {
+  props: { newProdukt: { type: Boolean } },
   components: { FileUpload },
   data() {
     return {
       data: {},
+      randomPrice: this.randomNumber(50, 500, 2),
+      randomKs: this.randomNumber(50, 500, 0)
     };
   },
   async created() {
-    this.$Progress.start();
-    this.data = await getData('/produkt/' + this.$route.params.id);
-    this.$Progress.finish();
+    if (!this.newProdukt) {
+      this.$Progress.start();
+      this.data = await getData('/produkt/' + this.$route.params.id);
+      this.$Progress.finish();
+    }
   },
   methods: {
-    async handleSave() {
+    async handleSubmit(event) {
+      event.preventDefault();
+
       const data = this.data;
       delete data._id;
 
       this.$Progress.start();
-      const result = await postData(
-        '/produkt/' + this.$route.params.id,
-        JSON.stringify(data)
-      );
+      let result;
+      if (this.newProdukt) {
+        result = await putData('/produkt', JSON.stringify(data));
+      } else {
+        result = await postData(
+          '/produkt/' + this.$route.params.id,
+          JSON.stringify(data)
+        );
+      }
 
       if (result.status == 202) {
         this.$Progress.finish();
-        document.querySelector('.notification').classList.add('anim');
-        document.querySelector('.notification').innerHTML = 'Úspěšně uloženo';
+        this.$router.push('/eshop');
       } else {
         this.$Progress.fail();
-        document.querySelector('.notification').classList.add('anim');
-        document.querySelector('.notification').innerHTML = 'Vyskytla se chyba';
+        alert('Vyskytla se chyba');
       }
     },
     async handleDelete() {
@@ -89,7 +135,10 @@ export default {
     handleClick() {
       this.$refs.FileUpload.open();
     },
-  },
+    randomNumber(min, max, fixed) {
+      return (Math.random() * (max - min) + min).toFixed(fixed);
+    }
+  }
 };
 </script>
 
@@ -141,6 +190,7 @@ textarea
     position: relative
     text-align: center
     color: white
+    min-height: 450px
     img
       width: 100%
       @include transition(filter)
@@ -184,15 +234,4 @@ textarea
       &:active
         position: relative
         top: 2px
-
-  .notification
-    @keyframes blink-animation
-      100%
-        opacity: 1
-      50%
-        opacity: 0
-      100%
-        opacity: 1
-    &.anim
-      animation: blink-animation 1.5s 3
 </style>
