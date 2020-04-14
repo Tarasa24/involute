@@ -13,6 +13,9 @@
       <router-link to="/novinky" title="Novinky">
         <i class="fas fa-newspaper" />Novinky
       </router-link>
+      <router-link to="/oceneni" title="Ocenění">
+        <i class="fas fa-trophy" />Ocenění
+      </router-link>
       <router-link to="/uzivatele" title="Uživatelé">
         <i class="fas fa-user-cog" />Uživatelé
       </router-link>

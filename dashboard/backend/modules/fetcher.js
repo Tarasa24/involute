@@ -8,7 +8,7 @@ module.exports = async function fetchFromFrontendApi(
   const url =
     process.env.NODE_ENV === 'production'
       ? 'http://backend:8081'
-      : 'http://localhost/api';
+      : 'http://localhost:8081';
 
   try {
     const result = await axios({

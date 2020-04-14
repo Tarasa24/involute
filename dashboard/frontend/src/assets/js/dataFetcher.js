@@ -48,7 +48,7 @@ async function deleteData(path, data) {
 
   var result = await fetch(url, {
     method: 'DELETE',
-    body: data || {},
+    body: data || '',
     headers: {
       'Content-Type': 'application/json',
     },

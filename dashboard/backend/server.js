@@ -42,6 +42,18 @@ server.delete('/novinka/:id', (req, res) => {
   db.deleteNovinka(req, res);
 });
 
+server.post('/oceneni/:id', (req, res) => {
+  db.replaceOceneni(req, res);
+});
+
+server.put('/oceneni', (req, res) => {
+  db.createOceneni(req, res);
+});
+
+server.delete('/oceneni/:id', (req, res) => {
+  db.deleteOceneni(req, res);
+});
+
 server.get('/uzivatele', (req, res) => {
   db.getUzivatele(req, res);
 });

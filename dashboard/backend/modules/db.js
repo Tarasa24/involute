@@ -123,6 +123,42 @@ async function deleteNovinka(req, res) {
   }
 }
 
+async function replaceOceneni(req, res) {
+  console.log(req.body);
+  try {
+    let result = await db
+      .collection('oceneni')
+      .replaceOne({ _id: ObjectId(req.params.id) }, req.body);
+    if (result === null) throw 400;
+    res.sendStatus(202);
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
+async function createOceneni(req, res) {
+  try {
+    let result = await db.collection('oceneni').insertOne(req.body);
+    if (result === null) throw 400;
+    res.sendStatus(202);
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
+async function deleteOceneni(req, res) {
+  try {
+    let result = await db
+      .collection('oceneni')
+      .deleteOne({ _id: ObjectId(req.params.id) });
+    if (result === null) throw 400;
+    res.sendStatus(202);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(400);
+  }
+}
+
 async function getUzivatele(req, res) {
   try {
     let result = await db
@@ -184,6 +220,9 @@ module.exports = {
   replaceNovinka,
   createNovinka,
   deleteNovinka,
+  replaceOceneni,
+  createOceneni,
+  deleteOceneni,
   getUzivatele,
   getUzivatel,
   stats,

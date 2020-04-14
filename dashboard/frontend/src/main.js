@@ -9,6 +9,7 @@ import Eshop from './pages/Eshop';
 import Produkt from './pages/Produkt';
 import Novinky from './pages/Novinky';
 import Novinka from './pages/Novinka';
+import Oceneni from './pages/Oceneni';
 import Uzivatele from './pages/Uzivatele';
 import UzivatelHeslo from './pages/UzivatelHeslo';
 import Uzivatel2FA from './pages/Uzivatel2FA';
@@ -38,6 +39,7 @@ const routes = [
   { path: '/novinky', component: Novinky },
   { path: '/novinka/pridat', component: Novinka, props: { newArticle: true } },
   { path: '/novinka/:id', component: Novinka },
+  { path: '/oceneni', component: Oceneni },
   { path: '/uzivatele', component: Uzivatele },
   { path: '/uzivatel/pridat', component: Uzivatel, props: { newUser: true } },
   { path: '/uzivatel/:name', component: Uzivatel },
