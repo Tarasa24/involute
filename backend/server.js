@@ -75,6 +75,16 @@ server.get('/oceneni', async (req, res) => {
   res.json(result);
 });
 
+server.get('/icons', async (req, res) => {
+  let result = await db
+    .collection('hry')
+    .find({ icon: { $ne: '' } })
+    .project({ _id: true, icon: true, name: true })
+    .toArray();
+  console.log(result);
+  res.json(result);
+});
+
 server.listen(port, () =>
   console.log(`<Website Backend server> listening on port ${port}`)
 );

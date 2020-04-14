@@ -8,21 +8,14 @@
     <div class="wrapper">
       <div class="row" v-for="oceneni in data" :key="oceneni._id">
         <img
-          :src="oceneni.game.img"
-          :title="oceneni.game.name"
-          :alt="oceneni.game.name"
+          :src="iconsObj[oceneni.game]"
+          :title="oceneni.game"
+          :alt="oceneni.game"
           class="game-icon"
         />
         <div class="award-info">
           <h1>{{ oceneni.title }}</h1>
-          <p class="date">{{ oceneni.date }}</p>
-          <a
-            v-if="oceneni['player/team'].url"
-            :href="oceneni['player/team'].url"
-          >
-            {{ oceneni['player/team'].name }}
-          </a>
-          <a v-else>{{ oceneni['player/team'].name }}</a>
+          <a>{{ oceneni.player }}</a>
         </div>
         <img
           v-if="placementObj[oceneni.placement] !== undefined"
@@ -51,11 +44,19 @@ export default {
         '2.': '/img/icons/ico_award_silver.png',
         '3.': '/img/icons/ico_award_bronze.png',
       },
+      iconsObj: {},
     };
   },
   async created() {
     this.$Progress.start();
     this.data = await getData('/oceneni');
+
+    const iconsArray = await getData('/icons');
+    var icons = {};
+    iconsArray.forEach(e => {
+      icons[e.name] = e.icon;
+    });
+    this.iconsObj = icons;
     this.$Progress.finish();
   },
 };
