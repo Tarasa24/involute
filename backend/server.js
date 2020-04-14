@@ -81,7 +81,6 @@ server.get('/icons', async (req, res) => {
     .find({ icon: { $ne: '' } })
     .project({ _id: true, icon: true, name: true })
     .toArray();
-  console.log(result);
   res.json(result);
 });
 
