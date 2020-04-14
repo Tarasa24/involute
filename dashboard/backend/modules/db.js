@@ -124,7 +124,6 @@ async function deleteNovinka(req, res) {
 }
 
 async function replaceOceneni(req, res) {
-  console.log(req.body);
   try {
     let result = await db
       .collection('oceneni')
