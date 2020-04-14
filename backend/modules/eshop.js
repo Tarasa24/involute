@@ -81,7 +81,7 @@ function objednat(req, res, db) {
 
   schema
     .validate(req.body, { strict: true })
-    .then(async (data) => {
+    .then(async data => {
       if (data.delivery.payment == 'Online kartou') {
         const paymentIntent = await stripe.paymentIntents.create({
           amount: data.totalPrice * 100,
@@ -113,7 +113,7 @@ function objednat(req, res, db) {
         res.status(200);
       }
     })
-    .catch((err) => {
+    .catch(err => {
       res.status(400);
       res.json(err.errors);
     });

@@ -17,7 +17,7 @@ async function getData(path, options = { code: false, params: [] }) {
   path = pathMiddleware(path);
   var url = `${baseUrl}/${path}`;
 
-  options.params.forEach((e) => {
+  options.params.forEach(e => {
     url += `/${e}`;
   });
 

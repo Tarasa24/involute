@@ -1,6 +1,8 @@
 <template>
   <aside>
-    <router-link to="/"><h1>iNvolute</h1></router-link>
+    <router-link to="/">
+      <h1>iNvolute</h1>
+    </router-link>
     <nav>
       <router-link to="/traffic" title="Traffic">
         <i class="fas fa-chart-line" />Traffic

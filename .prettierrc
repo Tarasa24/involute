@@ -4,5 +4,7 @@
   "semi": true,
   "singleQuote": true,
   "useTabs": false,
-  "endOfLine": "crlf"
+  "endOfLine": "crlf",
+  "arrowParens": "avoid",
+  "printWidth": 80
 }

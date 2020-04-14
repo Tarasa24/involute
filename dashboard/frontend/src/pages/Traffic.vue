@@ -59,7 +59,7 @@ export default {
       path: path,
     });
 
-    this.socket.on('status', (data) => {
+    this.socket.on('status', data => {
       this.connections = JSON.parse(data);
     });
   },

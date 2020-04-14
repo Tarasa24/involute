@@ -20,7 +20,7 @@
             <td>
               <input
                 type="number"
-                @change="(event) => handleChange(event, index)"
+                @change="event => handleChange(event, index)"
                 :value="polozka.amount"
               />
               <span class="fas fa-plus" @click="modify('+', index)" />
@@ -106,7 +106,7 @@ export default {
     totalHandle() {
       var totPrice = 0;
       var totAmount = 0;
-      this.basket.forEach((element) => {
+      this.basket.forEach(element => {
         totPrice += element.price * element.amount;
         totAmount += element.amount;
       });

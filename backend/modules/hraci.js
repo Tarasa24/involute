@@ -14,7 +14,7 @@ async function hrac(req, res, db) {
 
   var player = {};
   var found = false;
-  result.players.forEach((element) => {
+  result.players.forEach(element => {
     if (element.name.toLowerCase() == req.params.name.toLowerCase()) {
       player = element;
       found = true;
