@@ -72,6 +72,7 @@ main
   .row
     background-color: $dark
     width: $baselineWidth
+    height: 60px
     display: grid
     grid-template-columns: 80px auto 80px
     align-items: center
