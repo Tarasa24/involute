@@ -1,32 +1,63 @@
+const { ObjectId } = require('mongodb');
+
 async function hraci(req, res, db) {
-  let result = await db.collection('hraci').find().toArray();
-  res.json(result);
+  var games = await db
+    .collection('hry')
+    .find({ bg: { $ne: '' } })
+    .toArray();
+
+  // Loading all players in question
+  var players = [];
+  games.forEach(game => {
+    players = players.concat(game.players);
+  });
+  // Fetching
+  players = await db
+    .collection('hraci')
+    .find({ _id: { $in: players } })
+    .project({ _id: true, img: true, name: true, links: true })
+    .toArray();
+  // Putting them into object
+  playersObj = {};
+  players.forEach(player => {
+    const id = player._id;
+    delete player._id;
+    playersObj[id] = player;
+  });
+  // Replacing ids by players objects
+  for (let i = 0; i < games.length; i++) {
+    var arr = [];
+    games[i].players.forEach(id => {
+      arr.push(playersObj[id]);
+    });
+    games[i].players = arr;
+  }
+
+  res.json(games);
 }
 
 async function hrac(req, res, db) {
-  var result = await db
-    .collection('hraci')
-    .find({ name_safe: req.params.game })
-    .toArray();
+  try {
+    var player = await db
+      .collection('hraci')
+      .find({ name: req.params.name })
+      .next();
 
-  if (result.length == 0) return res.sendStatus(400);
-  result = result[0];
+    if (player == null) return res.sendStatus(400);
 
-  var player = {};
-  var found = false;
-  result.players.forEach(element => {
-    if (element.name.toLowerCase() == req.params.name.toLowerCase()) {
-      player = element;
-      found = true;
-    }
-  });
+    var games = await db
+      .collection('hry')
+      .find({ players: ObjectId(player._id), bg: { $ne: '' } })
+      .project({ name: true, bg: true })
+      .toArray();
 
-  if (!found) return res.sendStatus(400);
-
-  res.json({
-    game: { name: result.name, bg: result.bg },
-    player: player,
-  });
+    res.json({
+      game: games[Math.floor(Math.random() * games.length)],
+      player: player,
+    });
+  } catch (error) {
+    res.sendStatus(400);
+  }
 }
 
 module.exports = { hraci, hrac };

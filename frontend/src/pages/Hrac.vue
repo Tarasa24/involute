@@ -86,10 +86,9 @@ export default {
   },
   async created() {
     this.$Progress.start();
-    let game = this.$route.params.game;
     let name = this.$route.params.name;
 
-    let data = await getData('/hrac', { code: true, params: [game, name] });
+    let data = await getData('/hrac', { code: true, params: [name] });
 
     if (data !== 400) {
       this.player = data.player;

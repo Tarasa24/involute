@@ -43,7 +43,7 @@ server.get('/hraci', async (req, res) => {
   await hraci.hraci(req, res, db);
 });
 
-server.get('/hrac/:game/:name', async (req, res) => {
+server.get('/hrac/:name', async (req, res) => {
   await hraci.hrac(req, res, db);
 });
 

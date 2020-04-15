@@ -19,11 +19,8 @@
             v-for="player in game.players"
             :key="player.name"
           >
-            <router-link :to="url(game.name, player.name)">
-              <img
-                :src="'../img/players/' + player.name.toLowerCase() + '.png'"
-                :alt="player.name"
-              />
+            <router-link :to="'/hrac/' + player.name">
+              <img :src="player.img" :alt="player.name" />
 
               <br />
               <h2>
@@ -72,12 +69,6 @@ export default {
     this.$Progress.start();
     this.games = await getData('/hraci');
     this.$Progress.finish();
-  },
-  methods: {
-    url(game, player) {
-      let game_safe = game.toLowerCase().replace(/:/g, '').replace(/ /g, '_');
-      return `/hrac/${game_safe}/${player}`;
-    },
   },
 };
 </script>

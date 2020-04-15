@@ -39,7 +39,7 @@ const routes = [
   },
   { path: '/novinka/:id', component: Novinka },
   { path: '/hraci', component: Hraci },
-  { path: '/hrac/:game/:name', component: Hrac },
+  { path: '/hrac/:name', component: Hrac },
   { path: '/partneri', component: Partneri },
   { path: '/oceneni', component: Oceneni },
   { path: '/eshop', component: Eshop },
