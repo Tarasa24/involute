@@ -24,7 +24,7 @@ async function hraci(req, res, db) {
     delete player._id;
     playersObj[id] = player;
   });
-  // Replacing ids by players objects
+  // Replacing ids by the players objects
   for (let i = 0; i < games.length; i++) {
     var arr = [];
     games[i].players.forEach(id => {
