@@ -31,7 +31,7 @@
 
           <table>
             <tbody>
-              <tr v-for="(item, index) in player.sestava" :key="item">
+              <tr v-for="(item, index) in player.sestava" :key="index">
                 <td>{{ index }}</td>
                 <td>{{ item }}</td>
               </tr>
@@ -48,21 +48,36 @@
               v-if="player.links.facebook"
               class="fab fa-facebook-f"
               :href="player.links.facebook"
+              target="_blank"
+              rel="noopener noreferrer"
             />
             <a
               v-if="player.links.instagram"
               class="fab fa-instagram"
               :href="player.links.instagram"
+              target="_blank"
+              rel="noopener noreferrer"
             />
             <a
               v-if="player.links.twitch"
               class="fab fa-twitch"
               :href="player.links.twitch"
+              target="_blank"
+              rel="noopener noreferrer"
             />
             <a
               v-if="player.links.twitter"
               class="fab fa-twitter"
               :href="player.links.twitter"
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+            <a
+              v-if="player.links.web"
+              class="fas fa-link"
+              :href="player.links.web"
+              target="_blank"
+              rel="noopener noreferrer"
             />
           </div>
         </main>
@@ -77,8 +92,8 @@ import { getData } from '../assets/js/dataFetcher';
 export default {
   data() {
     return {
-      player: { name: '', sestava: {}, links: [] },
-      game: { name: '', bg: '' },
+      player: { sestava: {}, links: {} },
+      game: {},
     };
   },
   mounted() {
@@ -92,7 +107,7 @@ export default {
 
     if (data !== 400) {
       this.player = data.player;
-      this.game = data.game;
+      this.game = data.game || {};
     } else {
       this.$Progress.fail();
       this.$router.replace('/hraci');
@@ -165,6 +180,7 @@ export default {
     p
       line-height: 1.5rem
       margin: 0
+      white-space: pre-line
 
   td
     padding-bottom: 10px
