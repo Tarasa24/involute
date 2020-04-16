@@ -66,6 +66,26 @@ server.get('/dbstats', (req, res) => {
   db.stats(req, res);
 });
 
+server.get('/hraci', (req, res) => {
+  db.getHraci(req, res);
+});
+
+server.get('/hrac/:name', (req, res) => {
+  db.getHrac(req, res);
+});
+
+server.post('/hrac/:id', (req, res) => {
+  db.replaceHrac(req, res);
+});
+
+server.put('/hrac', (req, res) => {
+  db.createHrac(req, res);
+});
+
+server.delete('/hrac/:id', (req, res) => {
+  db.deleteHrac(req, res);
+});
+
 server.get('/*', async (req, res) => {
   const response = await fetchFromFrontendApi(req.url);
   if (response.error) {

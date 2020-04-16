@@ -22,8 +22,11 @@
       <router-link to="/databaze" title="Databáze">
         <i class="fas fa-database" />Databáze
       </router-link>
-      <router-link to="/hry_hraci" class="tab">
-        <i class="fas fa-gamepad" />Hry/Hráči
+      <router-link to="/hraci" class="tab">
+        <i class="fas fa-user-friends" />Hráči
+      </router-link>
+      <router-link to="/hry" class="tab">
+        <i class="fas fa-gamepad" />Hry
       </router-link>
       <router-link to="/partneri" class="tab">
         <i class="fas fa-handshake" />Partneři

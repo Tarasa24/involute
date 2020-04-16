@@ -15,6 +15,8 @@ import UzivatelHeslo from './pages/UzivatelHeslo';
 import Uzivatel2FA from './pages/Uzivatel2FA';
 import Uzivatel from './pages/Uzivatel';
 import Databaze from './pages/Databaze';
+import Hraci from './pages/Hraci';
+import Hrac from './pages/Hrac';
 import NotFound from './pages/NotFound';
 
 Vue.config.productionTip = false;
@@ -46,6 +48,9 @@ const routes = [
   { path: '/uzivatel/:name/heslo', component: UzivatelHeslo },
   { path: '/uzivatel/:name/2FA', component: Uzivatel2FA },
   { path: '/databaze', component: Databaze },
+  { path: '/hraci', component: Hraci },
+  { path: '/hrac/pridat', component: Hrac, props: { newPlayer: true } },
+  { path: '/hrac/:name', component: Hrac },
   { path: '/*', component: NotFound },
 ];
 const router = new VueRouter({

@@ -211,6 +211,69 @@ async function stats(req, res) {
   }
 }
 
+async function getHraci(req, res) {
+  try {
+    let result = await db
+      .collection('hraci')
+      .find({})
+      .project({ _id: true, name: true, img: true })
+      .toArray();
+    if (result === null) throw 400;
+    res.json(result);
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
+async function getHrac(req, res) {
+  try {
+    let result = await db
+      .collection('hraci')
+      .find({ name: req.params.name })
+      .next();
+    if (result === null) throw 400;
+    res.json(result);
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
+async function replaceHrac(req, res) {
+  try {
+    let result = await db
+      .collection('hraci')
+      .replaceOne({ _id: ObjectId(req.params.id) }, req.body);
+    if (result === null) throw 400;
+    res.sendStatus(202);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(400);
+  }
+}
+
+async function createHrac(req, res) {
+  try {
+    let result = await db.collection('hraci').insertOne(req.body);
+    if (result === null) throw 400;
+    res.sendStatus(202);
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
+async function deleteHrac(req, res) {
+  try {
+    let result = await db
+      .collection('hraci')
+      .deleteOne({ _id: ObjectId(req.params.id) });
+    if (result === null) throw 400;
+    res.sendStatus(202);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(400);
+  }
+}
+
 module.exports = {
   replaceProdukt,
   deleteProdukt,
@@ -225,4 +288,9 @@ module.exports = {
   getUzivatele,
   getUzivatel,
   stats,
+  getHraci,
+  getHrac,
+  replaceHrac,
+  createHrac,
+  deleteHrac,
 };
