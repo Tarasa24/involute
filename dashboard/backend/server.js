@@ -86,6 +86,30 @@ server.delete('/hrac/:id', (req, res) => {
   db.deleteHrac(req, res);
 });
 
+server.get('/hry', (req, res) => {
+  db.getHry(req, res);
+});
+
+server.post('/hra/:gameId/soupiska', (req, res) => {
+  db.pushPlayerToList(req, res);
+});
+
+server.delete('/hra/:gameId/soupiska', (req, res) => {
+  db.popPlayerFromList(req, res);
+});
+
+server.post('/hra/:gameId/:key', (req, res) => {
+  db.replaceGameKey(req, res);
+});
+
+server.put('/hra', (req, res) => {
+  db.createHra(req, res);
+});
+
+server.delete('/hra/:id', (req, res) => {
+  db.deleteHra(req, res);
+});
+
 server.get('/*', async (req, res) => {
   const response = await fetchFromFrontendApi(req.url);
   if (response.error) {

@@ -216,7 +216,11 @@ async function getHraci(req, res) {
     let result = await db
       .collection('hraci')
       .find({})
-      .project({ _id: true, name: true, img: true })
+      .project(
+        req.query.img
+          ? { _id: true, name: true }
+          : { _id: true, name: true, img: true }
+      )
       .toArray();
     if (result === null) throw 400;
     res.json(result);
@@ -274,6 +278,107 @@ async function deleteHrac(req, res) {
   }
 }
 
+async function getHry(req, res) {
+  try {
+    let games = await db.collection('hry').find({}).toArray();
+
+    // Loading all players in question
+    var players = [];
+    games.forEach(game => {
+      players = players.concat(game.players);
+    });
+    // Fetching
+    players = await db
+      .collection('hraci')
+      .find({ _id: { $in: players } })
+      .project({ sestava: false, links: false, text: false, img: false })
+      .toArray();
+    // Putting them into object
+    playersObj = {};
+    players.forEach(player => {
+      playersObj[player._id] = player;
+    });
+    // Replacing ids by the players objects
+    for (let i = 0; i < games.length; i++) {
+      var arr = [];
+      games[i].players.forEach(id => {
+        arr.push(playersObj[id]);
+      });
+      games[i].players = arr;
+    }
+
+    res.json(games);
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
+async function pushPlayerToList(req, res) {
+  try {
+    await db
+      .collection('hry')
+      .updateOne(
+        { _id: ObjectId(req.params.gameId) },
+        { $push: { players: ObjectId(req.body.playerId) } }
+      );
+    res.sendStatus(202);
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
+async function popPlayerFromList(req, res) {
+  try {
+    await db
+      .collection('hry')
+      .updateOne(
+        { _id: ObjectId(req.params.gameId) },
+        { $pull: { players: ObjectId(req.body.playerId) } }
+      );
+    res.sendStatus(202);
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
+async function replaceGameKey(req, res) {
+  try {
+    await db
+      .collection('hry')
+      .updateOne(
+        { _id: ObjectId(req.params.gameId) },
+        { $set: { [req.params.key]: req.body[req.params.key] } }
+      );
+    res.sendStatus(202);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(400);
+  }
+}
+
+async function createHra(req, res) {
+  try {
+    let result = await db.collection('hry').insertOne(req.body);
+    if (result === null) throw 400;
+    res.status(202).json({ id: result.insertedId });
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
+async function deleteHra(req, res) {
+  try {
+    let result = await db
+      .collection('hry')
+      .deleteOne({ _id: ObjectId(req.params.id) });
+    if (result === null) throw 400;
+    res.sendStatus(202);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(400);
+  }
+}
+
 module.exports = {
   replaceProdukt,
   deleteProdukt,
@@ -293,4 +398,10 @@ module.exports = {
   replaceHrac,
   createHrac,
   deleteHrac,
+  getHry,
+  pushPlayerToList,
+  popPlayerFromList,
+  replaceGameKey,
+  createHra,
+  deleteHra,
 };

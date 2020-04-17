@@ -17,6 +17,7 @@ import Uzivatel from './pages/Uzivatel';
 import Databaze from './pages/Databaze';
 import Hraci from './pages/Hraci';
 import Hrac from './pages/Hrac';
+import Hry from './pages/Hry';
 import NotFound from './pages/NotFound';
 
 Vue.config.productionTip = false;
@@ -51,6 +52,7 @@ const routes = [
   { path: '/hraci', component: Hraci },
   { path: '/hrac/pridat', component: Hrac, props: { newPlayer: true } },
   { path: '/hrac/:name', component: Hrac },
+  { path: '/hry', component: Hry },
   { path: '/*', component: NotFound },
 ];
 const router = new VueRouter({
