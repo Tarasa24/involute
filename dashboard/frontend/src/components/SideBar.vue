@@ -4,22 +4,22 @@
       <h1>iNvolute</h1>
     </router-link>
     <nav>
-      <router-link to="/traffic" title="Traffic">
+      <router-link to="/traffic">
         <i class="fas fa-chart-line" />Traffic
       </router-link>
-      <router-link to="/eshop" title="Eshop">
+      <router-link to="/eshop">
         <i class="fas fa-shopping-basket" />Eshop
       </router-link>
-      <router-link to="/novinky" title="Novinky">
+      <router-link to="/novinky">
         <i class="fas fa-newspaper" />Novinky
       </router-link>
-      <router-link to="/oceneni" title="Ocenění">
+      <router-link to="/oceneni">
         <i class="fas fa-trophy" />Ocenění
       </router-link>
-      <router-link to="/uzivatele" title="Uživatelé">
+      <router-link to="/uzivatele">
         <i class="fas fa-user-cog" />Uživatelé
       </router-link>
-      <router-link to="/databaze" title="Databáze">
+      <router-link to="/databaze">
         <i class="fas fa-database" />Databáze
       </router-link>
       <router-link to="/hraci" class="tab">
@@ -69,6 +69,12 @@ nav
   grid-template-columns: auto
   grid-auto-rows: 50px
   text-align: left
+  position: sticky
+  top: 0
+  max-height: 100vh
+  overflow-y: auto
+  @include scrollbar(5px, $grayOutline)
+
   a
     padding: 4% 5%
     font-size: 1.2rem
@@ -87,17 +93,20 @@ nav
       letter-spacing: .4rem
 
     @include medium-device
-      font-size: 0
+      font-size: .8rem
       display: grid
       align-items: center
       justify-items: center
       i
         font-size: 1.7rem
+        margin: 0
       &:hover
         letter-spacing: 0
 
   .tab
     padding-left: 12%
     @include medium-device
-      display: none
+      i
+        font-size: 1.2rem
+      padding-left: 0
 </style>

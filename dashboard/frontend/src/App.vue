@@ -43,13 +43,14 @@ a
   grid-template-rows: calc( 38px + 2 * 7.5px ) auto
   grid-template-areas: "sidebar topnav" "sidebar main"
   @include medium-device
-    grid-template-columns: 50px auto
+    grid-template-columns: 65px auto
 
 .topnav
   grid-area: topnav
 
 .sidebar
   grid-area: sidebar
+
 .main
   padding: 2%
   grid-area: main
