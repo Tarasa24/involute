@@ -66,11 +66,29 @@ server.post('/objednat', (req, res) => {
 });
 
 server.get('/oceneni', async (req, res) => {
-  var result = await db
+  const oceneni = await db
     .collection('oceneni')
     .find({})
     .sort({ _id: -1 })
     .toArray();
+
+  const hry = await db
+    .collection('hry')
+    .find({})
+    .project({ _id: true, name: true })
+    .toArray();
+
+  hryObj = {};
+
+  hry.forEach(hra => {
+    hryObj[hra._id] = hra.name;
+  });
+
+  result = oceneni;
+
+  oceneni.forEach((e, index) => {
+    result[index].game = hryObj[e.game];
+  });
 
   res.json(result);
 });

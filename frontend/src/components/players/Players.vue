@@ -21,8 +21,6 @@
           >
             <router-link :to="'/hrac/' + player.name">
               <img :src="player.img" :alt="player.name" />
-
-              <br />
               <h2>
                 {{ player.name }}
               </h2>
@@ -32,21 +30,36 @@
                 v-if="player.links.facebook"
                 class="fab fa-facebook-f"
                 :href="player.links.facebook"
+                target="_blank"
+                rel="noopener noreferrer"
               />
               <a
                 v-if="player.links.instagram"
                 class="fab fa-instagram"
                 :href="player.links.instagram"
+                target="_blank"
+                rel="noopener noreferrer"
               />
               <a
                 v-if="player.links.twitch"
                 class="fab fa-twitch"
                 :href="player.links.twitch"
+                target="_blank"
+                rel="noopener noreferrer"
               />
               <a
                 v-if="player.links.twitter"
                 class="fab fa-twitter"
                 :href="player.links.twitter"
+                target="_blank"
+                rel="noopener noreferrer"
+              />
+              <a
+                v-if="player.links.web"
+                class="fas fa-link"
+                :href="player.links.web"
+                target="_blank"
+                rel="noopener noreferrer"
               />
             </span>
           </div>
@@ -109,23 +122,32 @@ export default {
         width: 100%
 
     .portraits
-      display: inline-flex
+      display: flex
       overflow: auto
       @include scrollbar(5px, gray, transparent)
+      @include small-device
+        margin: 0 20px
       .portrait
         margin: 0 10px 25px 0
+        min-height: 300px
+        width: 165px
+        min-width: 165px
+        @include small-device-landscape
+          width: 125px
         img
-          width: 165px
-          @include small-device-landscape
-            width: 125px
-        a
+          width: 100%
+        a, .fab, .fas
           font-size: 17px
           color: $textGray
           text-decoration: none
-          margin: 0 10px
+        span
+          display: flex
+          width: 80%
+          margin: 0 auto
+        .fab, .fas
+          display: inline-flex
+          margin: 0 auto
           @include transition(color)
           &:hover
             color: $purple
-          @include small-device-landscape
-            margin: 0 5px
 </style>

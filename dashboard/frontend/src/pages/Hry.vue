@@ -7,8 +7,8 @@
       :id="game.name"
       :style="
         'background: linear-gradient(0deg, rgba(0,0,0,0.55), rgba(0,0,0,0.6)), url(' +
-          game.bg +
-          ')'
+        game.bg +
+        ')'
       "
     >
       <i
@@ -49,6 +49,7 @@
           placeholder="Název hry"
           v-model="game.name"
           required
+          @change="event => handleChange(game._id, event)"
         />
       </div>
 
@@ -79,8 +80,8 @@
       id="new"
       :style="
         'background: linear-gradient(0deg, rgba(0,0,0,0.55), rgba(0,0,0,0.6)), url(' +
-          newGame.bg +
-          ')'
+        newGame.bg +
+        ')'
       "
       @submit="handleSubmit"
     >
@@ -222,10 +223,24 @@ export default {
     async handleDelete(gameIndex) {
       const gameId = this.games[gameIndex]._id;
 
-      const result = await deleteData(`/hra/${gameId}`);
+      if (confirm('Opravdu chete tuto hru smazat?')) {
+        const result = await deleteData(`/hra/${gameId}`);
 
-      if (result.status === 202) this.games.splice(gameIndex, 1);
-      else alert('Vyskytla se chyba');
+        if (result.status === 202) this.games.splice(gameIndex, 1);
+        else alert('Vyskytla se chyba');
+      }
+    },
+    async handleChange(gameId, event) {
+      const result = await postData(
+        `/hra/${gameId}/name`,
+        JSON.stringify({ name: event.target.value })
+      );
+      if (result.status !== 202) alert('Vyskytla se chyba');
+
+      event.target.classList.add('flash');
+      setTimeout(() => {
+        event.target.classList.remove('flash');
+      }, 1000);
     },
   },
 };
@@ -263,8 +278,8 @@ export default {
       color: $deleteRed
 
 .title
-  width: 100%
-  margin: 12.5vh 0
+  width: 90%
+  margin: 12.5vh auto
   img, .icon
     width: 60px
     cursor: pointer
@@ -323,4 +338,16 @@ h2
 
 button[type="submit"]
   @include btn($acceptGreen)
+</style>
+
+<style lang="sass" scoped>
+.flash
+  animation: flash 1s ease
+@keyframes flash
+  0%
+    color: white
+  45%, 55%
+    color: $acceptGreen
+  100%
+    color: white
 </style>
