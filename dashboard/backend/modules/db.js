@@ -379,6 +379,42 @@ async function deleteHra(req, res) {
   }
 }
 
+async function replacePartner(req, res) {
+  try {
+    let result = await db
+      .collection('partneri')
+      .replaceOne({ _id: ObjectId(req.params.id) }, req.body);
+    if (result === null) throw 400;
+    res.sendStatus(202);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(400);
+  }
+}
+
+async function deletePartner(req, res) {
+  try {
+    let result = await db
+      .collection('partneri')
+      .deleteOne({ _id: ObjectId(req.params.id) });
+    if (result === null) throw 400;
+    res.sendStatus(202);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(400);
+  }
+}
+
+async function createPartner(req, res) {
+  try {
+    let result = await db.collection('partneri').insertOne(req.body);
+    if (result === null) throw 400;
+    res.status(202).json({ id: result.insertedId });
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
 async function replaceOdkaz(req, res) {
   try {
     let result = await db
@@ -440,6 +476,9 @@ module.exports = {
   replaceGameKey,
   createHra,
   deleteHra,
+  replacePartner,
+  deletePartner,
+  createPartner,
   replaceOdkaz,
   deleteOdkaz,
   createOdkaz,

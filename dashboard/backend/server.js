@@ -110,6 +110,18 @@ server.delete('/hra/:id', (req, res) => {
   db.deleteHra(req, res);
 });
 
+server.post('/partner/:id', (req, res) => {
+  db.replacePartner(req, res);
+});
+
+server.delete('/partner/:id', (req, res) => {
+  db.deletePartner(req, res);
+});
+
+server.put('/partner', (req, res) => {
+  db.createPartner(req, res);
+});
+
 server.post('/odkaz/:id', (req, res) => {
   db.replaceOdkaz(req, res);
 });
