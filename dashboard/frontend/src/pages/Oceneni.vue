@@ -94,6 +94,13 @@ export default {
       const _id = oceneni._id;
       delete oceneni._id;
 
+      for (let i = 0; i < this.icons.length; i++) {
+        if (this.icons[i].name === oceneni.game) {
+          oceneni.game = this.icons[i]._id;
+          break;
+        }
+      }
+
       const response = await postData(
         '/oceneni/' + _id,
         JSON.stringify(oceneni)
