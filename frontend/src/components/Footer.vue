@@ -69,33 +69,27 @@ export default {
       margin-bottom: 75px
 
   .links
-    display: inline-flex
+    display: grid
+    width: $baselineWidth
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr))
+    margin: 0 auto
     margin-bottom: 80px
-    @include small-device-portrait
-      display: grid
-      margin: 0 10%
-    @include small-device-landscape
-      width: 100%
-      overflow: scroll
-      @include scrollbar(5px, gray, transparent)
+    @include large-device
+      width: 90%
     a
       text-decoration: none
       color: unset
-      padding: 0 90px
       border-bottom: 5px solid black
+      padding-bottom: 40px
       @include transition(border-bottom-color)
-      @include large-device
-        padding: 0 20px
       @include small-device
-        margin-bottom: 5%
-
+        padding: 20px
       b
         color: $purple
         font-size: 35px
       p
         color: $textGray
         margin: 0
-        padding-bottom: 40px
       &:hover
         border-bottom-color: $purple
 
