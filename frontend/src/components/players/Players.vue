@@ -125,8 +125,9 @@ export default {
       display: flex
       overflow: auto
       @include scrollbar(5px, gray, transparent)
-      @include small-device
-        margin: 0 20px
+      @include large-device
+        width: 95%
+        margin: 0 auto
       .portrait
         margin: 0 10px 25px 0
         min-height: 300px
