@@ -110,6 +110,18 @@ server.delete('/hra/:id', (req, res) => {
   db.deleteHra(req, res);
 });
 
+server.post('/odkaz/:id', (req, res) => {
+  db.replaceOdkaz(req, res);
+});
+
+server.delete('/odkaz/:id', (req, res) => {
+  db.deleteOdkaz(req, res);
+});
+
+server.put('/odkaz', (req, res) => {
+  db.createOdkaz(req, res);
+});
+
 server.get('/*', async (req, res) => {
   const response = await fetchFromFrontendApi(req.url);
   if (response.error) {

@@ -379,6 +379,42 @@ async function deleteHra(req, res) {
   }
 }
 
+async function replaceOdkaz(req, res) {
+  try {
+    let result = await db
+      .collection('links')
+      .replaceOne({ _id: ObjectId(req.params.id) }, req.body);
+    if (result === null) throw 400;
+    res.sendStatus(202);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(400);
+  }
+}
+
+async function deleteOdkaz(req, res) {
+  try {
+    let result = await db
+      .collection('links')
+      .deleteOne({ _id: ObjectId(req.params.id) });
+    if (result === null) throw 400;
+    res.sendStatus(202);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(400);
+  }
+}
+
+async function createOdkaz(req, res) {
+  try {
+    let result = await db.collection('links').insertOne(req.body);
+    if (result === null) throw 400;
+    res.status(202).json({ id: result.insertedId });
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
 module.exports = {
   replaceProdukt,
   deleteProdukt,
@@ -404,4 +440,7 @@ module.exports = {
   replaceGameKey,
   createHra,
   deleteHra,
+  replaceOdkaz,
+  deleteOdkaz,
+  createOdkaz,
 };
