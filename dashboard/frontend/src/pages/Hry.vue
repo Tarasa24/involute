@@ -121,29 +121,6 @@
           required
         />
       </div>
-
-      <h2>Soupiska</h2>
-      <table class="players">
-        <tbody>
-          <tr
-            v-for="(player, playerIndex) in newGame.players"
-            :key="player._id"
-          >
-            <td>{{ player.name }}</td>
-            <td @click="handlePlayerRemove(undefined, playerIndex)">
-              <i class="fas fa-times" />
-            </td>
-          </tr>
-
-          <tr class="spacer">
-            <td colspan="2"></td>
-          </tr>
-          <PlayerList
-            :players="filterPlayers(allPlayers, newGame.players)"
-            :playersPointer="newGame.players"
-          />
-        </tbody>
-      </table>
       <button type="submit">Uložit</button>
     </form>
   </main>
@@ -283,7 +260,7 @@ export default {
 
 .title
   width: 90%
-  margin: 12.5vh auto
+  margin: 7vh auto
   img, .icon
     width: 60px
     cursor: pointer
