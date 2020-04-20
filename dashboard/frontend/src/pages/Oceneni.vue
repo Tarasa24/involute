@@ -1,5 +1,7 @@
 <template>
   <main>
+    <h1>Ocenění</h1>
+
     <div class="wrapper">
       <form class="row new" @submit="handleSave">
         <GameIcon v-model="newOceneni.game" :icons="icons" />

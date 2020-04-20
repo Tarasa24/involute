@@ -1,20 +1,23 @@
 <template>
   <main>
-    <router-link to="/hrac/pridat" class="hrac add">
-      <a class="fas fa-plus" />
-    </router-link>
+    <h1>Hráči</h1>
+    <div>
+      <router-link to="/hrac/pridat" class="hrac add">
+        <a class="fas fa-plus" />
+      </router-link>
 
-    <router-link
-      :to="'/hrac/' + hrac.name"
-      class="hrac"
-      v-for="hrac in hraci"
-      :key="hrac._id"
-      :style="`background: url(${hrac.img}), white`"
-    >
-      <span>
-        <a>{{ hrac.name }}</a>
-      </span>
-    </router-link>
+      <router-link
+        :to="'/hrac/' + hrac.name"
+        class="hrac"
+        v-for="hrac in hraci"
+        :key="hrac._id"
+        :style="`background: url(${hrac.img}), white`"
+      >
+        <span>
+          <a>{{ hrac.name }}</a>
+        </span>
+      </router-link>
+    </div>
   </main>
 </template>
 
@@ -36,7 +39,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-main
+div
   display: grid
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr))
   grid-gap: 10px

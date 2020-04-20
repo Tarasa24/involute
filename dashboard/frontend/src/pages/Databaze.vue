@@ -1,5 +1,7 @@
 <template>
   <main>
+    <h1>Databáze</h1>
+
     <div class="wrapper">
       <Box
         title="Počet kolekcí"

@@ -1,5 +1,6 @@
 <template>
   <main>
+    <h1>Eshop</h1>
     <div class="wrapper">
       <router-link to="/eshop/vyrizene">
         <Box title="Vyřízených objednávek" icon="fas fa-check" :number="0" />

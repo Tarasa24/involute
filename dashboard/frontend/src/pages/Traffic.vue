@@ -1,5 +1,7 @@
 <template>
   <main>
+    <h1>Traffic</h1>
+
     <div class="wrapper">
       <Box
         title="Active connections"

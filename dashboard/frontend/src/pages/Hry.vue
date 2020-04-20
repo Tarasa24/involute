@@ -1,5 +1,7 @@
 <template>
   <main>
+    <h1>Seznam her</h1>
+
     <div
       v-for="(game, gameIndex) in games"
       :key="game._id"
@@ -74,6 +76,8 @@
         </tbody>
       </table>
     </div>
+
+    <h1>Přidat hru</h1>
 
     <form
       class="game"

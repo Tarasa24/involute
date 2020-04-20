@@ -1,5 +1,6 @@
 <template>
   <main>
+    <h1>Novinky</h1>
     <div>
       <div class="header">
         <h2>Přidat nový článek</h2>
