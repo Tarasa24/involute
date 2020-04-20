@@ -1,9 +1,15 @@
 <template>
-  <main>404</main>
+  <main>
+    <h1>404</h1>
+  </main>
 </template>
 
 <script>
 export default {};
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="sass" scoped>
+main
+  display: grid
+  align-items: center
+</style>
