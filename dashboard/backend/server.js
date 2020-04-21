@@ -122,6 +122,18 @@ server.put('/partner', (req, res) => {
   db.createPartner(req, res);
 });
 
+server.post('/sponzor/:id', (req, res) => {
+  db.replaceSponsor(req, res);
+});
+
+server.delete('/sponzor/:id', (req, res) => {
+  db.deleteSponsor(req, res);
+});
+
+server.put('/sponzor', (req, res) => {
+  db.createSponsor(req, res);
+});
+
 server.post('/odkaz/:id', (req, res) => {
   db.replaceOdkaz(req, res);
 });

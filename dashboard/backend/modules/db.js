@@ -415,6 +415,42 @@ async function createPartner(req, res) {
   }
 }
 
+async function replaceSponsor(req, res) {
+  try {
+    let result = await db
+      .collection('sponzori')
+      .replaceOne({ _id: ObjectId(req.params.id) }, req.body);
+    if (result === null) throw 400;
+    res.sendStatus(202);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(400);
+  }
+}
+
+async function deleteSponsor(req, res) {
+  try {
+    let result = await db
+      .collection('sponzori')
+      .deleteOne({ _id: ObjectId(req.params.id) });
+    if (result === null) throw 400;
+    res.sendStatus(202);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(400);
+  }
+}
+
+async function createSponsor(req, res) {
+  try {
+    let result = await db.collection('sponzori').insertOne(req.body);
+    if (result === null) throw 400;
+    res.status(202).json({ id: result.insertedId });
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
 async function replaceOdkaz(req, res) {
   try {
     let result = await db
@@ -479,6 +515,9 @@ module.exports = {
   replacePartner,
   deletePartner,
   createPartner,
+  replaceSponsor,
+  deleteSponsor,
+  createSponsor,
   replaceOdkaz,
   deleteOdkaz,
   createOdkaz,

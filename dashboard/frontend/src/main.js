@@ -20,6 +20,7 @@ import Hraci from './pages/Hraci';
 import Hrac from './pages/Hrac';
 import Hry from './pages/Hry';
 import Partneri from './pages/Partneri';
+import Sponzori from './pages/Sponzori';
 import Odkazy from './pages/Odkazy';
 import NotFound from './pages/NotFound';
 
@@ -59,6 +60,7 @@ const routes = [
   { path: '/hrac/:name', component: Hrac },
   { path: '/hry', component: Hry },
   { path: '/partneri', component: Partneri },
+  { path: '/sponzori', component: Sponzori },
   { path: '/odkazy', component: Odkazy },
   { path: '/*', component: NotFound },
 ];
