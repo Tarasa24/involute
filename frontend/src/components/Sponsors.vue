@@ -2,68 +2,40 @@
   <div class="wrapper">
     <div class="sponsors">
       <a
-        href="https://zowie.benq.com/"
+        v-for="sponsor in sponsors"
+        :key="sponsor._id"
+        :href="sponsor.url"
+        :title="sponsor.name"
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img src="../assets/img/sponsors/zowie.png" alt="Zowie logo" />
-      </a>
-      <a
-        href="https://steelseries.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          src="../assets/img/sponsors/steelseries.png"
-          alt="Steelseries logo"
-        />
-      </a>
-      <a
-        href="https://ultimateguard.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          src="../assets/img/sponsors/ultimate-guard.png"
-          alt="Ultimate Guard logo"
-        />
-      </a>
-      <a
-        href="https://www.fantomprint.cz/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          src="../assets/img/sponsors/fantomprint.png"
-          alt="Fantomprint logo"
-        />
-      </a>
-      <a
-        href="http://www.gigabyte.cz/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img src="../assets/img/sponsors/gigabyte.png" alt="Gigabyte logo" />
-      </a>
-      <a
-        href="https://www.aorus.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img src="../assets/img/sponsors/aorus.png" alt="Aorus logo" />
+        <img :src="sponsor.img" :alt="'${sponsor.name} logo'" />
       </a>
     </div>
   </div>
 </template>
 
 <script>
+import { getData } from '../assets/js/dataFetcher';
+
 export default {
-  created() {
+  data() {
+    return {
+      sponsors: [],
+    };
+  },
+  mounted() {
     window.addEventListener('scroll', this.handleScroll);
   },
   destroyed() {
     window.removeEventListener('scroll', this.handleScroll);
   },
+  async created() {
+    this.$Progress.start();
+    this.sponsors = await getData('/sponzori');
+    this.$Progress.finish();
+  },
+
   methods: {
     handleScroll() {
       const el = document.getElementsByClassName('wrapper')[1];
@@ -81,7 +53,6 @@ export default {
 
 <style lang="sass" scoped>
 .wrapper
-  height: 100px
   display: grid
   justify-self: center
   justify-items: center
@@ -96,19 +67,25 @@ export default {
 .sponsors
   width: $baselineWidth
   display: grid
-  grid-template-columns: repeat(6, 1fr)
-  column-gap: 4vw
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr))
+  column-gap: 20px
   align-items: center
   @include large-device
-    width: 100%
+    padding: 0 20px
+    width: calc(100% - 40px)
+  @include small-device
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr))
   img
-    padding: 5px 0
-    object-fit: cover
-    width: 100%
-    filter: brightness(75%)
-    @include transition(filter)
+    width: auto
+    max-width: 100%
+    filter: brightness(0) invert(1)
+    opacity: .95
+    @include transition(opacity)
     &:hover
-      filter: brightness(100%)
+      opacity: .7
+    @include small-device
+      padding: 5px 0
+      max-height: 35px
 
 .sticky
   position: sticky

@@ -102,6 +102,14 @@ server.get('/icons', async (req, res) => {
   res.json(result);
 });
 
+server.get('/sponzori', async (req, res) => {
+  let result = await db
+    .collection('sponzori')
+    .find({ img: { $ne: '' } })
+    .toArray();
+  res.json(result);
+});
+
 server.listen(port, () =>
   console.log(`<Website Backend server> listening on port ${port}`)
 );
