@@ -11,7 +11,7 @@
         <img :src="partner.img" :alt="partner.name" />
         <span
           :style="
-            +newPartner.img == undefined
+            +partner.img == undefined
               ? 'color: gray; opacity: 1; visibility: visible'
               : ''
           "
