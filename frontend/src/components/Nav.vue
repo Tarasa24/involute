@@ -56,7 +56,6 @@ nav
   justify-items: center
 
   @include medium-device
-    padding-left: 0
     overflow-x: scroll
     overflow-y: hidden
     @include scrollbar(1px, gray, transparent)
@@ -78,8 +77,8 @@ nav
     height: 100px
     img
       object-fit: scale-down
-      max-height: 80%
-      padding: 15% 0
+      height: calc( 100% - 20% )
+      padding: 10%
 
   span
     grid-area: links
