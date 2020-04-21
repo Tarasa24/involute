@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <vue-progress-bar />
+    <notifications position="top center" />
     <TopNav class="topnav" />
     <SideBar class="sidebar" />
     <router-view class="main" />

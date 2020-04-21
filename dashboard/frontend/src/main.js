@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueProgressBar from 'vue-progressbar';
+import Notifications from 'vue-notification';
 
 import App from './App.vue';
 import Home from './pages/Home';
@@ -29,6 +30,8 @@ Vue.use(VueProgressBar, {
   failedColor: 'red',
   height: '2px',
 });
+
+Vue.use(Notifications);
 
 Vue.use(VueRouter);
 const routes = [
