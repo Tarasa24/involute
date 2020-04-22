@@ -138,6 +138,7 @@ export default {
         margin: 0 10px 25px 0
         min-height: 300px
         min-width: 165px
+        max-width: 200px
         @include small-device-landscape
           width: 125px
         img
