@@ -3,7 +3,7 @@ const { ObjectId } = require('mongodb');
 async function hraci(req, res, db) {
   var games = await db
     .collection('hry')
-    .find({ bg: { $ne: '' } })
+    .find({ bg: { $ne: '' }, players: { $ne: [] } })
     .toArray();
 
   // Loading all players in question
