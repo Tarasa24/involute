@@ -48,12 +48,8 @@ export default {
 
 <style lang="sass" scoped>
 nav
-  background-color: black
+  background-color: $bgBlack
   color: white
-  height: 100px
-
-  display: grid
-  justify-items: center
 
   @include medium-device
     overflow-x: scroll
@@ -61,44 +57,35 @@ nav
     @include scrollbar(1px, gray, transparent)
 
 .wrapper
+  width: $baselineWidth
+  margin: 0 auto
   display: grid
-  align-items: center
   grid-template-columns: auto auto
-  column-gap: 2vw
-  grid-template-areas: "logo links"
-
-  a
-    grid-area: logo
-    justify-self: right
-    margin: 0
+  @include baseline-device
+    width: 100%
 
   .img
-    align-self: right
-    height: 100px
-    img
-      object-fit: scale-down
-      height: calc( 100% - 20% )
-      padding: 10%
+    display: grid
+    align-items: center
+    justify-self: right
+  img
+    padding: 7px
+    max-width: 70px
 
   span
-    grid-area: links
-    justify-self: start
-    display: inline-table
-
+    width: fit-content
+    display: flex
     a
       text-transform: uppercase
       text-decoration: none
       color: #B4B4B4
 
-      padding: 40px 1.5vw
-      position: relative
-      top: 25%
-
+      padding: 35px 1.5vw
+      border-bottom: 2px transparent solid
       @include transition(color)
-
       &:hover
         color: $purple
-        border-bottom: 2px $purple solid
+        border-bottom-color: $purple
 
   .login
     color: $purple

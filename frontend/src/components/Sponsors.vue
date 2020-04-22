@@ -24,41 +24,25 @@ export default {
       sponsors: [],
     };
   },
-  mounted() {
-    window.addEventListener('scroll', this.handleScroll);
-  },
-  destroyed() {
-    window.removeEventListener('scroll', this.handleScroll);
-  },
   async created() {
     this.$Progress.start();
     this.sponsors = await getData('/sponzori');
     this.$Progress.finish();
-  },
-
-  methods: {
-    handleScroll() {
-      const el = document.getElementsByClassName('wrapper')[1];
-      const viewportOffset = el.getBoundingClientRect();
-      const topDistance = viewportOffset.top;
-
-      if (topDistance < 5 && !el.classList.contains('sticky'))
-        el.classList.add('sticky');
-      else if (topDistance > 5 && el.classList.contains('sticky'))
-        el.classList.remove('sticky');
-    },
   },
 };
 </script>
 
 <style lang="sass" scoped>
 .wrapper
+  position: sticky
+  top: -1px
+  z-index: 1
   display: grid
   justify-self: center
   justify-items: center
   position: sticky
   bottom: 0
-  background-color: black
+  background-color: $bgBlack
   @include medium-device
     padding: 0 1%
   @include small-device
@@ -68,27 +52,22 @@ export default {
   width: $baselineWidth
   display: grid
   grid-template-columns: repeat(auto-fit, minmax(90px, 1fr))
-  column-gap: 20px
   align-items: center
   @include large-device
-    padding: 0 20px
-    width: calc(100% - 40px)
+    width: 100%
   @include small-device
     grid-template-columns: repeat(auto-fit, minmax(60px, 1fr))
+  a
+    padding: 10px
+    display: grid
+    justify-items: center
   img
     width: auto
     max-width: 100%
+    max-height: 60px
     filter: brightness(0) invert(1)
     opacity: .95
     @include transition(opacity)
     &:hover
       opacity: .7
-    @include small-device
-      padding: 5px 0
-      max-height: 35px
-
-.sticky
-  position: sticky
-  top: 0
-  z-index: 1
 </style>

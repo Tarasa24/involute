@@ -6,6 +6,8 @@ $pink: #f900f2
 $textGray: #d9d9d9
 $bgGray: rgba(255,255,255,0.952)
 
+$bgBlack: #141414
+
 $baselineWidth: 1100px
 
 @mixin btn($color, $hover)
@@ -47,6 +49,10 @@ $baselineWidth: 1100px
   
   -webkit-overflow-scrolling: touch
 
+@mixin baseline-device
+  @media (max-width: $baselineWidth) 
+    @content
+  
 @mixin small-device
   @media (max-width: 767px) 
     @content
