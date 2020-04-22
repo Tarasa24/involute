@@ -6,8 +6,8 @@
       :key="game.name"
       :style="
         'background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url(' +
-        game.bg +
-        ')'
+          game.bg +
+          ')'
       "
     >
       <div>
@@ -102,7 +102,9 @@ export default {
       text-align: left
       font-size: 45px
       padding: 40px 0
-      @include large-device
+      @include outside-boundaries
+        padding-left: 2.5%
+      @include medium-device
         font-size: 2rem
         padding-left: 5%
         padding-right: 0
@@ -118,20 +120,23 @@ export default {
     > div
       width: $baselineWidth
       display: grid
+      max-width: $maxWidth
       @include large-device
         width: 100%
 
     .portraits
       display: flex
+      justify-self: center
       overflow: auto
+      max-width: 100%
       @include scrollbar(5px, gray, transparent)
       @include large-device
-        width: 95%
-        margin: 0 auto
+        justify-self: start
+      @include medium-device
+        width: auto
       .portrait
         margin: 0 10px 25px 0
         min-height: 300px
-        width: 165px
         min-width: 165px
         @include small-device-landscape
           width: 125px
@@ -151,4 +156,9 @@ export default {
           @include transition(color)
           &:hover
             color: $purple
+        @include medium-device
+          &:first-of-type
+            padding-left: 5%
+          &:last-of-type
+            padding-right: 5%
 </style>

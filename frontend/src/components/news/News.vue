@@ -75,7 +75,7 @@ export default {
   grid-template-areas: "head" "container"
   align-items: center
   justify-items: center
-  @include large-device
+  @include medium-device
     grid-template-columns: 100%
     padding: 5%
 
@@ -92,34 +92,33 @@ export default {
   .container
     grid-area: container
     display: grid
-    column-gap: 30px
-    grid-template-columns: repeat(3, 1fr)
-    @include large-device
-      grid-template-columns: repeat(2, 1fr)
-      column-gap: 15px
-    @include small-device-landscape
+    width: $baselineWidth
+    max-width: $maxWidth - 80px
+    grid-template-columns: repeat(3, minmax(180px, 1fr))
+    column-gap: 4vw
+    margin: 0 40px
+    @include medium-device
       grid-template-columns: repeat(2, 1fr)
     @include small-device
       grid-template-columns: 1fr
+      max-width: $maxWidth
+      margin: 0
+    @include outside-boundaries
+      width: 70%
 
     .novinka
       background-repeat: no-repeat !important
       background-size: cover !important
       background-position: center center !important
-      width: 360px
-      height: 230px
+      width: 100%
+      height: 25vh
+      max-width: 600px
+      max-height: 337.5px
       position: relative
       justify-self: center
       margin-bottom: 50px
-
-      @include small-device-landscape
-        width: calc(340px - 40px)
-        height: calc(230px - 40px)
-      @include small-device-portrait
-        width: calc(340px - 20px)
-        height: calc(230px - 20px)
       @include small-device
-        margin: 10px
+        height: 35vw
 
       @include transition(transform)
       &:hover

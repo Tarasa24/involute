@@ -8,7 +8,10 @@ $bgGray: rgba(255,255,255,0.952)
 
 $bgBlack: #141414
 
-$baselineWidth: 1100px
+//$baselineWidth: 1100px
+$baselineWidth: 70vw
+$maxWidth: 2500px
+
 
 @mixin btn($color, $hover)
   font-size: 1rem
@@ -48,10 +51,6 @@ $baselineWidth: 1100px
     scrollbar-track-color: $background-color
   
   -webkit-overflow-scrolling: touch
-
-@mixin baseline-device
-  @media (max-width: $baselineWidth) 
-    @content
   
 @mixin small-device
   @media (max-width: 767px) 
@@ -71,4 +70,8 @@ $baselineWidth: 1100px
 
 @mixin large-device
   @media (max-width: 1199px)
+    @content
+
+@mixin outside-boundaries
+  @media (min-width: 2000px)
     @content

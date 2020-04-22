@@ -46,7 +46,7 @@ export default {
 
 <style lang="sass" scoped>
 .support
-  background-color: black
+  background-color: $bgBlack
   display: grid
   justify-items: center
 
@@ -69,17 +69,17 @@ export default {
       margin-bottom: 75px
 
   .links
-    display: grid
+    display: flex
+    flex-wrap: wrap
     width: $baselineWidth
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr))
+    max-width: $maxWidth
     margin: 0 auto
     margin-bottom: 80px
-    @include large-device
-      width: 90%
     a
+      flex-grow: 1
       text-decoration: none
       color: unset
-      border-bottom: 5px solid black
+      border-bottom: 5px solid transparent
       padding-bottom: 40px
       @include transition(border-bottom-color)
       @include small-device
@@ -95,7 +95,6 @@ export default {
 
 footer
   padding: 40px
-  background-color: black
   color: gray
   font-size: 19px
   @include small-device

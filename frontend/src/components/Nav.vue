@@ -50,18 +50,21 @@ export default {
 nav
   background-color: $bgBlack
   color: white
-
   @include medium-device
     overflow-x: scroll
     overflow-y: hidden
-    @include scrollbar(1px, gray, transparent)
+    @include scrollbar(2px, gray, transparent)
+  @include outside-boundaries
+    padding-left: 2.5%
+    font-size: 1.5rem
 
 .wrapper
   width: $baselineWidth
+  max-width: $maxWidth
   margin: 0 auto
   display: grid
-  grid-template-columns: auto auto
-  @include baseline-device
+  grid-template-columns: 80px auto
+  @include medium-device
     width: 100%
 
   .img
@@ -73,14 +76,17 @@ nav
     max-width: 70px
 
   span
-    width: fit-content
     display: flex
+    flex-wrap: wrap
+    @include medium-device
+      width: 800px
     a
+      flex-grow: 1
       text-transform: uppercase
       text-decoration: none
       color: #B4B4B4
 
-      padding: 35px 1.5vw
+      padding: 35px 10px
       border-bottom: 2px transparent solid
       @include transition(color)
       &:hover

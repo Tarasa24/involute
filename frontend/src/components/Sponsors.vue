@@ -36,6 +36,7 @@ export default {
 .wrapper
   position: sticky
   top: -1px
+  bottom: 0
   z-index: 1
   display: grid
   justify-self: center
@@ -47,23 +48,29 @@ export default {
     padding: 0 1%
   @include small-device
     height: auto
+  @include small-device-landscape
+    position: unset
 
 .sponsors
   width: $baselineWidth
-  display: grid
-  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr))
+  max-width: $maxWidth
+  display: flex
+  flex-wrap: wrap
   align-items: center
   @include large-device
     width: 100%
-  @include small-device
-    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr))
   a
-    padding: 10px
+    flex-grow: 1
     display: grid
     justify-items: center
   img
+    padding: 10px
     width: auto
     max-width: 100%
+    @include large-device
+      max-width: 120px
+    @include small-device-portrait
+      max-width: 50px
     max-height: 60px
     filter: brightness(0) invert(1)
     opacity: .95

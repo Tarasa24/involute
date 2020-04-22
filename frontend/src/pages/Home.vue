@@ -30,20 +30,22 @@ export default {
 
 <style lang="sass" scoped>
 .head
-  padding: 25vh 0
   text-align: left
   background-color: #02021f
   color: $textGray
   display: grid
   justify-items: center
-  @include large-device
-    padding-left: 5%
-  @include small-device-portrait
+  align-items: center
+  padding: 15% 0
+  @include outside-boundaries
+    padding-left: 2.5%
+  @include medium-device
     padding-left: 5%
 
   span
     width: $baselineWidth
-    @include large-device
+    max-width: $maxWidth
+    @include medium-device
       width: auto
 
   h1
@@ -52,12 +54,6 @@ export default {
     margin: 2% 0
     span
       color: $purple
-    @include medium-device
-      font-size: 3rem
-    @include small-device-portrait
-      font-size: 2rem
-    @include small-device-landscape
-      font-size: 2.5rem
   h2
     margin-right: 45%
     line-height: 1.5
