@@ -2,6 +2,7 @@ const express = require('express');
 const compression = require('compression');
 const cors = require('cors');
 const socket = require('socket.io');
+const { ObjectId } = require('mongodb');
 
 const fetchFromFrontendApi = require('./modules/fetcher');
 const { checkStatus } = require('./modules/socket');
@@ -15,43 +16,59 @@ server.use(cors());
 server.use(express.json({ limit: '15mb' }));
 
 server.post('/produkt/:id', async (req, res) => {
-  db.replaceProdukt(req, res);
+  res.sendStatus(
+    await db.replace(
+      'eshop-produkty',
+      { _id: ObjectId(req.params.id) },
+      req.body
+    )
+  );
 });
 
 server.delete('/produkt/:id', async (req, res) => {
-  db.deleteProdukt(req, res);
+  res.sendStatus(
+    await remove('eshop-produkty', { _id: ObjectId(req.params.id) })
+  );
 });
 
 server.put('/produkt', async (req, res) => {
-  db.createProdukt(req, res);
+  const { status, id } = await db.insert('eshop-produkty', req.body);
+  res.status(status).json({ id: id });
 });
 
 server.get('/novinky', async (req, res) => {
   db.findNovinky(req, res);
 });
 
-server.post('/novinka/:id', (req, res) => {
+server.post('/novinka/:id', async (req, res) => {
+  res.sendStatus(
+    await db.replace('novinky', { _id: ObjectId(req.params.id) }, req.body)
+  );
   db.replaceNovinka(req, res);
 });
 
-server.put('/novinka', (req, res) => {
-  db.createNovinka(req, res);
+server.put('/novinka', async (req, res) => {
+  const { status, id } = await db.insert('novinky', req.body);
+  res.status(status).json({ id: id });
 });
 
-server.delete('/novinka/:id', (req, res) => {
-  db.deleteNovinka(req, res);
+server.delete('/novinka/:id', async (req, res) => {
+  res.sendStatus(await db.remove('novinky', { _id: ObjectId(req.params.id) }));
 });
 
-server.post('/oceneni/:id', (req, res) => {
-  db.replaceOceneni(req, res);
+server.post('/oceneni/:id', async (req, res) => {
+  res.sendStatus(
+    await db.replace('oceneni', { _id: ObjectId(req.params.id) }, req.body)
+  );
 });
 
-server.put('/oceneni', (req, res) => {
-  db.createOceneni(req, res);
+server.put('/oceneni', async (req, res) => {
+  const { status, id } = await db.insert('oceneni', req.body);
+  res.status(status).json({ id: id });
 });
 
-server.delete('/oceneni/:id', (req, res) => {
-  db.deleteOceneni(req, res);
+server.delete('/oceneni/:id', async (req, res) => {
+  res.sendStatus(await db.remove('oceneni', { _id: ObjectId(req.params.id) }));
 });
 
 server.get('/uzivatele', (req, res) => {
@@ -74,16 +91,20 @@ server.get('/hrac/:name', (req, res) => {
   db.getHrac(req, res);
 });
 
-server.post('/hrac/:id', (req, res) => {
+server.post('/hrac/:id', async (req, res) => {
+  res.sendStatus(
+    await db.replace('hraci', { _id: ObjectId(req.params.id) }, req.body)
+  );
   db.replaceHrac(req, res);
 });
 
-server.put('/hrac', (req, res) => {
-  db.createHrac(req, res);
+server.put('/hrac', async (req, res) => {
+  const { status, id } = await db.insert('hraci', req.body);
+  res.status(status).json({ id: id });
 });
 
-server.delete('/hrac/:id', (req, res) => {
-  db.deleteHrac(req, res);
+server.delete('/hrac/:id', async (req, res) => {
+  res.sendStatus(await db.remove('hraci', { _id: ObjectId(req.params.id) }));
 });
 
 server.get('/hry', (req, res) => {
@@ -99,51 +120,62 @@ server.delete('/hra/:gameId/soupiska', (req, res) => {
 });
 
 server.post('/hra/:gameId/:key', (req, res) => {
-  db.replaceGameKey(req, res);
+  db.updateGameKey(req, res);
 });
 
-server.put('/hra', (req, res) => {
-  db.createHra(req, res);
+server.put('/hra', async (req, res) => {
+  const { status, id } = await db.insert('hry', req.body);
+  res.status(status).json({ id: id });
 });
 
-server.delete('/hra/:id', (req, res) => {
-  db.deleteHra(req, res);
+server.delete('/hra/:id', async (req, res) => {
+  res.sendStatus(await db.remove('hry'), { _id: ObjectId(req.params.id) });
 });
 
-server.post('/partner/:id', (req, res) => {
-  db.replacePartner(req, res);
+server.post('/partner/:id', async (req, res) => {
+  res.sendStatus(
+    await db.replace('partneri', { _id: ObjectId(req.params.id) }, req.body)
+  );
 });
 
-server.delete('/partner/:id', (req, res) => {
-  db.deletePartner(req, res);
+server.delete('/partner/:id', async (req, res) => {
+  res.sendStatus(await db.remove('partneri', { _id: ObjectId(req.params.id) }));
 });
 
-server.put('/partner', (req, res) => {
-  db.createPartner(req, res);
+server.put('/partner', async (req, res) => {
+  const { status, id } = await db.insert('partneri', req.body);
+  res.status(status).json({ id: id });
 });
 
-server.post('/sponzor/:id', (req, res) => {
-  db.replaceSponsor(req, res);
+server.post('/sponzor/:id', async (req, res) => {
+  res.sendStatus(
+    await db.replace('sponzori', { _id: ObjectId(req.params.id) }, req.body)
+  );
 });
 
-server.delete('/sponzor/:id', (req, res) => {
-  db.deleteSponsor(req, res);
+server.delete('/sponzor/:id', async (req, res) => {
+  res.sendStatus(await db.remove('sponzori', { _id: ObjectId(req.params.id) }));
 });
 
-server.put('/sponzor', (req, res) => {
-  db.createSponsor(req, res);
+server.put('/sponzor', async (req, res) => {
+  const { status, id } = await db.insert('sponzori', req.body);
+  res.status(status).json({ id: id });
 });
 
-server.post('/odkaz/:id', (req, res) => {
-  db.replaceOdkaz(req, res);
+server.post('/odkaz/:id', async (req, res) => {
+  res.sendStatus(
+    await db.replace('links', { _id: ObjectId(req.params.id) }, req.body)
+  );
 });
 
-server.delete('/odkaz/:id', (req, res) => {
+server.delete('/odkaz/:id', async (req, res) => {
+  res.sendStatus(await db.remove('links', { _id: ObjectId(req.params.id) }));
   db.deleteOdkaz(req, res);
 });
 
-server.put('/odkaz', (req, res) => {
-  db.createOdkaz(req, res);
+server.put('/odkaz', async (req, res) => {
+  const { status, id } = await db.insert('links', req.body);
+  res.status(status).json({ id: id });
 });
 
 server.get('/*', async (req, res) => {

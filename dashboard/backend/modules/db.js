@@ -9,38 +9,37 @@ client.connect((err, client) => {
   adminDb = client.db('admin');
 });
 
-async function replaceProdukt(req, res) {
-  try {
-    let result = await db
-      .collection('eshop-produkty')
-      .replaceOne({ _id: ObjectId(req.params.id) }, req.body);
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    res.sendStatus(400);
-  }
+function insert(collection, data) {
+  return new Promise(async resolve => {
+    try {
+      const result = await db.collection(collection).insertOne(data);
+      resolve({ status: 202, id: result.insertedId });
+    } catch (e) {
+      resolve(400);
+    }
+  });
 }
 
-async function deleteProdukt(req, res) {
-  try {
-    let result = await db
-      .collection('eshop-produkty')
-      .deleteOne({ _id: ObjectId(req.params.id) });
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    res.sendStatus(400);
-  }
+function replace(collection, findObj, data) {
+  return new Promise(async resolve => {
+    try {
+      await db.collection(collection).replaceOne(findObj, data);
+      resolve(202);
+    } catch (e) {
+      resolve(400);
+    }
+  });
 }
 
-async function createProdukt(req, res) {
-  try {
-    let result = await db.collection('eshop-produkty').insertOne(req.body);
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    res.sendStatus(400);
-  }
+function remove(collection, removeObj) {
+  return new Promise(async resolve => {
+    try {
+      await db.collection(collection).deleteOne(removeObj);
+      resolve(202);
+    } catch (e) {
+      resolve(400);
+    }
+  });
 }
 
 async function findNovinky(req, res) {
@@ -89,75 +88,6 @@ async function findNovinky(req, res) {
   }
 }
 
-async function replaceNovinka(req, res) {
-  try {
-    let result = await db
-      .collection('novinky')
-      .replaceOne({ _id: ObjectId(req.params.id) }, req.body);
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    res.sendStatus(400);
-  }
-}
-
-async function createNovinka(req, res) {
-  try {
-    let result = await db.collection('novinky').insertOne(req.body);
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    res.sendStatus(400);
-  }
-}
-
-async function deleteNovinka(req, res) {
-  try {
-    let result = await db
-      .collection('novinky')
-      .deleteOne({ _id: ObjectId(req.params.id) });
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    res.sendStatus(400);
-  }
-}
-
-async function replaceOceneni(req, res) {
-  try {
-    let result = await db
-      .collection('oceneni')
-      .replaceOne({ _id: ObjectId(req.params.id) }, req.body);
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    res.sendStatus(400);
-  }
-}
-
-async function createOceneni(req, res) {
-  try {
-    let result = await db.collection('oceneni').insertOne(req.body);
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    res.sendStatus(400);
-  }
-}
-
-async function deleteOceneni(req, res) {
-  try {
-    let result = await db
-      .collection('oceneni')
-      .deleteOne({ _id: ObjectId(req.params.id) });
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    console.error(e);
-    res.sendStatus(400);
-  }
-}
-
 async function getUzivatele(req, res) {
   try {
     let result = await db
@@ -201,13 +131,10 @@ async function stats(req, res) {
   try {
     const stats = await db.stats();
     const { url } = await adminDb.command({ getFreeMonitoringStatus: 1 });
-
     stats.url = url;
-
     res.json(stats);
   } catch (e) {
     res.sendStatus(500);
-    console.error(e);
   }
 }
 
@@ -238,42 +165,6 @@ async function getHrac(req, res) {
     if (result === null) throw 400;
     res.json(result);
   } catch (e) {
-    res.sendStatus(400);
-  }
-}
-
-async function replaceHrac(req, res) {
-  try {
-    let result = await db
-      .collection('hraci')
-      .replaceOne({ _id: ObjectId(req.params.id) }, req.body);
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    console.error(e);
-    res.sendStatus(400);
-  }
-}
-
-async function createHrac(req, res) {
-  try {
-    let result = await db.collection('hraci').insertOne(req.body);
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    res.sendStatus(400);
-  }
-}
-
-async function deleteHrac(req, res) {
-  try {
-    let result = await db
-      .collection('hraci')
-      .deleteOne({ _id: ObjectId(req.params.id) });
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    console.error(e);
     res.sendStatus(400);
   }
 }
@@ -341,7 +232,7 @@ async function popPlayerFromList(req, res) {
   }
 }
 
-async function replaceGameKey(req, res) {
+async function updateGameKey(req, res) {
   try {
     await db
       .collection('hry')
@@ -351,174 +242,22 @@ async function replaceGameKey(req, res) {
       );
     res.sendStatus(202);
   } catch (e) {
-    console.error(e);
-    res.sendStatus(400);
-  }
-}
-
-async function createHra(req, res) {
-  try {
-    let result = await db.collection('hry').insertOne(req.body);
-    if (result === null) throw 400;
-    res.status(202).json({ id: result.insertedId });
-  } catch (e) {
-    res.sendStatus(400);
-  }
-}
-
-async function deleteHra(req, res) {
-  try {
-    let result = await db
-      .collection('hry')
-      .deleteOne({ _id: ObjectId(req.params.id) });
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    console.error(e);
-    res.sendStatus(400);
-  }
-}
-
-async function replacePartner(req, res) {
-  try {
-    let result = await db
-      .collection('partneri')
-      .replaceOne({ _id: ObjectId(req.params.id) }, req.body);
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    console.error(e);
-    res.sendStatus(400);
-  }
-}
-
-async function deletePartner(req, res) {
-  try {
-    let result = await db
-      .collection('partneri')
-      .deleteOne({ _id: ObjectId(req.params.id) });
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    console.error(e);
-    res.sendStatus(400);
-  }
-}
-
-async function createPartner(req, res) {
-  try {
-    let result = await db.collection('partneri').insertOne(req.body);
-    if (result === null) throw 400;
-    res.status(202).json({ id: result.insertedId });
-  } catch (e) {
-    res.sendStatus(400);
-  }
-}
-
-async function replaceSponsor(req, res) {
-  try {
-    let result = await db
-      .collection('sponzori')
-      .replaceOne({ _id: ObjectId(req.params.id) }, req.body);
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    console.error(e);
-    res.sendStatus(400);
-  }
-}
-
-async function deleteSponsor(req, res) {
-  try {
-    let result = await db
-      .collection('sponzori')
-      .deleteOne({ _id: ObjectId(req.params.id) });
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    console.error(e);
-    res.sendStatus(400);
-  }
-}
-
-async function createSponsor(req, res) {
-  try {
-    let result = await db.collection('sponzori').insertOne(req.body);
-    if (result === null) throw 400;
-    res.status(202).json({ id: result.insertedId });
-  } catch (e) {
-    res.sendStatus(400);
-  }
-}
-
-async function replaceOdkaz(req, res) {
-  try {
-    let result = await db
-      .collection('links')
-      .replaceOne({ _id: ObjectId(req.params.id) }, req.body);
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    console.error(e);
-    res.sendStatus(400);
-  }
-}
-
-async function deleteOdkaz(req, res) {
-  try {
-    let result = await db
-      .collection('links')
-      .deleteOne({ _id: ObjectId(req.params.id) });
-    if (result === null) throw 400;
-    res.sendStatus(202);
-  } catch (e) {
-    console.error(e);
-    res.sendStatus(400);
-  }
-}
-
-async function createOdkaz(req, res) {
-  try {
-    let result = await db.collection('links').insertOne(req.body);
-    if (result === null) throw 400;
-    res.status(202).json({ id: result.insertedId });
-  } catch (e) {
     res.sendStatus(400);
   }
 }
 
 module.exports = {
-  replaceProdukt,
-  deleteProdukt,
-  createProdukt,
+  replace,
+  remove,
+  insert,
   findNovinky,
-  replaceNovinka,
-  createNovinka,
-  deleteNovinka,
-  replaceOceneni,
-  createOceneni,
-  deleteOceneni,
   getUzivatele,
   getUzivatel,
   stats,
   getHraci,
   getHrac,
-  replaceHrac,
-  createHrac,
-  deleteHrac,
   getHry,
   pushPlayerToList,
   popPlayerFromList,
-  replaceGameKey,
-  createHra,
-  deleteHra,
-  replacePartner,
-  deletePartner,
-  createPartner,
-  replaceSponsor,
-  deleteSponsor,
-  createSponsor,
-  replaceOdkaz,
-  deleteOdkaz,
-  createOdkaz,
+  updateGameKey,
 };
