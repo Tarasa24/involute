@@ -35,6 +35,7 @@
             type="number"
             v-model="data.price"
             :placeholder="randomPrice"
+            step=".01"
             required
           />
         </span>
