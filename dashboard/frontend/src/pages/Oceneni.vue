@@ -32,7 +32,7 @@
 
       <form
         class="row"
-        v-for="oceneni in data"
+        v-for="(oceneni, index) in data"
         :key="oceneni._id"
         @submit="event => handleEdit(event, oceneni)"
       >
@@ -47,7 +47,7 @@
           <button
             type="button"
             class="fas fa-trash-alt"
-            @click="handleDelete(oceneni)"
+            @click="handleDelete(index)"
           />
         </div>
       </form>
@@ -68,40 +68,42 @@ export default {
   components: { GameIcon },
   data() {
     return {
-      data: {},
-      icons: [],
+      data: [],
+      icons: {},
       newOceneni: {},
     };
   },
   async created() {
     this.$Progress.start();
     this.data = await getData('/oceneni');
-    this.icons = await getData('/icons');
+    const icons = await getData('/icons');
+    var iconsObj = {};
+    icons.forEach(e => {
+      iconsObj[e.name] = e;
+    });
+    this.icons = iconsObj;
     this.$Progress.finish();
   },
   methods: {
     async handleSave(event) {
       event.preventDefault();
+      var oceneni = Object.assign({}, this.newOceneni);
+      oceneni.game = this.icons[oceneni.game]._id;
 
-      const response = await putData(
-        '/oceneni',
-        JSON.stringify(this.newOceneni)
-      );
-      if (response.status == 202) this.$router.go();
-      else alert('Vyskytla se chyba');
+      const response = await putData('/oceneni', JSON.stringify(oceneni));
+      if (response.status == 202) {
+        const { id } = await response.json();
+        this.newOceneni._id = id;
+        this.data.unshift(this.newOceneni);
+        this.newOceneni = {};
+      } else alert('Vyskytla se chyba');
     },
     async handleEdit(event, oceneni) {
       event.preventDefault();
 
       const _id = oceneni._id;
       delete oceneni._id;
-
-      for (let i = 0; i < this.icons.length; i++) {
-        if (this.icons[i].name === oceneni.game) {
-          oceneni.game = this.icons[i]._id;
-          break;
-        }
-      }
+      oceneni.game = this.icons[oceneni.game]._id;
 
       const response = await postData(
         '/oceneni/' + _id,
@@ -110,10 +112,12 @@ export default {
       if (response.status == 202) this.$router.go();
       else alert('Vyskytla se chyba');
     },
-    async handleDelete(oceneni) {
+    async handleDelete(oceneniIndex) {
+      const id = this.data[oceneniIndex]._id;
+
       if (confirm('Opravdu chcete toto ocenění smazat?')) {
-        const response = await deleteData('/oceneni/' + oceneni._id);
-        if (response.status == 202) this.$router.go();
+        const response = await deleteData('/oceneni/' + id);
+        if (response.status == 202) this.data.splice(oceneniIndex, 1);
         else alert('Vyskytla se chyba');
       }
     },

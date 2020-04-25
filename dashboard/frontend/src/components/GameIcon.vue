@@ -8,11 +8,11 @@
         <button class="fas fa-times close" @click="close" />
         <img
           class="icon"
-          v-for="game in icons"
-          :key="game._id"
-          :src="game.icon"
-          :alt="game.name"
-          :title="game.name"
+          v-for="(value, name) in icons"
+          :key="value._id"
+          :src="value.icon"
+          :alt="name"
+          :title="name"
           @click="handleChoose"
         />
         <router-link to="/hry" title="Přidat hru" class="fas fa-plus">
@@ -20,8 +20,8 @@
       </div>
     </div>
     <img
-      v-if="value != undefined"
-      :src="iconsObj[value]"
+      v-if="value != undefined && icons[value] != undefined"
+      :src="icons[value].icon"
       :alt="value"
       :title="value"
       @click="open"
@@ -39,15 +39,6 @@ export default {
     return {
       visible: false,
     };
-  },
-  computed: {
-    iconsObj() {
-      var iconsObj = {};
-      this.icons.forEach(e => {
-        iconsObj[e.name] = e.icon;
-      });
-      return iconsObj;
-    },
   },
   methods: {
     open() {
