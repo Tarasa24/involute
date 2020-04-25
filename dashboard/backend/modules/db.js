@@ -92,14 +92,14 @@ async function getUzivatele(req, res) {
   try {
     let result = await db
       .collection('users')
-      .find({ tier: { $lt: 9 } })
+      .find({ name: { $ne: 'Admin' } })
       .project({
         password: false,
         totp: false,
         lastJWT: false,
         _id: false,
       })
-      .sort({ tier: 1 })
+      .sort({ name: 1 })
       .toArray();
     if (result === null) throw 400;
     res.json(result);
@@ -112,15 +112,12 @@ async function getUzivatel(req, res) {
   try {
     let result = await db
       .collection('users')
-      .find({ name: req.params.name, tier: { $lt: 9 } })
+      .find({ $and: [{ name: req.params.name }, { name: { $ne: 'Admin' } }] })
       .project({
-        password: false,
-        totp: false,
-        'lastJWT.token': false,
-        _id: false,
+        name: true,
+        'lastJWT.timestamp': true,
       })
       .next();
-    if (result === null) throw 400;
     res.json(result);
   } catch (e) {
     res.sendStatus(400);

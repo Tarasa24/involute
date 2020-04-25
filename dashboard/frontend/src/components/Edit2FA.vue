@@ -1,13 +1,15 @@
 <template>
   <div class="container">
     <h2>2FA kód</h2>
+
     <input
-      v-if="oldPass"
-      v-model="pass"
       type="password"
+      v-model="pass"
+      v-if="oldPass"
       placeholder="Stávající heslo"
       required
     />
+
     <div>
       <i>{{ value.totp }}</i
       ><br />
@@ -72,15 +74,14 @@ export default {
 
 <style lang="sass" scoped>
 input
-  margin-bottom: 20px
-  width: 45%
-  border: 1px $grayOutline solid
-  padding: 5px
-  &:focus
-    outline: 0
-  @include small-device
-    width: 90%
-
+  background-color: #f1f1f1
+  border: 1px solid #f1f1f1
+  border-radius: 2px
+  box-sizing: border-box
+  font-size: 14px
+  padding: 13px
+  width: 400px
+  margin: 10px
 i
   word-break: break-all
 </style>

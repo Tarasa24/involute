@@ -156,34 +156,19 @@ app.delete('/deleteUser/:name', (req, res) => {
 app.post('/updatePass/:name', async (req, res) => {
   var user = req.body;
   try {
-    //JWT check
-    const payload = jwt.verify(req.cookies.Authorization, jwtSecret, {
-      ignoreExpiration: false,
-    });
-    //Provided pass check
-    if (payload.name == req.params.name) {
-      const result = await db
-        .collection('users')
-        .find({ name: req.params.name })
-        .next();
-      const match = await bcrypt.compare(user.oldPass, result.password);
-      if (!match) throw 403;
-    } else if (payload.name !== req.params.name && payload.tier < 3) throw 403;
-
-    user.totp = encrypt(user.totp, user.newPass);
-    user.newPass = await bcrypt.hash(user.newPass, 12);
+    user.totp = encrypt(user.totp, user.password);
+    user.password = await bcrypt.hash(user.password, 12);
 
     await db
       .collection('users')
       .updateOne(
         { name: req.params.name },
-        { $set: { password: user.newPass, totp: user.totp } }
+        { $set: { password: user.password, totp: user.totp } }
       );
 
     res.sendStatus(301);
   } catch (e) {
-    if (typeof e == Number) res.sendStatus(e);
-    else res.status(403).send(e);
+    res.statusStatus(403);
   }
 });
 

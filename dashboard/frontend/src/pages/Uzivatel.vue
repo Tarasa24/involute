@@ -12,20 +12,9 @@
           maxlength="32"
           required
         />
-        <br />
-        <h2>Tier</h2>
-        <VueNumberInput
-          v-model="user.tier"
-          :min="1"
-          :max="3"
-          controls
-          inline
-          :disabled="!canEdit.all"
-          required
-        />
       </div>
-
-      <EditPassword v-model="user.password" :oldPass="false" />
+      <h2>Heslo</h2>
+      <Password v-model="user.password" :toggle="true" required />
       <Edit2FA v-model="user" :oldPass="false" />
       <button type="submit" class="submitBtn">Přidat</button>
     </form>
@@ -45,47 +34,43 @@
         <p>
           Naposledy přihlášen(a):
           <b>{{
-            new Date(user.timestamp * 1000).toLocaleString('cs-CS', {})
+            user.lastJWT != undefined
+              ? new Date(user.timestamp * 1000).toLocaleString('cs-CS', {})
+              : 'Nikdy'
           }}</b>
         </p>
-        <h2>Tier</h2>
-        <VueNumberInput
-          v-model="user.tier"
-          :min="1"
-          :max="3"
-          controls
-          inline
-          :disabled="!canEdit.all"
-          required
-        />
       </div>
       <div class="editUser">
         <button
+          type="button"
           :disabled="!canEdit.self && !canEdit.all"
           @click="handlePageChange('/heslo')"
         >
           Změnit heslo
         </button>
         <button
+          type="button"
           :disabled="!canEdit.self && !canEdit.all"
           @click="handlePageChange('/2FA')"
         >
           Vygenerovat 2FA
         </button>
-        <button :disabled="!canEdit.all" @click="handleRemove">
+        <button
+          type="button"
+          :disabled="
+            (canEdit.self && canEdit.all) || canEdit.self || !canEdit.all
+          "
+          @click="handleRemove"
+        >
           Odstranit uživatele
         </button>
       </div>
-      <button :disabled="!canEdit.self && !canEdit.all" type="submit">
-        Uložit
-      </button>
     </form>
   </main>
 </template>
 
 <script>
-import VueNumberInput from '@chenfengyuan/vue-number-input';
-import EditPassword from '../components/EditPassword';
+import Password from 'vue-password-strength-meter';
 import Edit2FA from '../components/Edit2FA';
 
 import {
@@ -97,8 +82,7 @@ import {
 
 export default {
   components: {
-    VueNumberInput,
-    EditPassword,
+    Password,
     Edit2FA,
   },
   props: {
@@ -115,17 +99,16 @@ export default {
   async created() {
     if (!this.newUser) {
       try {
-        const { _id, name, tier, lastJWT } = await getData(
+        const { _id, name, lastJWT } = await getData(
           '/uzivatel/' + this.$route.params.name
         );
         this.user._id = _id;
         this.user.name = name;
-        this.user.tier = tier;
         this.user.timestamp = lastJWT.timestamp;
 
         const payload = await getTokenPayload();
         this.canEdit.self = payload.name === this.user.name;
-        this.canEdit.all = payload.tier >= 3;
+        this.canEdit.all = payload.admin;
       } catch (error) {
         this.$router.replace('/uzivatele');
       }
@@ -151,7 +134,7 @@ export default {
       else {
         const result = await postAuthData(
           '/createUser',
-          JSON.stringify(this.user)
+          JSON.stringify(Object.assign(this.user, { lastJWT: {} }))
         );
         if (result.status == 202) this.$router.push('/uzivatele');
         else if (result.status == 409)
@@ -163,7 +146,7 @@ export default {
       event.preventDefault();
       const result = await postAuthData(
         '/updateUser/' + this.$route.params.name,
-        JSON.stringify({ name: this.user.name, tier: this.user.tier })
+        JSON.stringify({ name: this.user.name })
       );
 
       if (result.status == 202 && !this.canEdit.self)
@@ -203,9 +186,6 @@ h2
   input[disabled]
     background-color: white
     cursor: not-allowed
-
-  /deep/ .number-input__button:hover::before, /deep/ .number-input__button:hover::after
-      background-color: $purple
 
 .editUser
   button

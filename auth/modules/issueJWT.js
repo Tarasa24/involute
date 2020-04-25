@@ -3,12 +3,12 @@ const validateUser = require('./validateUser');
 const jwt = require('jsonwebtoken');
 
 async function issueJWT(username, password, remember, realIP, db) {
-  function createJWT(tier) {
+  function createJWT(admin) {
     const secret = jwtSecret;
     const token = jwt.sign(
       {
         name: username,
-        tier: tier,
+        admin: admin,
         ip: remember ? realIP || '<missing X-Real-IP header>' : false,
       },
       secret,
@@ -24,7 +24,7 @@ async function issueJWT(username, password, remember, realIP, db) {
   return new Promise(async (resolve, reject) => {
     try {
       userData = await validateUser(username, password, db);
-      const token = createJWT(userData.tier);
+      const token = createJWT(Boolean(userData.admin));
 
       await db.collection('users').updateOne(
         { name: username },

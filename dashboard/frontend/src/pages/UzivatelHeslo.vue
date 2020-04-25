@@ -4,7 +4,9 @@
       Vzhledem k designu zabezpečení je při změně hesla potřeba regenerovat 2FA
       kód!
     </strong>
-    <EditPassword ref="pass" v-model="password" :oldPass="tier < 3" />
+
+    <h2>Nové heslo</h2>
+    <Password v-model="password" :toggle="true" required />
 
     <Edit2FA v-model="user" :oldPass="false" />
 
@@ -24,49 +26,45 @@
 </template>
 
 <script>
-import EditPassword from '../components/EditPassword';
+import Password from 'vue-password-strength-meter';
 import Edit2FA from '../components/Edit2FA';
 
 import { postAuthData, getTokenPayload } from '../assets/js/dataFetcher';
 
 export default {
-  components: { EditPassword, Edit2FA },
+  components: { Password, Edit2FA },
   data() {
     return {
       user: { name: this.$route.params.name, totp: '' },
       password: '',
-      tier: 1,
+      admin: false,
       name: '',
     };
   },
   async created() {
-    const { tier, name } = await getTokenPayload();
-    this.tier = tier;
+    const { admin, name } = await getTokenPayload();
+    this.admin = Boolean(admin);
     this.name = name;
   },
   methods: {
     async handleSubmit(event) {
       event.preventDefault();
 
-      if (this.password == '') alert('Zadaná hesla nejsou stejná');
-      else {
-        const result = await postAuthData(
-          '/updatePass/' + this.$route.params.name,
-          JSON.stringify({
-            oldPass: this.$refs.pass.pass0,
-            newPass: this.password,
-            totp: this.user.totp,
-          })
-        );
+      const result = await postAuthData(
+        '/updatePass/' + this.$route.params.name,
+        JSON.stringify({
+          password: this.password,
+          totp: this.user.totp,
+        })
+      );
 
-        if (result.status == 301 && this.user.name == this.name)
-          window.location.href =
-            process.env.NODE_ENV === 'production'
-              ? '/api/auth/logout'
-              : 'http://localhost:300/logout';
-        else if (result.status == 301) this.$router.push('/uzivatele');
-        else alert('Něco se pokazilo. Zkontroluje si prosím správnost hesla');
-      }
+      if (result.status == 301 && this.user.name == this.name)
+        window.location.href =
+          process.env.NODE_ENV === 'production'
+            ? '/api/auth/logout'
+            : 'http://localhost:300/logout';
+      else if (result.status == 301) this.$router.push('/uzivatele');
+      else alert('Něco se pokazilo');
     },
   },
 };
