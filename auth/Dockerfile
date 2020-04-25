@@ -1,6 +1,8 @@
 FROM node
 
+COPY package.json package.json
+RUN npm install && npm audit fix
+
 COPY . .
-RUN npm install
 
 CMD ["npm", "start"]
