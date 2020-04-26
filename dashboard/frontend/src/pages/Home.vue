@@ -1,7 +1,7 @@
 <template>
   <main>
     <div>
-      <img src="/dashboard/img/logo.png" alt="logo" />
+      <img :src="image" alt="logo" />
       <h1>Vítejte, {{ name }}</h1>
     </div>
   </main>
@@ -14,6 +14,10 @@ export default {
   data() {
     return {
       name: null,
+      image:
+        process.env.NODE_ENV == 'production'
+          ? '/dashboard/img/logo.png'
+          : '/img/logo.png',
     };
   },
   async created() {

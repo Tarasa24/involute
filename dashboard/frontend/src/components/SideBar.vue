@@ -1,7 +1,7 @@
 <template>
   <aside>
     <router-link to="/">
-      <h1>iNvolute</h1>
+      <h1 :style="`background-image: url(${image})`">iNvolute</h1>
     </router-link>
     <nav>
       <router-link to="/traffic">
@@ -42,7 +42,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      image:
+        process.env.NODE_ENV == 'production'
+          ? '/dashboard/img/icon.png'
+          : '/img/icon.png',
+    };
+  },
+};
 </script>
 
 <style lang="sass" scoped>
@@ -59,7 +68,6 @@ h1
     font-size: 0
     margin: 10%
     height: calc( 53px - 2 * 5.3px )
-    background-image: url('/dashboard/img/logo.png')
     background-repeat: no-repeat
     background-size: cover
     background-position: center center

@@ -1,17 +1,18 @@
 <template>
   <nav>
     <span>DASHBOARD</span>
-    <a
-      :href="
-        process.env.NODE_ENV == 'production' ? '/' : 'http://localhost:8080'
-      "
-      class="fas fa-sign-out-alt"
-    />
+    <a :href="url" class="fas fa-sign-out-alt" />
   </nav>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      url: process.env.NODE_ENV == 'production' ? '/' : 'http://localhost:8080',
+    };
+  },
+};
 </script>
 
 <style lang="sass" scoped>
