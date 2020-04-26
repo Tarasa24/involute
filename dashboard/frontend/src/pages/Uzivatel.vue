@@ -34,7 +34,7 @@
         <p>
           Naposledy přihlášen(a):
           <b>{{
-            user.lastJWT != undefined
+            user.timestamp != undefined
               ? new Date(user.timestamp * 1000).toLocaleString('cs-CS', {})
               : 'Nikdy'
           }}</b>

@@ -1,7 +1,12 @@
 <template>
   <nav>
     <span>DASHBOARD</span>
-    <a href="/" class="fas fa-sign-out-alt" />
+    <a
+      :href="
+        process.env.NODE_ENV == 'production' ? '/' : 'http://localhost:8080'
+      "
+      class="fas fa-sign-out-alt"
+    />
   </nav>
 </template>
 
