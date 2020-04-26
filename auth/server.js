@@ -31,6 +31,17 @@ client.connect((err, client) => {
   db = client.db('iNvolute');
 });
 
+async function validateJWTMiddleware(req, res, next) {
+  const code = await validateJWT(
+    req.cookies.Authorization,
+    db,
+    req.header('X-Real-IP')
+  );
+
+  if (code === 404) res.sendStatus(401);
+  else next();
+}
+
 app.post('/validateUser', async (req, res) => {
   try {
     const valid = await validateUser(req.body.username, req.body.password, db);
@@ -113,7 +124,7 @@ app.get('/tokenPayload', (req, res) => {
   }
 });
 
-app.post('/createUser', async (req, res) => {
+app.post('/createUser', validateJWTMiddleware, async (req, res) => {
   var user = req.body;
   try {
     const payload = jwt.verify(req.cookies.Authorization, jwtSecret, {
@@ -139,7 +150,7 @@ app.post('/createUser', async (req, res) => {
   }
 });
 
-app.delete('/deleteUser/:name', (req, res) => {
+app.delete('/deleteUser/:name', validateJWTMiddleware, (req, res) => {
   try {
     const payload = jwt.verify(req.cookies.Authorization, jwtSecret, {
       ignoreExpiration: false,
@@ -153,7 +164,7 @@ app.delete('/deleteUser/:name', (req, res) => {
   }
 });
 
-app.post('/updatePass/:name', async (req, res) => {
+app.post('/updatePass/:name', validateJWTMiddleware, async (req, res) => {
   var user = req.body;
   try {
     user.totp = encrypt(user.totp, user.password);
@@ -172,7 +183,7 @@ app.post('/updatePass/:name', async (req, res) => {
   }
 });
 
-app.post('/updateTotp/:name', async (req, res) => {
+app.post('/updateTotp/:name', validateJWTMiddleware, async (req, res) => {
   var user = req.body;
   try {
     const payload = jwt.verify(req.cookies.Authorization, jwtSecret, {
@@ -200,7 +211,7 @@ app.post('/updateTotp/:name', async (req, res) => {
   }
 });
 
-app.post('/updateUser/:name', async (req, res) => {
+app.post('/updateUser/:name', validateJWTMiddleware, async (req, res) => {
   var user = req.body;
   try {
     const payload = jwt.verify(req.cookies.Authorization, jwtSecret, {
