@@ -130,7 +130,7 @@ app.post('/createUser', validateJWTMiddleware, async (req, res) => {
     const payload = jwt.verify(req.cookies.Authorization, jwtSecret, {
       ignoreExpiration: false,
     });
-    if (payload.tier < 3) throw 403;
+    if (!payload.admin) throw 403;
 
     const matchingUsername = await db
       .collection('users')
@@ -155,7 +155,8 @@ app.delete('/deleteUser/:name', validateJWTMiddleware, (req, res) => {
     const payload = jwt.verify(req.cookies.Authorization, jwtSecret, {
       ignoreExpiration: false,
     });
-    if (payload.tier < 3) throw 403;
+    if ((payload.admin && payload.name === req.params.name) || !payload.admin)
+      throw 403;
 
     db.collection('users').remove({ name: req.params.name });
     res.sendStatus(202);
@@ -189,7 +190,8 @@ app.post('/updateTotp/:name', validateJWTMiddleware, async (req, res) => {
     const payload = jwt.verify(req.cookies.Authorization, jwtSecret, {
       ignoreExpiration: false,
     });
-    if (payload.tier < 3 && payload.name != req.params.name) throw 403;
+    if (!payload.admin) if (payload.name !== req.params.name) throw 403;
+
     //Provided pass check
     const result = await db
       .collection('users')
@@ -217,7 +219,7 @@ app.post('/updateUser/:name', validateJWTMiddleware, async (req, res) => {
     const payload = jwt.verify(req.cookies.Authorization, jwtSecret, {
       ignoreExpiration: false,
     });
-    if (payload.tier < 3 && payload.name != req.params.name) throw 403;
+    if (!payload.admin) if (payload.name !== req.params.name) throw 403;
 
     await db
       .collection('users')
