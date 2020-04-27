@@ -1,6 +1,8 @@
 version: '3.7'
 services:
   frontend:
+    logging:
+      driver: 'none'
     build: frontend
   backend:
     build: backend
@@ -10,6 +12,8 @@ services:
       - mongodb
 
   dashboard_frontend:
+    logging:
+      driver: 'none'
     build: dashboard/frontend/
   dashboard_backend:
     build: dashboard/backend/

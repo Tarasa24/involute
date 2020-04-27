@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   devServer: {
@@ -25,4 +26,8 @@ module.exports = {
     ],
   },
   publicPath: process.env.NODE_ENV === 'production' ? '/dashboard/' : '/',
+  chainWebpack(config) {
+    config.plugins.delete('prefetch');
+    config.plugin('CompressionPlugin').use(CompressionPlugin);
+  },
 };

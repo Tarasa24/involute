@@ -1,11 +1,13 @@
-FROM node
+FROM node AS builder
 
 COPY package.json package.json
 RUN npm install
-RUN npm i -g history-server
+RUN npm audit fix
 
 COPY . .
 RUN npm run build
-RUN npm audit fix
 
-CMD ["history-server", "dist", "-p", "80"]
+FROM nginx
+
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY --from=builder /dist /www/frontend
