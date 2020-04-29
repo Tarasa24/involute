@@ -56,7 +56,7 @@ nav
     @include scrollbar(2px, gray, transparent)
   @include outside-boundaries
     padding-left: 2.5%
-    font-size: 1.5rem
+    font-size: 1.2rem
 
 .wrapper
   width: $baselineWidth

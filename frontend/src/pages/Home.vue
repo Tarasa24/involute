@@ -49,18 +49,22 @@ export default {
       width: auto
 
   h1
-    font-size: 55px
+    font-size: 3.5rem
     letter-spacing: 5px
     margin: 2% 0
     span
       color: $purple
+    @include medium-device
+      font-size: 3rem
+    @include small-device
+      font-size: 2.2rem
   h2
     margin-right: 45%
     line-height: 1.5
     letter-spacing: .8px
     font-weight: normal
     @include medium-device
-      font-size: 1.2rem
+      font-size: 1.05rem
       margin-right: 15%
     @include small-device-portrait
       font-size: .9rem

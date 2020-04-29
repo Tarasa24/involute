@@ -44,11 +44,12 @@ export default {
   position: sticky
   bottom: 0
   background-color: $bgBlack
+  min-height: 65px
   @include medium-device
     padding: 0 1%
   @include small-device
     height: auto
-  @include small-device-landscape
+  @include small-device
     position: unset
 
 .sponsors
@@ -57,7 +58,7 @@ export default {
   display: flex
   flex-wrap: wrap
   align-items: center
-  @include large-device
+  @include medium-device
     width: 100%
   a
     flex-grow: 1
@@ -67,11 +68,11 @@ export default {
     padding: 10px
     width: auto
     max-width: 100%
-    @include large-device
+    max-height: 60px
+    @include medium-device
       max-width: 120px
     @include small-device-portrait
-      max-width: 50px
-    max-height: 60px
+      max-width: 80px
     filter: brightness(0) invert(1)
     opacity: .95
     @include transition(opacity)

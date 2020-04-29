@@ -97,9 +97,12 @@ export default {
     grid-template-columns: repeat(3, minmax(180px, 1fr))
     column-gap: 4vw
     margin: 0 40px
+    @include large-device
+      column-gap: 10px
     @include medium-device
       grid-template-columns: repeat(2, 1fr)
-    @include small-device
+      width: 100%
+    @include small-device-portrait
       grid-template-columns: 1fr
       max-width: $maxWidth
       margin: 0
@@ -113,12 +116,14 @@ export default {
       width: 100%
       height: 25vh
       max-width: 600px
-      max-height: 337.5px
+      max-height: 240px
       position: relative
       justify-self: center
       margin-bottom: 50px
-      @include small-device
-        height: 35vw
+      @include small-device-portrait
+        height: 35vh
+      @include small-device-landscape
+        height: 70vh
 
       @include transition(transform)
       &:hover

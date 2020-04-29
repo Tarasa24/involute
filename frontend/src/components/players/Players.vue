@@ -100,18 +100,18 @@ export default {
       color: $purple
     h1
       text-align: left
-      font-size: 45px
+      font-size: 2.5rem
       padding: 40px 0
       @include outside-boundaries
         padding-left: 2.5%
       @include medium-device
-        font-size: 2rem
+        font-size: 2.2rem
         padding-left: 5%
         padding-right: 0
       @include small-device-portrait
-        font-size: 1.5rem
+        font-size: 2rem
       @include small-device-landscape
-        font-size: 1.5rem
+        font-size: 2.2
         padding-top: 20px
     h2
       margin: 15px 0 10px 0
@@ -121,7 +121,7 @@ export default {
       width: $baselineWidth
       display: grid
       max-width: $maxWidth
-      @include large-device
+      @include medium-device
         width: 100%
 
     .portraits
@@ -136,13 +136,11 @@ export default {
         width: auto
       .portrait
         margin: 0 10px 25px 0
-        min-height: 300px
-        min-width: 165px
-        max-width: 200px
-        @include small-device-landscape
-          width: 125px
         img
-          width: 100%
+          width: 180px
+          @include small-device-landscape
+            width: auto
+            height: 60vh
         a, .fab, .fas
           font-size: 17px
           color: $textGray
@@ -159,7 +157,7 @@ export default {
             color: $purple
         @include medium-device
           &:first-of-type
-            padding-left: 5%
+            padding-left: 5vw
           &:last-of-type
-            padding-right: 5%
+            padding-right: 5vw
 </style>
