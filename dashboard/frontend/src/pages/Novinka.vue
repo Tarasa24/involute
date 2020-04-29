@@ -15,10 +15,15 @@
       />
       <input placeholder="Nadpis" type="text" class="title" v-model="title" />
       <span>
-        <input placeholder="Hra/Téma" type="text" v-model="game" class="game" />
+        <input
+          placeholder="Hra / Téma"
+          type="text"
+          v-model="game"
+          class="game"
+        />
         <datepicker :language="datepicker.cs" v-model="date" />
       </span>
-      <textarea placeholder="Krátký popiskek" v-model="sub" />
+      <textarea placeholder="Krátký popisek" v-model="sub" />
     </div>
 
     <vue-editor

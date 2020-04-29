@@ -158,6 +158,7 @@ export default {
   /deep/ *:not(img, iframe)
     text-align: left
   /deep/ img, iframe
+    display: flex
     margin: 0 auto
     max-width: 100%
     cursor: auto !important
@@ -170,5 +171,4 @@ export default {
       height: 80vh
   /deep/ p
     margin: 1px 0
-    display: flex
 </style>
