@@ -17,7 +17,7 @@
         <main>
           <div>
             <h1>Hráč</h1>
-            <h2>Něco málo o mě</h2>
+            <h2>Něco málo o mně</h2>
           </div>
 
           <p>
