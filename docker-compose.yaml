@@ -48,7 +48,7 @@ services:
       - ./nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
       - ./nginx/bearer.lua:/bearer.lua
       - ./nginx/access.log:/var/log/nginx/access.log
-      - ./dashboard/GoAccess/index.html:/www/goaccess/index.html
+      - goaccess_data:/www/goaccess
     depends_on:
       - frontend
       - backend
@@ -58,11 +58,12 @@ services:
       - auth
 
   goaccess:
-    image: allinurl/goaccess
+    build: dashboard/goaccess
     volumes:
-      - ./nginx/access.log:/goaccess/log/access.log
-      - ./dashboard/GoAccess/index.html:/goaccess/index.html
-    command: /goaccess/log/access.log -o /goaccess/index.html --log-format=COMBINED --real-time-html
+      - ./nginx/access.log:/var/log/nginx/access.log
+      - goaccess_data:/goaccess
+    command: /var/log/nginx/access.log -o /goaccess/index.html --log-format=COMBINED --real-time-html
 
 volumes:
   mongodb_data:
+  goaccess_data:
