@@ -72,7 +72,13 @@ export default {
 
       const response = await postData('/odkaz/' + id, JSON.stringify(link));
 
-      if (response.status !== 202) alert('Vyskytla se chyba');
+      if (response.status === 202)
+        this.$notify({
+          type: 'success',
+          title: '<i class="fas fa-check" />',
+          text: 'Úspěšně uloženo',
+        });
+      else alert('Vyskytla se chyba');
     },
     async handleNew() {
       event.preventDefault();

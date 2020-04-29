@@ -109,7 +109,12 @@ export default {
         '/oceneni/' + _id,
         JSON.stringify(oceneni)
       );
-      if (response.status == 202) this.$router.go();
+      if (response.status == 202)
+        this.$notify({
+          type: 'success',
+          title: '<i class="fas fa-check" />',
+          text: 'Úspěšně uloženo',
+        });
       else alert('Vyskytla se chyba');
     },
     async handleDelete(oceneniIndex) {
