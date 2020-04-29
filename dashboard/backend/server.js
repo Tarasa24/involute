@@ -44,7 +44,6 @@ server.post('/novinka/:id', async (req, res) => {
   res.sendStatus(
     await db.replace('novinky', { _id: ObjectId(req.params.id) }, req.body)
   );
-  db.replaceNovinka(req, res);
 });
 
 server.put('/novinka', async (req, res) => {
