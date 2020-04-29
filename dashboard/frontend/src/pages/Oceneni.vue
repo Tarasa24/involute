@@ -88,7 +88,10 @@ export default {
     async handleSave(event) {
       event.preventDefault();
       var oceneni = Object.assign({}, this.newOceneni);
-      oceneni.game = this.icons[oceneni.game]._id;
+      oceneni.game =
+        this.icons[oceneni.game] != undefined
+          ? this.icons[oceneni.game]._id
+          : null;
 
       const response = await putData('/oceneni', JSON.stringify(oceneni));
       if (response.status == 202) {
@@ -100,6 +103,8 @@ export default {
     },
     async handleEdit(event, oceneni) {
       event.preventDefault();
+
+      oceneni = Object.assign({}, oceneni);
 
       const _id = oceneni._id;
       delete oceneni._id;

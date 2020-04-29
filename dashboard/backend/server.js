@@ -63,7 +63,7 @@ server.post('/oceneni/:id', async (req, res) => {
 });
 
 server.put('/oceneni', async (req, res) => {
-  req.body.game = ObjectId(req.body.game);
+  req.body.game = req.body.game != null ? ObjectId(req.body.game) : null;
   const { status, id } = await db.insert('oceneni', req.body);
   res.status(status).json({ id: id });
 });
