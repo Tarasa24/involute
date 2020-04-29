@@ -127,6 +127,7 @@ export default {
     .portraits
       display: flex
       justify-self: center
+      align-items: baseline
       overflow: auto
       max-width: 100%
       @include scrollbar(5px, gray, transparent)

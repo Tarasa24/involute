@@ -149,6 +149,7 @@ export default {
   background-color: white
   text-align: center
   padding: 3.5vh calc(30% + 20px)
+  white-space: break-spaces
   @include large-device
     padding: 3.5vh 15%
   @include small-device
