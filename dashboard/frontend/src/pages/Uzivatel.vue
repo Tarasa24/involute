@@ -92,7 +92,7 @@ export default {
   },
   data() {
     return {
-      user: { tier: 1, name: '', password: '' },
+      user: { name: '', password: '' },
       canEdit: { self: true, all: true },
     };
   },
