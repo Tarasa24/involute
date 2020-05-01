@@ -14,8 +14,9 @@
             :href="link.url"
             target="_blank"
             rel="noopener noreferrer"
+            :title="link.name"
           >
-            <b>{{ link.name }}</b>
+            <img :src="link.ico" :alt="link.name" />
             <p>{{ link.sub }}</p>
           </a>
         </div>
@@ -81,12 +82,13 @@ export default {
       color: unset
       border-bottom: 5px solid transparent
       padding-bottom: 40px
+      margin-bottom: 20px
       @include transition(border-bottom-color)
       @include small-device
         padding: 20px
-      b
-        color: $purple
-        font-size: 35px
+      img
+        height: 4rem
+        margin-bottom: 1rem
       p
         color: $textGray
         margin: 0

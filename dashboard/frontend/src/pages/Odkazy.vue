@@ -8,6 +8,19 @@
         :key="link._id"
         @submit="handleEdit(link)"
       >
+        <div class="icon" @click="openRef(link._id)">
+          <img v-if="link.ico" :src="link.ico" :alt="link.name" />
+          <span
+            :style="
+              link.ico == undefined
+                ? 'color: gray; opacity: 1; visibility: visible'
+                : ''
+            "
+          >
+            <b>Změnit ikonu</b>
+          </span>
+        </div>
+
         <input type="text" v-model="link.name" placeholder="Název" required />
         <input type="text" v-model="link.sub" placeholder="Handle" required />
         <input type="url" v-model="link.url" placeholder="https://" required />
@@ -17,9 +30,23 @@
           class="fas fa-trash-alt"
           @click="handleDelete(index)"
         />
+        <FileUpload v-model="link.ico" :ref="link._id" />
       </form>
 
       <form class="link" @submit="handleNew">
+        <div class="icon" @click="openRef('newLink')">
+          <img v-if="newLink.ico" :src="newLink.ico" :alt="newLink.name" />
+          <span
+            :style="
+              newLink.ico == undefined
+                ? 'color: gray; opacity: 1; visibility: visible'
+                : ''
+            "
+          >
+            <b>Změnit ikonu</b>
+          </span>
+        </div>
+
         <input
           type="text"
           v-model="newLink.name"
@@ -39,6 +66,8 @@
           required
         />
         <button type="submit" class="fas fa-plus" />
+
+        <FileUpload v-model="newLink.ico" ref="newLink" />
       </form>
     </div>
   </main>
@@ -51,8 +80,10 @@ import {
   putData,
   deleteData,
 } from '../assets/js/dataFetcher';
+import FileUpload from '../components/FileUpload';
 
 export default {
+  components: { FileUpload },
   data() {
     return {
       links: [],
@@ -63,6 +94,10 @@ export default {
     this.links = await getData('/links');
   },
   methods: {
+    openRef(ref) {
+      if (ref != 'newLink') this.$refs[ref][0].open();
+      else this.$refs.newLink.open();
+    },
     async handleEdit(link) {
       event.preventDefault();
 
@@ -144,4 +179,30 @@ button
     color: $acceptGreen
   &:nth-of-type(2)
     color: $deleteRed
+
+.icon
+  position: relative
+  color: black
+  height: 3.8rem
+  margin-top: 5px
+  img
+    padding: 5px
+    height: calc( 100% - 10px )
+    opacity: 1
+    @include transition(opacity)
+  span
+    visibility: hidden
+    opacity: 0
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    @include transition(opacity)
+  &:hover
+    cursor: pointer
+    img
+      opacity: .2
+    span
+      visibility: visible
+      opacity: 1
 </style>
