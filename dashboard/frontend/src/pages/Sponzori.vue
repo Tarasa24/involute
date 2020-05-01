@@ -164,11 +164,16 @@ export default {
       background-color: $darkerGray
 
 input, button
-  padding: 10px
+  padding: 7.5px 5px
   border: 0
   background-color: transparent
   &:focus
     outline: 0
+input
+  text-align: center
+  width: calc( 100% - 10px )
+  &:nth-of-type(1)
+    font-size: 1.7rem
 
 button
   margin: 0 5px
