@@ -172,7 +172,7 @@ export default {
         const { id } = await result.json();
         this.newFile._id = id;
         this.media.unshift(this.newFile);
-        this.newFile = {};
+        this.newFile = { gallery: [] },
       } else alert('Vyskytla se chyba');
     },
   },
