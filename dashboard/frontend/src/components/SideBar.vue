@@ -13,6 +13,9 @@
       <router-link to="/novinky">
         <i class="fas fa-newspaper" />Novinky
       </router-link>
+      <router-link to="/media">
+        <i class="fas fa-photo-video" />Média
+      </router-link>
       <router-link to="/oceneni">
         <i class="fas fa-trophy" />Ocenění
       </router-link>

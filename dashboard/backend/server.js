@@ -71,6 +71,21 @@ server.delete('/oceneni/:id', async (req, res) => {
   res.sendStatus(await db.remove('oceneni', { _id: ObjectId(req.params.id) }));
 });
 
+server.post('/media/:id', async (req, res) => {
+  res.sendStatus(
+    await db.replace('media', { _id: ObjectId(req.params.id) }, req.body)
+  );
+});
+
+server.put('/media', async (req, res) => {
+  const { status, id } = await db.insert('media', req.body);
+  res.status(status).json({ id: id });
+});
+
+server.delete('/media/:id', async (req, res) => {
+  res.sendStatus(await db.remove('media', { _id: ObjectId(req.params.id) }));
+});
+
 server.get('/uzivatele', (req, res) => {
   db.getUzivatele(req, res);
 });

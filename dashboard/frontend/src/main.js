@@ -10,6 +10,7 @@ import Eshop from './pages/Eshop';
 import Produkt from './pages/Produkt';
 import Novinky from './pages/Novinky';
 import Novinka from './pages/Novinka';
+import Media from './pages/Media';
 import Oceneni from './pages/Oceneni';
 import Uzivatele from './pages/Uzivatele';
 import UzivatelHeslo from './pages/UzivatelHeslo';
@@ -48,6 +49,7 @@ const routes = [
   { path: '/novinky', component: Novinky },
   { path: '/novinka/pridat', component: Novinka, props: { newArticle: true } },
   { path: '/novinka/:id', component: Novinka },
+  { path: '/Media/', component: Media },
   { path: '/oceneni', component: Oceneni },
   { path: '/uzivatele', component: Uzivatele },
   { path: '/uzivatel/pridat', component: Uzivatel, props: { newUser: true } },
