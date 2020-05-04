@@ -11,7 +11,6 @@
         <router-link to="/partneri">Partneři</router-link>
         <router-link to="/oceneni">Ocenění</router-link>
         <router-link to="/media">Média</router-link>
-        <router-link to="/eshop">Eshop</router-link>
         <router-link to="/kontakt">Kontakt</router-link>
         <router-link class="login" v-if="!authenticated" to="/login"
           >Login</router-link

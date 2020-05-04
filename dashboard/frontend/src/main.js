@@ -6,8 +6,6 @@ import Notifications from 'vue-notification';
 import App from './App.vue';
 import Home from './pages/Home';
 import Traffic from './pages/Traffic';
-import Eshop from './pages/Eshop';
-import Produkt from './pages/Produkt';
 import Novinky from './pages/Novinky';
 import Novinka from './pages/Novinka';
 import Media from './pages/Media';
@@ -39,13 +37,6 @@ Vue.use(VueRouter);
 const routes = [
   { path: '/', component: Home },
   { path: '/traffic', component: Traffic },
-  { path: '/eshop', component: Eshop },
-  {
-    path: '/eshop/produkt/pridat',
-    component: Produkt,
-    props: { newProdukt: true },
-  },
-  { path: '/eshop/produkt/:id', component: Produkt },
   { path: '/novinky', component: Novinky },
   { path: '/novinka/pridat', component: Novinka, props: { newArticle: true } },
   { path: '/novinka/:id', component: Novinka },

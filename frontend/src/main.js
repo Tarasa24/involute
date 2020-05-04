@@ -2,7 +2,6 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vue2TouchEvents from 'vue2-touch-events';
 import VueProgressBar from 'vue-progressbar';
-import ZoomOnHover from 'vue-zoom-on-hover';
 import AsyncComputed from 'vue-async-computed';
 
 import App from './App.vue';
@@ -14,11 +13,6 @@ import Hrac from './pages/Hrac';
 import Partneri from './pages/Partneri';
 import Oceneni from './pages/Oceneni';
 import Media from './pages/Media';
-import Eshop from './pages/Eshop';
-import Produkt from './pages/Produkt';
-import Kosik from './pages/Kosik';
-import Platba from './pages/Platba';
-import Objednavka from './pages/Objednavka';
 import Kontakt from './pages/Kontakt';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
@@ -30,7 +24,6 @@ Vue.use(VueProgressBar, {
   failedColor: 'red',
   height: '2px',
 });
-Vue.use(ZoomOnHover);
 Vue.use(AsyncComputed);
 
 const routes = [
@@ -50,11 +43,6 @@ const routes = [
     component: Media,
     props: { perPage: 12 },
   },
-  { path: '/eshop', component: Eshop },
-  { path: '/eshop/produkt/:id', component: Produkt },
-  { path: '/eshop/kosik', component: Kosik },
-  { path: '/eshop/platba', component: Platba },
-  { path: '/eshop/objednavka/:type', component: Objednavka },
   { path: '/kontakt', component: Kontakt },
   { path: '/login', component: Login },
   { path: '*', component: NotFound },

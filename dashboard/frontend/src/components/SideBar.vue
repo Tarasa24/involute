@@ -7,9 +7,6 @@
       <router-link to="/traffic">
         <i class="fas fa-chart-line" />Traffic
       </router-link>
-      <router-link to="/eshop">
-        <i class="fas fa-shopping-basket" />Eshop
-      </router-link>
       <router-link to="/novinky">
         <i class="fas fa-newspaper" />Novinky
       </router-link>

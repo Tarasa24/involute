@@ -1,7 +1,6 @@
 const credentials = require('./modules/credentials');
 const novinky = require('./modules/novinky');
 const hraci = require('./modules/hraci');
-const eshop = require('./modules/eshop');
 const express = require('express');
 const compression = require('compression');
 const cors = require('cors');
@@ -51,18 +50,6 @@ server.get('/links', async (req, res) => {
   var result = await db.collection('links').find({}).toArray();
 
   res.json(result);
-});
-
-server.get('/produkty', async (req, res) => {
-  await eshop.produkty(req, res, db);
-});
-
-server.get('/produkt/:id', async (req, res) => {
-  await eshop.produkt(req, res, db);
-});
-
-server.post('/objednat', (req, res) => {
-  eshop.objednat(req, res, db);
 });
 
 server.get('/oceneni', async (req, res) => {

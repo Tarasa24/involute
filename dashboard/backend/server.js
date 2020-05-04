@@ -15,27 +15,6 @@ server.use(compression());
 server.use(cors());
 server.use(express.json({ limit: '15mb' }));
 
-server.post('/produkt/:id', async (req, res) => {
-  res.sendStatus(
-    await db.replace(
-      'eshop-produkty',
-      { _id: ObjectId(req.params.id) },
-      req.body
-    )
-  );
-});
-
-server.delete('/produkt/:id', async (req, res) => {
-  res.sendStatus(
-    await remove('eshop-produkty', { _id: ObjectId(req.params.id) })
-  );
-});
-
-server.put('/produkt', async (req, res) => {
-  const { status, id } = await db.insert('eshop-produkty', req.body);
-  res.status(status).json({ id: id });
-});
-
 server.get('/novinky', async (req, res) => {
   db.findNovinky(req, res);
 });
