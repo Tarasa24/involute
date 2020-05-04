@@ -110,6 +110,24 @@ server.get('/sponzori', async (req, res) => {
   res.json(result);
 });
 
+server.get('/media/:skip/:limit', async (req, res) => {
+  let skip = Number(req.params.skip);
+  let limit = Number(req.params.limit);
+  let result = await db
+    .collection('media')
+    .find()
+    .sort({ _id: -1 })
+    .skip(skip)
+    .limit(limit)
+    .toArray();
+  res.json(result);
+});
+
+server.get('/media/length', async (req, res) => {
+  let result = await db.collection('media').estimatedDocumentCount();
+  res.json(result);
+});
+
 server.listen(port, () =>
   console.log(`<Website Backend server> listening on port ${port}`)
 );

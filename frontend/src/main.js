@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Vue2TouchEvents from 'vue2-touch-events';
 import VueProgressBar from 'vue-progressbar';
 import ZoomOnHover from 'vue-zoom-on-hover';
+import AsyncComputed from 'vue-async-computed';
 
 import App from './App.vue';
 import Home from './pages/Home';
@@ -12,6 +13,7 @@ import Hraci from './pages/Hraci';
 import Hrac from './pages/Hrac';
 import Partneri from './pages/Partneri';
 import Oceneni from './pages/Oceneni';
+import Media from './pages/Media';
 import Eshop from './pages/Eshop';
 import Produkt from './pages/Produkt';
 import Kosik from './pages/Kosik';
@@ -29,6 +31,7 @@ Vue.use(VueProgressBar, {
   height: '2px',
 });
 Vue.use(ZoomOnHover);
+Vue.use(AsyncComputed);
 
 const routes = [
   { path: '/', component: Home },
@@ -42,6 +45,11 @@ const routes = [
   { path: '/hrac/:name', component: Hrac },
   { path: '/partneri', component: Partneri },
   { path: '/oceneni', component: Oceneni },
+  {
+    path: '/media/:page?',
+    component: Media,
+    props: { perPage: 12 },
+  },
   { path: '/eshop', component: Eshop },
   { path: '/eshop/produkt/:id', component: Produkt },
   { path: '/eshop/kosik', component: Kosik },

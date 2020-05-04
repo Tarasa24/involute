@@ -18,8 +18,8 @@ export default {};
     font-size: 45px
     letter-spacing: 3px
   h2
-    font-weight: bolder
-    font-size: 2rem
+    font-weight: normal
+    font-size: 1.8rem
     margin-bottom: 25px
   span
     font-size: 4.5rem

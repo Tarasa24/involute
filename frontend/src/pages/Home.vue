@@ -14,17 +14,17 @@
 
     <Sponsors />
     <News />
-    <Players />
+    <Media />
   </div>
 </template>
 
 <script>
 import Sponsors from '../components/Sponsors.vue';
 import News from '../components/news/News.vue';
-import Players from '../components/players/Players.vue';
+import Media from './Media.vue';
 
 export default {
-  components: { Sponsors, News, Players },
+  components: { Sponsors, News, Media },
 };
 </script>
 
