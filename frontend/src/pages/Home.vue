@@ -20,7 +20,7 @@
 
 <script>
 import Sponsors from '../components/Sponsors.vue';
-import News from '../components/news/News.vue';
+import News from '../pages/Novinky';
 import Media from './Media.vue';
 
 export default {

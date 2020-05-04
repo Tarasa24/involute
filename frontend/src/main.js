@@ -38,7 +38,7 @@ const routes = [
   {
     path: '/novinky/:page?',
     component: Novinky,
-    props: route => ({ page: route.params.page || 1 }),
+    props: { perPage: 12 },
   },
   { path: '/novinka/:id', component: Novinka },
   { path: '/hraci', component: Hraci },

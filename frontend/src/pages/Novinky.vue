@@ -1,121 +1,156 @@
 <template>
-  <div>
-    <News ref="News" :page="current_page" :n="length" />
-    <div class="picker">
-      <a v-if="current_page - 1 < 1" disabled class="fas fa-chevron-left" />
-      <router-link
-        v-else
-        :to="'/novinky/' + (current_page - 1)"
-        class="fas fa-chevron-left"
-      />
-
-      <router-link
-        v-for="page in range(current_page - 3, current_page + 1)"
-        :key="page"
-        :enabled="page === current_page"
-        :to="'/novinky/' + page"
-        >{{ page }}</router-link
-      >
-      <router-link
-        :to="'/novinky/' + pages.length"
-        v-if="current_page + 2 < pages.length"
-        >{{ pages.length }}</router-link
-      >
-
-      <a
-        v-if="current_page + 1 > pages.length"
-        disabled
-        class="fas fa-chevron-right"
-      />
-      <router-link
-        v-else
-        :to="'/novinky/' + (current_page + 1)"
-        class="fas fa-chevron-right"
-      />
+  <main>
+    <div class="novinky">
+      <Header>
+        <h1>Novinky</h1>
+        <h2>Aktuální informace o tom, co se děje ve světě esports.</h2>
+      </Header>
+      <div class="container">
+        <router-link
+          :to="'/novinka/' + novinka._id"
+          class="novinka"
+          v-for="novinka in novinky"
+          :key="novinka._id"
+          :style="'background: url(' + novinka.bg + '), white'"
+        >
+          <span>
+            <h6>{{ novinka.game }}</h6>
+            <a>{{ novinka.title }}</a>
+          </span>
+        </router-link>
+      </div>
     </div>
-  </div>
+    <PagePicker url="/novinky" :total="total" :perPage="perPage" />
+  </main>
 </template>
 
 <script>
-import News from '../components/news/News.vue';
-
 import { getData } from '../assets/js/dataFetcher';
 
+import Header from '../components/misc/Header';
+import PagePicker from '../components/misc/PagePicker';
+
 export default {
-  components: { News },
+  components: { Header, PagePicker },
+  props: {
+    perPage: {
+      default: 6,
+    },
+  },
   data() {
     return {
-      pages: [],
-      maxPage: 0,
-      current_page: 1,
-      length: 9,
+      novinky: [],
+      total: 0,
     };
   },
   watch: {
-    $route: 'getCurrentPage',
+    $route: 'load',
   },
   async created() {
-    this.getCurrentPage();
-    let pocetStranek = Math.ceil(
-      (await getData('/novinky/length')) / this.$refs.News.length
-    );
-    this.maxPage = pocetStranek;
-    this.pages = this.range(0, pocetStranek);
+    this.load();
   },
   methods: {
-    range(min, max) {
-      if (max <= 3) max = 4;
-      else if (min >= this.maxPage - 4) min = this.maxPage - 5;
-
-      if (min < 0) min = 0;
-      if (max > this.maxPage) max = this.maxPage;
-
-      var a = [];
-      var b = min;
-
-      while (b < max) {
-        a.push((b += 1));
-      }
-      return a;
-    },
-    getCurrentPage() {
-      this.current_page = Number(this.$attrs.page);
+    async load() {
+      this.$Progress.start();
+      this.total = await getData('/novinky/length');
+      this.novinky = await getData(
+        `/novinky/${(this.$route.params.page - 1 || 0) * this.perPage}/${
+          this.perPage
+        }`
+      );
+      this.$Progress.finish();
     },
   },
 };
 </script>
 
 <style lang="sass" scoped>
-.picker
+main
   background-color: $bgGray
-  padding-bottom: 5vh
 
-  a
-    font-weight: bolder
-    text-decoration: none
-    color: black
-    display: inline-block
-    border: 1px black solid
-    border-left-width: 0px
-    width: 3rem
-    padding: 0.5rem 0
-    background-color: white
-    &:first-child, &:last-child
-      padding: calc( 0.5rem + 1px ) 0 calc( 0.5rem + 3px ) 0
-      &[disabled]
-        background-color: gray
-        &:hover
-          color: black
-      &:not([disabled])
+.novinky
+  padding-top: 25px
+  display: grid
+  grid-template-columns: 1fr
+  grid-template-areas: "head" "container"
+  align-items: center
+  justify-items: center
+  @include medium-device
+    grid-template-columns: 100%
+    padding: 5%
+
+  h1
+    text-transform: uppercase
+    color: $purple
+    font-size: 45px
+    letter-spacing: 3px
+  h2
+    font-weight: normal
+    font-size: 25px
+    margin-bottom: 25px
+
+  .container
+    grid-area: container
+    display: grid
+    width: $baselineWidth
+    max-width: $maxWidth - 80px
+    grid-template-columns: repeat(3, minmax(180px, 1fr))
+    column-gap: 4vw
+    margin: 0 40px
+    @include large-device
+      column-gap: 10px
+    @include medium-device
+      grid-template-columns: repeat(2, 1fr)
+      width: 100%
+    @include small-device-portrait
+      grid-template-columns: 1fr
+      max-width: $maxWidth
+      margin: 0
+    @include outside-boundaries
+      width: 70%
+
+    .novinka
+      background-repeat: no-repeat !important
+      background-size: cover !important
+      background-position: center center !important
+      width: 100%
+      height: 25vh
+      max-width: 600px
+      max-height: 240px
+      position: relative
+      justify-self: center
+      margin-bottom: 50px
+      @include small-device-portrait
+        height: 35vh
+      @include small-device-landscape
+        height: 70vh
+
+      @include transition(transform)
+      &:hover
+        transform: scale(.96)
+        a
+          color: $purple
+
+      span
+        background-color: rgba(black, 0.7)
         color: $textGray
-        border-color: $purple
-        background-color: $purple
-    &:first-child
-      border-left-width: 1px
+        text-align: left
+        padding: 10px 0 10px 10px
 
-    &:hover
-      @include transition(color)
-      color: $purple
-    &[enabled]
-      color: $purple
+        position: absolute
+        bottom: 0
+        left: 0
+        width: calc(100% - 10px)
+
+        a, h6
+          margin: 0
+          font-weight: normal
+        a
+          font-size: 20px
+          @include transition(color)
+          text-decoration: none
+          color: $textGray
+          font-weight: bolder
+        h6
+          font-size: 15px
 </style>
