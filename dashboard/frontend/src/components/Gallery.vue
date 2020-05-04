@@ -78,13 +78,13 @@ export default {
     disableScroll() {
       var x = window.scrollX;
       var y = window.scrollY;
-      window.onscroll = function() {
+      window.onscroll = function () {
         window.scrollTo(x, y);
       };
       document.documentElement.style.scrollBehavior = 'unset';
     },
     enableScroll() {
-      window.onscroll = function() {};
+      window.onscroll = function () {};
       document.documentElement.style = '';
     },
     handleOutside() {

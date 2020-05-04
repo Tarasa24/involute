@@ -17,9 +17,7 @@
       <div class="file">
         <div v-if="newFile.type == 'video'">
           <img
-            :src="
-              `https://img.youtube.com/vi/${newFile.code}/maxresdefault.jpg`
-            "
+            :src="`https://img.youtube.com/vi/${newFile.code}/maxresdefault.jpg`"
             alt="thumb"
             class="img"
           />
@@ -172,7 +170,7 @@ export default {
         const { id } = await result.json();
         this.newFile._id = id;
         this.media.unshift(this.newFile);
-        this.newFile = { gallery: [] },
+        this.newFile = { gallery: [] };
       } else alert('Vyskytla se chyba');
     },
   },

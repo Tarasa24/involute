@@ -74,12 +74,12 @@ export default {
     disableScroll() {
       var x = window.scrollX;
       var y = window.scrollY;
-      window.onscroll = function() {
+      window.onscroll = function () {
         window.scrollTo(x, y);
       };
     },
     enableScroll() {
-      window.onscroll = function() {};
+      window.onscroll = function () {};
     },
     async load() {
       this.$Progress.start();
