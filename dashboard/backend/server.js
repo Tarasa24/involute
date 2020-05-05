@@ -87,7 +87,9 @@ server.put('/media', async (req, res) => {
       data: req.body.gallery,
     });
 
-    await db.updateMedia(req, res, id, response.data);
+    if (response.status === 200)
+      await db.updateMedia(req, res, id, response.data);
+    else res.sendStatus(response.status);
   } else {
     const { status, id } = await db.insert('media', req.body);
     res.status(status).json({ id: id });
