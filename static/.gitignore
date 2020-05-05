@@ -1,0 +1,9 @@
+public/*
+
+!public/temp
+public/temp/*
+!public/temp/.gitkeep
+
+!public/media
+public/media/*
+!public/media/.gitkeep

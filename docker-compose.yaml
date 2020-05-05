@@ -28,6 +28,16 @@ services:
     depends_on:
       - mongodb
 
+  static:
+    restart: always
+    build: static
+    volumes:
+      - ./static/public:/static/public
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - mongodb
+
   mongodb:
     restart: always
     image: mongo
@@ -56,6 +66,7 @@ services:
       - dashboard_frontend
       - dashboard_backend
       - auth
+      - static
 
   goaccess:
     build: dashboard/goaccess

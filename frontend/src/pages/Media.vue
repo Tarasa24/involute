@@ -37,6 +37,7 @@
 
 <script>
 import { getData } from '../assets/js/dataFetcher';
+import { staticUrl } from '../assets/js/dev';
 
 import VueGallerySlideshow from 'vue-gallery-slideshow';
 import VideoOverlay from '../components/VideoOverlay';
@@ -54,6 +55,7 @@ export default {
     return {
       media: [],
       total: 0,
+      staticUrl: staticUrl,
     };
   },
   watch: {
@@ -89,8 +91,13 @@ export default {
           this.perPage
         }`
       );
-      media.forEach(element => {
-        element.index = null;
+      media.forEach(file => {
+        file.index = null;
+        if (file.type == 'images') {
+          for (let i = 0; i < file.gallery.length; i++) {
+            file.gallery[i] = this.staticUrl + file.gallery[i];
+          }
+        }
       });
       this.media = media;
       this.$Progress.finish();

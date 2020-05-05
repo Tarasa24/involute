@@ -243,6 +243,17 @@ async function updateGameKey(req, res) {
   }
 }
 
+async function updateMedia(req, res, id, gallery) {
+  try {
+    await db
+      .collection('media')
+      .updateOne({ _id: ObjectId(id) }, { $set: { gallery: gallery } });
+    res.status(202).json({ id: id, gallery: gallery });
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
 module.exports = {
   replace,
   remove,
@@ -257,4 +268,5 @@ module.exports = {
   pushPlayerToList,
   popPlayerFromList,
   updateGameKey,
+  updateMedia,
 };

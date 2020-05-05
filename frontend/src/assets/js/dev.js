@@ -6,4 +6,7 @@ const dashboardUrl =
     ? '/dashboard'
     : 'http://localhost:8180/dashboard';
 
-module.exports = { authUrl, dashboardUrl };
+const staticUrl =
+  process.env.NODE_ENV === 'production' ? '/static' : 'http://localhost:5000';
+
+module.exports = { authUrl, dashboardUrl, staticUrl };

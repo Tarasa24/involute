@@ -167,7 +167,8 @@ export default {
       const result = await putData('/media', JSON.stringify(newFile));
 
       if (result.status === 202) {
-        const { id } = await result.json();
+        const { id, gallery } = await result.json();
+        if (gallery) this.newFile.gallery = gallery;
         this.newFile._id = id;
         this.media.unshift(this.newFile);
         this.newFile = { gallery: [] };

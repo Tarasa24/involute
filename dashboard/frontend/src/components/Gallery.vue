@@ -1,6 +1,10 @@
 <template>
   <div class="gallery">
-    <img v-if="images.length > 0" :src="images[0]" @click="open" />
+    <img
+      v-if="images.length > 0"
+      :src="`${staticUrl}/${images[0]}`"
+      @click="open"
+    />
     <span v-else class="fas fa-plus" @click="open" />
 
     <div v-if="visible" class="overlay" @click="handleOutside">
@@ -32,7 +36,7 @@
           <img
             v-for="(image, index) in images"
             :key="image"
-            :src="image"
+            :src="`${staticUrl}/${image}`"
             draggable
             @dragstart="dragStart(index)"
           />
@@ -52,7 +56,6 @@
 
 <script>
 import draggable from 'vuedraggable';
-import Compressor from 'compressorjs';
 
 export default {
   components: { draggable },
@@ -61,6 +64,10 @@ export default {
     return {
       visible: false,
       images: [],
+      staticUrl:
+        process.env.NODE_ENV === 'production'
+          ? '/static'
+          : 'http://localhost:5000',
     };
   },
   created() {
@@ -98,9 +105,18 @@ export default {
       event.dataTransfer.setData('index', index);
       event.dataTransfer.dropEffect = 'move';
     },
-    handleDelete() {
+    async handleDelete() {
       this.highlight(false, '.trash', 'highlight-red');
-      this.images.splice(Number(event.dataTransfer.getData('index')), 1);
+
+      const index = Number(event.dataTransfer.getData('index'));
+      const element = this.images[index];
+
+      const response = await fetch(`${this.staticUrl}/api/rm${element}`, {
+        method: 'DELETE',
+      });
+
+      if (response.status == 200) this.images.splice(index, 1);
+      else alert('Vyskytla se chyba');
     },
     handleChange() {
       this.$emit('input', this.images);
@@ -108,35 +124,21 @@ export default {
     async handleFileInput(event) {
       const files = event.target.files;
 
-      function compress(file) {
-        return new Promise((resolve, reject) => {
-          new Compressor(file, {
-            convertSize: 2500000,
-            maxWidth: 1920,
-            maxHeight: 1080,
-            success(result) {
-              resolve(result);
-            },
-            error(err) {
-              reject(err);
-            },
-          });
-        });
+      const data = new FormData();
+
+      for (const file of files) {
+        data.append('files[]', file, file.name);
       }
 
-      function toBase64(file) {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = error => reject(error);
-        });
-      }
+      const response = await fetch(`${this.staticUrl}/api/upload`, {
+        method: 'POST',
+        body: data,
+      });
 
-      for (let i = 0; i < files.length; i++) {
-        const compressed = await compress(files[i]);
-        this.images.push(await toBase64(compressed));
-      }
+      if (response.status == 202) {
+        this.images = this.images.concat(await response.json());
+        this.$emit('input', this.images);
+      } else alert('Vyskytla se chyba');
     },
   },
 };

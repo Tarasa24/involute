@@ -3,6 +3,7 @@ const compression = require('compression');
 const cors = require('cors');
 const socket = require('socket.io');
 const { ObjectId } = require('mongodb');
+const axios = require('axios');
 
 const fetchFromFrontendApi = require('./modules/fetcher');
 const { checkStatus } = require('./modules/socket');
@@ -51,18 +52,62 @@ server.delete('/oceneni/:id', async (req, res) => {
 });
 
 server.post('/media/:id', async (req, res) => {
+  if (req.body.type == 'images') {
+    const staticUrl =
+      process.env.NODE_ENV === 'production'
+        ? 'http://static:5000'
+        : 'http://localhost:5000';
+
+    const response = await axios({
+      method: 'POST',
+      url: `${staticUrl}/api/mv/${req.params.id}`,
+      data: req.body.gallery,
+    });
+
+    req.body.gallery = response.data;
+  }
+
   res.sendStatus(
     await db.replace('media', { _id: ObjectId(req.params.id) }, req.body)
   );
 });
 
 server.put('/media', async (req, res) => {
-  const { status, id } = await db.insert('media', req.body);
-  res.status(status).json({ id: id });
+  if (req.body.type == 'images') {
+    const { id } = await db.insert('media', req.body);
+
+    const staticUrl =
+      process.env.NODE_ENV === 'production'
+        ? 'http://static:5000'
+        : 'http://localhost:5000';
+
+    const response = await axios({
+      method: 'POST',
+      url: `${staticUrl}/api/mv/${id}`,
+      data: req.body.gallery,
+    });
+
+    await db.updateMedia(req, res, id, response.data);
+  } else {
+    const { status, id } = await db.insert('media', req.body);
+    res.status(status).json({ id: id });
+  }
 });
 
 server.delete('/media/:id', async (req, res) => {
-  res.sendStatus(await db.remove('media', { _id: ObjectId(req.params.id) }));
+  if ((await db.remove('media', { _id: ObjectId(req.params.id) })) === 202) {
+    const staticUrl =
+      process.env.NODE_ENV === 'production'
+        ? 'http://static:5000'
+        : 'http://localhost:5000';
+
+    const response = await axios({
+      method: 'DELETE',
+      url: `${staticUrl}/api/rmdir/${req.params.id}`,
+    });
+    if (response.status === 200) res.sendStatus(202);
+    else res.sendStatus(response.status);
+  } else res.sendStatus(400);
 });
 
 server.get('/uzivatele', (req, res) => {
