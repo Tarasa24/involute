@@ -7,10 +7,10 @@
       <span>
         <router-link to="/">Home</router-link>
         <router-link to="/novinky">Novinky</router-link>
+        <router-link to="/media">Média</router-link>
         <router-link to="/hraci">Hráči</router-link>
         <router-link to="/partneri">Partneři</router-link>
         <router-link to="/oceneni">Ocenění</router-link>
-        <router-link to="/media">Média</router-link>
         <router-link to="/kontakt">Kontakt</router-link>
         <router-link class="login" v-if="!authenticated" to="/login"
           >Login</router-link
