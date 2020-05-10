@@ -47,8 +47,9 @@ async function novinka(req, res, db) {
 }
 
 async function length(req, res, db) {
-  let result = await db.collection('novinky').estimatedDocumentCount();
-  res.json(result);
+  const all = await db.collection('novinky').estimatedDocumentCount();
+  const pinned = await db.collection('novinky').find({ pinned: true }).count();
+  res.json(all - pinned);
 }
 
 async function novinky(req, res, db) {
@@ -56,7 +57,7 @@ async function novinky(req, res, db) {
   let limit = Number(req.params.limit);
   let result = await db
     .collection('novinky')
-    .find()
+    .find({ pinned: { $ne: true } })
     .sort({ date: -1, created: -1 })
     .skip(skip)
     .limit(limit)
@@ -64,4 +65,14 @@ async function novinky(req, res, db) {
   res.json(result);
 }
 
-module.exports = { neighbors, novinka, length, novinky };
+async function pinned(req, res, db) {
+  let result = await db
+    .collection('novinky')
+    .find({ pinned: true })
+    .sort({ date: -1, created: -1 })
+    .limit(2)
+    .toArray();
+  res.json(result);
+}
+
+module.exports = { neighbors, novinka, length, novinky, pinned };

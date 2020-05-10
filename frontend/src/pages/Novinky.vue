@@ -1,24 +1,38 @@
 <template>
   <main>
-    <div class="novinky">
-      <Header>
-        <h1>Novinky</h1>
-        <h2>Aktuální informace o tom, co se děje ve světě esports.</h2>
-      </Header>
-      <div class="container">
-        <router-link
-          :to="'/novinka/' + novinka._id"
-          class="novinka"
-          v-for="novinka in novinky"
-          :key="novinka._id"
-          :style="'background: url(' + novinka.bg + '), white'"
-        >
-          <span>
-            <h6>{{ novinka.game }}</h6>
-            <a>{{ novinka.title }}</a>
-          </span>
-        </router-link>
-      </div>
+    <Header>
+      <h1>Novinky</h1>
+      <h2>Aktuální informace o tom, co se děje ve světě esports.</h2>
+    </Header>
+
+    <div class="pinned">
+      <router-link
+        v-for="pin in pinned"
+        :key="pin._id"
+        :to="'/novinka/' + pin._id"
+        class="novinka big"
+        :style="'background: url(' + pin.bg + '), white'"
+      >
+        <span :disabled="!pin.game || !pin.title">
+          <h6>{{ pin.game }}</h6>
+          <a>{{ pin.title }}</a>
+        </span>
+      </router-link>
+    </div>
+
+    <div class="container">
+      <router-link
+        :to="'/novinka/' + novinka._id"
+        class="novinka"
+        v-for="novinka in novinky"
+        :key="novinka._id"
+        :style="'background: url(' + novinka.bg + '), white'"
+      >
+        <span>
+          <h6>{{ novinka.game }}</h6>
+          <a>{{ novinka.title }}</a>
+        </span>
+      </router-link>
     </div>
     <PagePicker url="/novinky" :total="total" :perPage="perPage" />
   </main>
@@ -40,6 +54,7 @@ export default {
   data() {
     return {
       novinky: [],
+      pinned: [],
       total: 0,
     };
   },
@@ -51,6 +66,7 @@ export default {
   },
   methods: {
     async load() {
+      window.scrollTo(0, 0);
       this.$Progress.start();
       this.total = await getData('/novinky/length');
       this.novinky = await getData(
@@ -58,6 +74,8 @@ export default {
           this.perPage
         }`
       );
+      this.pinned = await getData('/novinky/pinned');
+      if (this.pinned.length == 1) this.pinned.push({});
       this.$Progress.finish();
     },
   },
@@ -67,90 +85,88 @@ export default {
 <style lang="sass" scoped>
 main
   background-color: $bgGray
-
-.novinky
-  padding-top: 25px
-  display: grid
-  grid-template-columns: 1fr
-  grid-template-areas: "head" "container"
-  align-items: center
-  justify-items: center
   @include medium-device
-    grid-template-columns: 100%
     padding: 5%
 
-  h1
-    text-transform: uppercase
-    color: $purple
-    font-size: 45px
-    letter-spacing: 3px
-  h2
-    font-weight: normal
-    font-size: 25px
-    margin-bottom: 25px
+.container, .pinned
+  grid-area: container
+  display: grid
+  margin: auto
+  width: $baselineWidth
+  max-width: $maxWidth - 80px
+  grid-template-columns: repeat(3, minmax(180px, 1fr))
+  column-gap: 4vw
+  @include large-device
+    column-gap: 10px
+  @include medium-device
+    grid-template-columns: repeat(2, 1fr)
+    width: 100%
+  @include small-device-portrait
+    grid-template-columns: 1fr
+    max-width: $maxWidth
+    margin: 0
+  @include outside-boundaries
+    width: 70%
 
-  .container
-    grid-area: container
-    display: grid
-    width: $baselineWidth
-    max-width: $maxWidth - 80px
-    grid-template-columns: repeat(3, minmax(180px, 1fr))
-    column-gap: 4vw
-    margin: 0 40px
-    @include large-device
-      column-gap: 10px
-    @include medium-device
-      grid-template-columns: repeat(2, 1fr)
-      width: 100%
-    @include small-device-portrait
-      grid-template-columns: 1fr
-      max-width: $maxWidth
+.pinned
+  grid-template-columns: 50% 50%
+  column-gap: 0
+  margin-bottom: 12px
+  border-bottom: 2px solid $textGray
+
+.novinka
+  background-repeat: no-repeat !important
+  background-size: cover !important
+  background-position: center center !important
+  width: 100%
+  justify-self: center
+  height: 25vh
+  max-width: 600px
+  max-height: 240px
+  position: relative
+  margin-bottom: 10px
+  @include small-device-portrait
+    height: 35vh
+    width: calc(100% - 10px)
+  @include small-device-landscape
+    height: 70vh
+    width: calc(100% - 10px)
+  @include transition(transform)
+  &:hover
+    transform: scale(.96)
+    a
+      color: $purple
+
+  span
+    background-color: rgba(black, 0.7)
+    color: $textGray
+    text-align: left
+    padding: 10px 0 10px 10px
+    position: absolute
+    bottom: 0
+    left: 0
+    width: calc(100% - 10px)
+    &[disabled]
+      padding: 0
+    a, h6
       margin: 0
-    @include outside-boundaries
-      width: 70%
+      font-weight: normal
+    a
+      font-size: 20px
+      @include transition(color)
+      text-decoration: none
+      color: $textGray
+      font-weight: bolder
+    h6
+      font-size: 15px
 
-    .novinka
-      background-repeat: no-repeat !important
-      background-size: cover !important
-      background-position: center center !important
-      width: 100%
-      height: 25vh
-      max-width: 600px
-      max-height: 240px
-      position: relative
-      justify-self: center
-      margin-bottom: 50px
-      @include small-device-portrait
-        height: 35vh
-      @include small-device-landscape
-        height: 70vh
-
-      @include transition(transform)
-      &:hover
-        transform: scale(.96)
-        a
-          color: $purple
-
-      span
-        background-color: rgba(black, 0.7)
-        color: $textGray
-        text-align: left
-        padding: 10px 0 10px 10px
-
-        position: absolute
-        bottom: 0
-        left: 0
-        width: calc(100% - 10px)
-
-        a, h6
-          margin: 0
-          font-weight: normal
-        a
-          font-size: 20px
-          @include transition(color)
-          text-decoration: none
-          color: $textGray
-          font-weight: bolder
-        h6
-          font-size: 15px
+.big
+  max-width: unset
+  max-height: unset
+  width: calc(100% - 7.5px)
+  height: 35vh
+  &:nth-of-type(1)
+    justify-self: left
+  &:nth-of-type(2)
+    justify-self: right
 </style>

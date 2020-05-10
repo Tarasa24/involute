@@ -29,6 +29,10 @@ server.get('/novinky/length', async (req, res) => {
   await novinky.length(req, res, db);
 });
 
+server.get('/novinky/pinned', async (req, res) => {
+  await novinky.pinned(req, res, db);
+});
+
 server.get('/novinky/:skip/:limit', async (req, res) => {
   await novinky.novinky(req, res, db);
 });
