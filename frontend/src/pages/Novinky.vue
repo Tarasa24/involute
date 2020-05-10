@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       novinky: [],
-      pinned: [],
+      pinned: [{}, {}],
       total: 0,
     };
   },
