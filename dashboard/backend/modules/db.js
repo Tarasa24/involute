@@ -77,11 +77,18 @@ async function findNovinky(req, res) {
     let result = await db
       .collection('novinky')
       .find(searchObj)
-      .sort({ date: -1, created: -1 })
+      .sort({ pinned: -1, date: -1 })
       .toArray();
     if (result === null) throw 400;
 
     if (result.length === 0) res.status(404);
+
+    result.sort((a, b) => {
+      if (a.date == b.date && a.created > b.created) return -1;
+      if (a.date == b.date && a.created < b.created) return 1;
+      else return 0;
+    });
+
     res.send(result);
   } catch (e) {
     res.sendStatus(400);
@@ -254,6 +261,29 @@ async function updateMedia(req, res, id, gallery) {
   }
 }
 
+async function pin(req, res) {
+  try {
+    await db
+      .collection('novinky')
+      .updateOne({ _id: ObjectId(req.params.id) }, { $set: { pinned: true } });
+    res.sendStatus(202);
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
+async function unpin(req, res) {
+  try {
+    await db
+      .collection('novinky')
+      .updateOne({ _id: ObjectId(req.params.id) }, { $unset: { pinned: '' } });
+    res.sendStatus(202);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(400);
+  }
+}
+
 module.exports = {
   replace,
   remove,
@@ -269,4 +299,6 @@ module.exports = {
   popPlayerFromList,
   updateGameKey,
   updateMedia,
+  pin,
+  unpin,
 };

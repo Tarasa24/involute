@@ -21,18 +21,28 @@ server.get('/novinky', async (req, res) => {
 });
 
 server.post('/novinka/:id', async (req, res) => {
+  if (!req.body.pinned) delete req.body.pinned;
   res.sendStatus(
     await db.replace('novinky', { _id: ObjectId(req.params.id) }, req.body)
   );
 });
 
 server.put('/novinka', async (req, res) => {
+  if (!req.body.pinned) delete req.body.pinned;
   const { status, id } = await db.insert('novinky', req.body);
   res.status(status).json({ id: id });
 });
 
 server.delete('/novinka/:id', async (req, res) => {
   res.sendStatus(await db.remove('novinky', { _id: ObjectId(req.params.id) }));
+});
+
+server.put('/novinky/pinned/:id', async (req, res) => {
+  db.pin(req, res);
+});
+
+server.delete('/novinky/pinned/:id', async (req, res) => {
+  db.unpin(req, res);
 });
 
 server.post('/oceneni/:id', async (req, res) => {

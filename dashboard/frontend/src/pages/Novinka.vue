@@ -97,6 +97,7 @@ export default {
       },
 
       title: undefined,
+      pinned: false,
       game: undefined,
       date: new Date(),
       sub: undefined,
@@ -110,6 +111,7 @@ export default {
       const result = await getData('/novinka/' + this.$route.params.id);
 
       this.title = result.title;
+      this.pinned = Boolean(result.pinned);
       this.game = result.game;
       this.date = new Date(result.date * 1000);
       this.sub = result.sub;
@@ -129,6 +131,7 @@ export default {
 
       var data = {
         title: this.title,
+        pinned: this.pinned,
         game: this.game,
         date: date,
         sub: this.sub,

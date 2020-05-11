@@ -26,8 +26,17 @@
       </div>
     </div>
 
-    <div class="row" v-for="novinka in novinky" :key="novinka.id">
-      <a class="title" :href="'/novinka/' + novinka._id">{{ novinka.title }}</a>
+    <div class="row" v-for="(novinka, index) in novinky" :key="novinka.id">
+      <div>
+        <a class="title" :href="'/novinka/' + novinka._id"
+          >{{ novinka.title }}
+        </a>
+        <span
+          @click="handlePinClick(index)"
+          :disabled="!novinka.pinned"
+          class="fas fa-thumbtack"
+        />
+      </div>
       <i>{{ novinka.game }}</i>
       <span>{{
         new Date(novinka.date * 1000).toLocaleDateString('cs', {
@@ -42,7 +51,7 @@
 </template>
 
 <script>
-import { getData } from '../assets/js/dataFetcher';
+import { getData, putData, deleteData } from '../assets/js/dataFetcher';
 
 export default {
   data() {
@@ -65,6 +74,44 @@ export default {
       this.$Progress.start();
       this.novinky = await getData(`/novinky?${key}=${value}`);
       this.$Progress.finish();
+    },
+    async handlePinClick(index) {
+      var el = this.novinky[index];
+
+      if (!el.pinned)
+        if (this.novinky[0].pinned && this.novinky[1].pinned)
+          alert(
+            'Maximálně 2 články mohou být připnuty naráz!' +
+              '\nProsim odeberte špendlík z jednoho z připnutých příspěvků.'
+          );
+        else {
+          const response = await putData('/novinky/pinned/' + el._id);
+
+          if (response.status == 202) {
+            el.pinned = true;
+            this.sort();
+          } else alert('Něco se pokazilo');
+        }
+      else {
+        if (confirm('Opravdu chcete odepnout?')) {
+          const response = await deleteData('/novinky/pinned/' + el._id);
+
+          if (response.status == 202) {
+            el.pinned = false;
+            this.sort();
+          } else alert('Něco se pokazilo');
+        }
+      }
+    },
+    sort() {
+      this.novinky.sort((a, b) => {
+        if (a.pinned && !b.pinned) return -1;
+        if (!a.pinned && b.pinned) return 1;
+        if (a.date > b.date) return -1;
+        if (a.date < b.date) return 1;
+        if (a.created > b.created) return -1;
+        if (a.created < b.created) return 1;
+      });
     },
   },
 };
@@ -157,4 +204,17 @@ export default {
     grid-template-columns: auto 0 0 20px
     i, span
       font-size: 0
+  .fa-thumbtack
+    font-size: inherit !important
+    margin-left: 5px
+    padding: 5px
+    transform: rotate(45deg)
+    cursor: pointer
+    @include transition(color)
+    &:hover
+      color: $grayOutline
+    &[disabled]
+      color: $grayOutline
+      &:hover
+        color: $purple
 </style>
