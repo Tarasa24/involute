@@ -78,6 +78,7 @@ async function findNovinky(req, res) {
       .collection('novinky')
       .find(searchObj)
       .sort({ pinned: -1, date: -1 })
+      .project({ bg: false, text: false })
       .toArray();
     if (result === null) throw 400;
 
