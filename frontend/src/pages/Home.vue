@@ -87,7 +87,7 @@ export default {
   transform: translate(-50%, -50%)
   display: grid
   justify-items: center
-  z-index: 2
+  z-index: 1
   @include outside-boundaries
     padding-left: 2.5%
     width: 100% - 2.5%
