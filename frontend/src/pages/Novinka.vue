@@ -160,12 +160,12 @@ section
 
 /deep/ main
   text-align: center
-  margin: 3.5vh calc(30% + 20px)
+  padding: 3.5vh calc(30% + 20px)
   white-space: break-spaces
   @include large-device
-    margin: 3.5vh 15%
+    padding: 3.5vh 15%
   @include small-device
-    margin: 4%
+    padding: 4%
 
   /deep/ *:not(img, iframe)
     text-align: left
