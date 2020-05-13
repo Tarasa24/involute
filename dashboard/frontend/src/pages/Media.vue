@@ -17,7 +17,7 @@
       <div class="file">
         <div v-if="newFile.type == 'video'">
           <img
-            :src="`https://img.youtube.com/vi/${newFile.code}/maxresdefault.jpg`"
+            :src="`https://img.youtube.com/vi/${newFile.code}/0.jpg`"
             alt="thumb"
             class="img"
           />
@@ -61,7 +61,7 @@
             rel="noopener noreferrer"
           >
             <img
-              :src="`https://img.youtube.com/vi/${file.code}/maxresdefault.jpg`"
+              :src="`https://img.youtube.com/vi/${file.code}/0.jpg`"
               alt="thumb"
               class="img"
             />

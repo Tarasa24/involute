@@ -3,7 +3,7 @@
     <div
       class="thumb"
       @click="open"
-      :style="`background: url('https://img.youtube.com/vi/${videoCode}/maxresdefault.jpg'), white`"
+      :style="`background: url('https://img.youtube.com/vi/${videoCode}/0.jpg'), white`"
     >
       <i class="fab fa-youtube" />
       <span>{{ title }}</span>
