@@ -6,10 +6,10 @@
         <p>
           K personalizaci reklam, poskytování funkcí sociálních médií a analýze
           naší návštěvnosti využíváme soubory cookie. Informace o tom, jak náš
-          web používáte, sdílíme s třetími stranammi pro inzerci a analýzu.
-          Třetí strany tyto údaje mohou zkombinovat s dalšími informacemi, které
-          jste jim poskytli nebo které získali v důsledku toho, že používáte
-          jejich služby. Pokud pokračujete v používání našich webových stránek,
+          web používáte, sdílíme s třetími stranami pro inzerci a analýzu. Třetí
+          strany tyto údaje mohou zkombinovat s dalšími informacemi, které jste
+          jim poskytli nebo které získali v důsledku toho, že používáte jejich
+          služby. Pokud pokračujete v používání našich webových stránek,
           souhlasíte s našimi soubory cookie.
         </p>
         <p>
