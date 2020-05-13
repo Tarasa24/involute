@@ -5,6 +5,7 @@
     <Sponsors v-if="!['/', '/partneri'].includes(this.$route.path)" />
     <router-view />
     <Footer />
+    <CookieConsent ref="cookies" @change="handleCookieChange" />
   </div>
 </template>
 
@@ -12,10 +13,36 @@
 import Nav from './components/Nav.vue';
 import Sponsors from './components/Sponsors.vue';
 import Footer from './components/Footer.vue';
+import CookieConsent from './components/CookieConsent.vue';
 
 export default {
   name: 'App',
-  components: { Nav, Sponsors, Footer },
+  components: { Nav, Sponsors, Footer, CookieConsent },
+  created() {
+    this.$nextTick(() => {
+      this.init(this.$refs.cookies.cookies);
+    });
+  },
+  methods: {
+    init(cookies) {
+      if (cookies.tracking) {
+        //load tracking scripts
+      }
+      if (cookies.marketing) {
+        //load markteting scripts
+      }
+    },
+    handleCookieChange(payload) {
+      this.init(payload);
+    },
+    loadScript(src, innerHTML = null) {
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      if (src !== null) script.setAttribute('src', src);
+      else script.textContent = innerHTML;
+      document.head.insertBefore(script, document.head.firstChild);
+    },
+  },
 };
 </script>
 
