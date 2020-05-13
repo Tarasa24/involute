@@ -4,6 +4,9 @@ services:
     logging:
       driver: 'none'
     build: frontend
+    environment:
+      - NODE_ENV=production
+      - GA_MEASUREMENT_ID=
   backend:
     build: backend
     environment:
