@@ -156,6 +156,7 @@ section
   img
     display: flex
     max-width: 100%
+    margin: auto
     margin-bottom: 30px
 
 /deep/ main

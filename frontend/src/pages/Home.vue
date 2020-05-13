@@ -73,7 +73,7 @@ export default {
 
   video, img
     min-height: 100%
-    width: auto
+    width: 100%
     position: absolute
     left: 50%
     top: 50%
