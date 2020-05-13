@@ -2,7 +2,6 @@
   <main>
     <Header>
       <h1>Média</h1>
-      <h2>Foto & Video</h2>
     </Header>
 
     <div class="media">

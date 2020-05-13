@@ -12,10 +12,7 @@
         <router-link to="/partneri">Partneři</router-link>
         <router-link to="/oceneni">Ocenění</router-link>
         <router-link to="/kontakt">Kontakt</router-link>
-        <router-link class="login" v-if="!authenticated" to="/login"
-          >Login</router-link
-        >
-        <div v-else>
+        <div v-if="authenticated">
           <a :href="dashboardUrl">Dashboard</a>
           <a :href="authUrl + '/logout'">Logout</a>
         </div>

@@ -2,7 +2,6 @@
   <div class="novinky">
     <Header>
       <h1>Novinky</h1>
-      <h2>Aktuální informace o tom, co se děje ve světě esports.</h2>
     </Header>
     <div class="container">
       <section>

@@ -23,7 +23,7 @@
       </div>
 
       <footer>
-        Esport tým <a href=".">iNvolute</a> 2011 - 2020 | iNvolute s.r.o.,
+        Esport tým <a href=".">iNvolute</a> 2016 - 2020 | iNvolute s.r.o.,
         Primátorská 296/38, Libeň, 180 00 Praha 8, IČ: 06180167
       </footer>
     </div>

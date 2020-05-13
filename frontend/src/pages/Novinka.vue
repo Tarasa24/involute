@@ -1,14 +1,6 @@
 <template>
-  <div>
-    <div
-      class="header"
-      v-touch:swipe="swipeHandler"
-      :style="
-        'background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url(' +
-        novinka.bg +
-        ')'
-      "
-    >
+  <div class="novinka">
+    <div class="header" v-touch:swipe="swipeHandler">
       <span>
         <router-link
           v-if="soused.pervious != null"
@@ -41,6 +33,7 @@
       <p>{{ novinka.sub }}</p>
     </div>
 
+    <section><img :src="novinka.bg" alt="main" /></section>
     <main v-html="novinka.text" />
   </div>
 </template>
@@ -93,6 +86,9 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.novinka
+  background-color: $bgGray
+
 .header
   color: #d9d9d9
   padding: 5.5vh calc(30% + 20px)
@@ -145,15 +141,31 @@ export default {
     @include small-device
       font-size: 1rem
 
+section
+  padding-left: 0 !important
+  padding-right: 0 !important
+  border-bottom: 2px solid $textGray
+  margin: 3.5vh calc(30% + 20px)
+  margin-bottom: 0
+  @include large-device
+    margin: 3.5vh 15%
+    margin-bottom: 0
+  @include small-device
+    margin: 4%
+    margin-bottom: 0
+  img
+    display: flex
+    max-width: 100%
+    margin-bottom: 30px
+
 /deep/ main
-  background-color: white
   text-align: center
-  padding: 3.5vh calc(30% + 20px)
+  margin: 3.5vh calc(30% + 20px)
   white-space: break-spaces
   @include large-device
-    padding: 3.5vh 15%
+    margin: 3.5vh 15%
   @include small-device
-    padding: 4%
+    margin: 4%
 
   /deep/ *:not(img, iframe)
     text-align: left
