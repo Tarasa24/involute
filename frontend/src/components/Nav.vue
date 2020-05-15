@@ -82,6 +82,11 @@ export default {
       menuVisible: false,
     };
   },
+  watch: {
+    $route(to, from) {
+      if (to !== from && this.menuVisible) this.toggle();
+    },
+  },
   async created() {
     const result = await fetch(authUrl + '/validateJWT', {
       method: 'POST',
@@ -232,6 +237,12 @@ nav
       .hidden
         padding: 5px 0 0 20px
         display: grid
+    .auth
+      display: grid
+      a
+        color: $purple
+        &:hover, &:active
+          color: $pink
 
   .menuVisible
     opacity: 1
