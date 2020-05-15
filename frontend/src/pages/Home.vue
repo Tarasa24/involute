@@ -73,11 +73,12 @@ export default {
 
   video, img
     min-height: 100%
-    width: 100%
     position: absolute
     left: 50%
     top: 50%
     transform: translate(-50%, -50%)
+  video
+    width: 100%
 
 .text
   width: 100%
