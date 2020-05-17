@@ -2,7 +2,7 @@
   <div id="app">
     <vue-progress-bar />
     <Nav />
-    <Sponsors v-if="!['/', '/partneri'].includes(this.$route.path)" />
+    <!-- <Sponsors v-if="!['/', '/partneri'].includes(this.$route.path)" /> -->
     <router-view />
     <Footer />
     <CookieConsent ref="cookies" @change="handleCookieChange" />
@@ -11,13 +11,13 @@
 
 <script>
 import Nav from './components/Nav.vue';
-import Sponsors from './components/Sponsors.vue';
+//import Sponsors from './components/Sponsors.vue';
 import Footer from './components/Footer.vue';
 import CookieConsent from './components/CookieConsent.vue';
 
 export default {
   name: 'App',
-  components: { Nav, Sponsors, Footer, CookieConsent },
+  components: { Nav, Footer, CookieConsent },
   created() {
     this.$nextTick(() => {
       this.init(this.$refs.cookies.cookies);
