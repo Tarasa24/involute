@@ -9,7 +9,9 @@
         <router-link to="/novinky">Novinky</router-link>
         <router-link to="/media">Média</router-link>
         <div class="dropdown">
-          <router-link to="/hraci">Team</router-link>
+          <router-link to="/hraci"
+            >Team <i class="fas fa-caret-down"
+          /></router-link>
           <div class="hidden">
             <router-link to="/hraci">Hráči</router-link>
             <router-link to="/staff">Staff</router-link>
@@ -17,11 +19,13 @@
           </div>
         </div>
         <div class="dropdown">
-          <router-link to="/about">Organizace</router-link>
+          <router-link to="/about"
+            >Organizace <i class="fas fa-caret-down"
+          /></router-link>
           <div class="hidden">
             <router-link to="/about">O nás</router-link>
             <router-link to="/kontakt">Kontakt</router-link>
-            <router-link to="/presskit">Press Kit</router-link>
+            <router-link to="/branding">Branding</router-link>
           </div>
         </div>
         <div v-if="authenticated" class="auth">
@@ -57,7 +61,7 @@
           <div class="hidden">
             <router-link to="/about">O nás</router-link>
             <router-link to="/kontakt">Kontakt</router-link>
-            <router-link to="/presskit">Press Kit</router-link>
+            <router-link to="/branding">Branding</router-link>
           </div>
         </div>
         <div v-if="authenticated" class="auth">

@@ -1,6 +1,6 @@
 $dark: #02021f
-$darkPurple: #430a7d
-$purple: #9f05b8
+$darkPurple: #441867
+$purple: #a807eb
 $pink: #f900f2
 
 $textGray: #e7e7e7
@@ -23,10 +23,10 @@ $maxWidth: 2500px
   box-shadow: 0 1px 4px rgba(0, 0, 0, .6)
   background-color: $color
   color: white
-  @include transition(background-color)
+  @include transition(filter)
   cursor: pointer
   &:hover
-    background-color: $hover
+    filter: brightness(.9)
 
 @mixin transition($effect)
   transition: $effect .35s ease-in-out

@@ -13,7 +13,8 @@ import Hrac from './pages/Hrac';
 import Partneri from './pages/Partneri';
 import Oceneni from './pages/Oceneni';
 import Media from './pages/Media';
-import Kontakt from './pages/Kontakt';
+import Kontakt from './pages/Organizace/Kontakt';
+import Branding from './pages/Organizace/Branding';
 import Cookies from './pages/Cookies';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
@@ -45,6 +46,7 @@ const routes = [
     props: { perPage: 12 },
   },
   { path: '/kontakt', component: Kontakt },
+  { path: '/branding', component: Branding },
   { path: '/cookies', component: Cookies },
   { path: '/login', component: Login },
   { path: '*', component: NotFound },

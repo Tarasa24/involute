@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import Header from '../components/misc/Header';
+import Header from '../../components/misc/Header';
 
 export default {
   components: { Header },
