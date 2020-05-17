@@ -6,23 +6,17 @@
     </Header>
 
     <div class="wrapper">
-      <div class="history">
-        <h2>Naše historie a krédo</h2>
-        <p>
-          iNvolute, založen 1. března 2016, je e-sportová organizace řadící se
-          do nejmladších profesionálních týmů na české a slovenské herní scéně.
-          Již od samého začátku podporujeme nejhranější herní tituly jako League
-          of Legends či Hearthstone. Naším posláním je přinášení novinek ze
-          světa e-sportu a vytvoření semknuté herní komunity.
-        </p>
-      </div>
       <div class="contact">
-        <h2>Kontakt</h2>
+        <h2>Adresa</h2>
         <p>
-          Máte otázku, opravdu jakoukoliv? Napište nám na email, nebo na naše
-          sociální sítě. Rádi Vám odpovíme co nejdříve.
+          <strong>iNvolute s.r.o.,</strong><br />
+          Primátorská 296/38,<br />
+          Praha 8, Libeň,<br />
+          180 00,<br />
+          IČ: 06180167
         </p>
-        <br />
+
+        <h2>Kontakt</h2>
         <span>
           <span class="fas fa-envelope" />
           <a href="mailto:info@teaminvolute.eu">info@teaminvolute.eu</a>
@@ -32,21 +26,34 @@
           <span class="fas fa-phone" />
           <a href="tel:+420534534614">+420 534 534 614</a>
         </span>
-
-        <h2>Provozovatel</h2>
         <p>
-          iNvolute s.r.o.,<br />
-          Primátorská 296/38,<br />
-          Praha 8, Libeň,<br />
-          180 00,<br />
-          IČ: 06180167
+          V případě jakýchkoliv otázek nás neváhejte kontaktovat skrze email,
+          nebo se připojte na náš
+          <a
+            href="https://discord.gg/ydPkm3C"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Discord
+          </a>
+          server, kde máte záruku nějrychlejší odpovědi.
         </p>
-
-        <h2>Reklamace a obchodní podmínky</h2>
-        <span>
-          <span class="fas fa-file-alt" />
-          <a href="#">Ochodní podmínky</a>
-        </span>
+      </div>
+      <div class="map">
+        <l-map :zoom="14" :center="[50.113584, 14.473182]" id="mapid">
+          <l-tile-layer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
+          />
+          <l-marker :lat-lng="latLng(50.113584, 14.473182)">
+            <l-icon :icon-anchor="[16, 37]" class-name="anchor">
+              <div class="headline">
+                iNvolute HQ
+              </div>
+              <img src="../../assets/img/logo.png" />
+            </l-icon>
+          </l-marker>
+        </l-map>
       </div>
     </div>
   </main>
@@ -54,9 +61,32 @@
 
 <script>
 import Header from '../../components/misc/Header';
+import { latLng } from 'leaflet';
+import { LMap, LTileLayer, LMarker, LIcon } from 'vue2-leaflet';
 
 export default {
-  components: { Header },
+  components: { Header, LMap, LTileLayer, LMarker, LIcon },
+  created() {
+    if (!document.getElementById('leafletCss')) {
+      var el = document.createElement('link');
+      el.rel = 'stylesheet';
+      el.type = 'text/css';
+      el.id = 'leafletCss';
+      el.href = 'https://unpkg.com/leaflet@1.6.0/dist/leaflet.css';
+      document.head.appendChild(el);
+    }
+  },
+  destroyed() {
+    const el = document.getElementById('leafletCss');
+    if (el) {
+      document.head.removeChild(el);
+    }
+  },
+  methods: {
+    latLng(x, y) {
+      return latLng(x, y);
+    },
+  },
 };
 </script>
 
@@ -75,12 +105,39 @@ main
     width: 100%
     grid-template-columns: auto
 
-  .history
+  .map
+    padding-left: 2.5%
+    width: calc(100% - 5%)
+    @include large-device
+      padding-right: 2.5%
+      margin-top: 40px
+    #mapid
+      height: 400px
+      z-index: 0
+      border: 1px solid $bgBlack
+      border-radius: 10px
+    /deep/ .anchor
+      background-color: $bgGray
+      padding: 10px
+      border: 1px solid $textGray
+      border-radius: 0 20px 20px 20px
+      box-shadow: 5px 3px 10px rgba(0, 0, 0, 0.2)
+      width: auto !important
+      height: auto !important
+      margin: 0 !important
+      text-align: center
+      .headline
+        text-align: center
+        font-weight: bold
+        white-space: pre
+      img
+        margin: auto
+        height: 60px
+        margin-top: 10px
+  .contact
     padding-right: 2.5%
     @include large-device
       padding-left: 2.5%
-  .contact
-    padding-left: 2.5%
 
   img
     max-width: 90%
@@ -91,9 +148,8 @@ main
       margin: 10px 0
       color: $purple
     p
-      margin: 0
+      margin: 10px 0
     span
-      padding-left: 10px
       margin-bottom: 10px
       .fas
         color: $pink

@@ -11,6 +11,7 @@
   "dependencies": {
     "compression-webpack-plugin": "^3.1.0",
     "core-js": "^3.6.4",
+    "leaflet": "^1.6.0",
     "vue": "^2.6.11",
     "vue-async-computed": "^3.8.2",
     "vue-gallery-slideshow": "^1.5.0",
@@ -18,6 +19,7 @@
     "vue-progressbar": "^0.7.5",
     "vue-router": "^3.1.6",
     "vue-runtime-helpers": "^1.1.2",
+    "vue2-leaflet": "^2.5.2",
     "vue2-touch-events": "^2.2.1"
   },
   "devDependencies": {
@@ -28,7 +30,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.1.2",
     "jest": "^25.1.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
   },
