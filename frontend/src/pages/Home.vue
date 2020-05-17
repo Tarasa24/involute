@@ -27,19 +27,19 @@
       </div>
     </div>
 
-    <Sponsors />
+    <!-- <Sponsors /> -->
     <News />
     <Media />
   </div>
 </template>
 
 <script>
-import Sponsors from '../components/Sponsors.vue';
+//import Sponsors from '../components/Sponsors.vue';
 import News from '../components/News.vue';
 import Media from './Media.vue';
 
 export default {
-  components: { Sponsors, News, Media },
+  components: { News, Media },
   data() {
     return {
       width: window.innerWidth,
