@@ -12,13 +12,17 @@
       <img v-else src="/img/thumb/involuteWeb.png" alt="involuteWeb.png" />
       <div class="text">
         <span>
-          <h1>Nové <strong>iNvolute</strong> stránky?</h1>
-          <h1>Tady je máš!</h1>
+          <h1>My jsme <strong>iNvolute</strong></h1>
+          <br />
           <h2>
-            Zase změna, ale teď je to tak, jak jsme chtěli. Product placement
-            nechceme, na novinky z her jsou jiné portály, tak tady vidíš, kdo
-            jsme prostě MY!
+            iNvolute, založen 1. března 2016, je e-sportová organizace řadící se
+            do nejmladších profesionálních týmů na české a slovenské herní
+            scéně.
           </h2>
+          <br />
+          <router-link to="/about"
+            ><button>Zjistit více <i class="fas fa-arrow-right" /></button
+          ></router-link>
         </span>
       </div>
     </div>
@@ -108,6 +112,7 @@ export default {
     margin: 2% 0
     strong
       color: $purple
+    text-transform: uppercase
     @include medium-device
       font-size: 3rem
     @include small-device
@@ -122,4 +127,14 @@ export default {
       margin-right: 15%
     @include small-device-portrait
       font-size: .9rem
+  button
+    margin-top: 30px
+    @include btn($purple, $purple)
+    padding: 20px
+    font-size: 1.8rem
+    .fas
+      margin-left: 15px
+    @include medium-device
+      font-size: 1.2rem
+      margin-top: 10px
 </style>
