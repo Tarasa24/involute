@@ -4,7 +4,7 @@
       <h1>Branding & Presskit</h1>
     </Header>
 
-    <div class="wrapper">
+    <div class="wrapper" v-lazy-container="{ selector: 'img' }">
       <h1>Naše logo</h1>
       <h4>
         Prosíme neupravujte, neměňte, nezkreslujte ani nepřebarvujte oficiální
@@ -14,14 +14,14 @@
         <a href="/img/branding/inv-black-eye.png" download>
           <img
             class="whiteBGPattern"
-            src="/img/branding/inv-black-eye.png"
+            data-src="/img/branding/inv-black-eye.png"
             alt="inv-black-eye.png"
           />
         </a>
         <a href="/img/branding/inv-white-eye.png" download>
           <img
             class="blackBGPattern"
-            src="/img/branding/inv-white-eye.png"
+            data-src="/img/branding/inv-white-eye.png"
             alt="inv-white-eye.png"
           />
         </a>
@@ -30,21 +30,21 @@
         <a href="/img/branding/inv-faded.png" download>
           <img
             class="whiteBGPattern"
-            src="/img/branding/inv-faded.png"
+            data-src="/img/branding/inv-faded.png"
             alt="inv-faded.png"
           />
         </a>
         <a href="/img/branding/inv-black.png" download>
           <img
             class="whiteBGPattern"
-            src="/img/branding/inv-black.png"
+            data-src="/img/branding/inv-black.png"
             alt="inv-black.png"
           />
         </a>
         <a href="/img/branding/inv-white.png" download>
           <img
             class="blackBGPattern"
-            src="/img/branding/inv-white.png"
+            data-src="/img/branding/inv-white.png"
             alt="inv-white.png"
           />
         </a>
@@ -53,10 +53,13 @@
       <h1>Ochranná zóna & minimální velikost</h1>
       <div class="imgs">
         <a href="/img/branding/inv-spacing.png" download>
-          <img src="/img/branding/inv-spacing.png" alt="inv-spacing.png" />
+          <img data-src="/img/branding/inv-spacing.png" alt="inv-spacing.png" />
         </a>
         <a href="/img/branding/inv-min-size.png" download>
-          <img src="/img/branding/inv-min-size.png" alt="inv-min-size.png" />
+          <img
+            data-src="/img/branding/inv-min-size.png"
+            alt="inv-min-size.png"
+          />
         </a>
       </div>
 
@@ -106,7 +109,7 @@
       </h4>
       <div class="download">
         <a href="https://mega.nz" target="_blank" rel="noopener noreferrer">
-          <button><i class="fas fa-download" /> Presskit</button>
+          <button><i class="fas fa-download" /> Stáhnout</button>
         </a>
       </div>
     </div>

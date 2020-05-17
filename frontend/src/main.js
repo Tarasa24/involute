@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Vue2TouchEvents from 'vue2-touch-events';
 import VueProgressBar from 'vue-progressbar';
 import AsyncComputed from 'vue-async-computed';
+import VueLazyload from 'vue-lazyload';
 
 import App from './App.vue';
 import Home from './pages/Home';
@@ -27,6 +28,9 @@ Vue.use(VueProgressBar, {
   height: '2px',
 });
 Vue.use(AsyncComputed);
+Vue.use(VueLazyload, {
+  loading: '/loading.svg',
+});
 
 const routes = [
   { path: '/', component: Home },

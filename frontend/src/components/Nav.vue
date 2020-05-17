@@ -249,6 +249,7 @@ nav
           color: $pink
 
   .menuVisible
-    opacity: 1
+    z-index: 3
+    opacity: .95
     pointer-events: auto
 </style>
