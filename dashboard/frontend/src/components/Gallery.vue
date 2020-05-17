@@ -33,21 +33,28 @@
           @end="drag = false"
           @change="handleChange"
         >
-          <img
-            v-for="(image, index) in images"
-            :key="image"
-            :src="`${staticUrl}/${image}`"
-            draggable
-            @dragstart="dragStart(index)"
-          />
+          <div v-for="(image, index) in images" :key="image">
+            <i class="fas fa-grip-lines" />
+            <img
+              v-lazy="`${staticUrl}/${image}`"
+              draggable
+              @dragstart="dragStart(index)"
+            />
+            <span>
+              <a
+                class="fas fa-angle-up"
+                :disabled="index === 0"
+                @click="handleMove(index, index - 1)"
+              />
+              <a
+                class="fas fa-angle-down"
+                :disabled="index === images.length - 1"
+                @click="handleMove(index, index + 1)"
+              />
+              <a class="fas fa-times" @click="handleDelete(index)" />
+            </span>
+          </div>
         </draggable>
-        <i
-          class="fas fa-trash trash"
-          @dragenter="highlight(true, '.trash', 'highlight-red')"
-          @dragleave="highlight(false, '.trash', 'highlight-red')"
-          @dragover.prevent
-          @drop="handleDelete"
-        />
       </div>
       <button class="fas fa-times" @click="close" />
     </div>
@@ -76,23 +83,9 @@ export default {
   methods: {
     open() {
       this.visible = true;
-      this.disableScroll();
     },
     close() {
       this.visible = false;
-      this.enableScroll();
-    },
-    disableScroll() {
-      var x = window.scrollX;
-      var y = window.scrollY;
-      window.onscroll = function () {
-        window.scrollTo(x, y);
-      };
-      document.documentElement.style.scrollBehavior = 'unset';
-    },
-    enableScroll() {
-      window.onscroll = function () {};
-      document.documentElement.style = '';
     },
     handleOutside() {
       if (event.target.classList[0] == 'overlay') this.close();
@@ -101,22 +94,24 @@ export default {
       if (higlighted) document.querySelector(query).classList.add(className);
       else document.querySelector(query).classList.remove(className);
     },
-    dragStart(index) {
-      event.dataTransfer.setData('index', index);
-      event.dataTransfer.dropEffect = 'move';
-    },
-    async handleDelete() {
-      this.highlight(false, '.trash', 'highlight-red');
-
-      const index = Number(event.dataTransfer.getData('index'));
+    async handleDelete(index) {
       const element = this.images[index];
 
-      const response = await fetch(`${this.staticUrl}/api/rm${element}`, {
-        method: 'DELETE',
-      });
+      if (confirm('Opravdu checete tento soubor odstranit?')) {
+        const response = await fetch(`${this.staticUrl}/api/rm${element}`, {
+          method: 'DELETE',
+        });
 
-      if (response.status == 200) this.images.splice(index, 1);
-      else alert('Vyskytla se chyba');
+        if (response.status == 200) this.images.splice(index, 1);
+        else alert('Vyskytla se chyba');
+      }
+    },
+    handleMove(fromIndex, toIndex) {
+      if (toIndex >= 0 && toIndex <= this.images.length - 1) {
+        var element = this.images[fromIndex];
+        this.images.splice(fromIndex, 1);
+        this.images.splice(toIndex, 0, element);
+      }
     },
     handleChange() {
       this.$emit('input', this.images);
@@ -158,12 +153,18 @@ export default {
   z-index: 2
 
 .container
-  position: absolute
+  position: relative
   top: 50%
   left: 50%
   transform: translate(-50%, -50%)
   background-color: white
   width: 70vw
+  height: 80vh
+  overflow: auto
+  @include medium-device
+    width: 90vw
+  h3
+    transform: translate(0, 50%)
   .drop-area
     position: relative
     @include transition(background-color)
@@ -181,17 +182,44 @@ export default {
       left: 50%
       transform: translate(-50%, -50%)
   .images
-    height: 3 * 90px + 5px
-    overflow: auto
-    img
-      height: 80px
-      margin: 5px
+    padding-bottom: 20px
+    div
+      display: flex
+      align-items: center
+      position: relative
+      margin: auto
+      width: 90%
+      border: 1px solid $grayOutline
+      border-bottom-width: 0
+      &:last-of-type
+        border-bottom-width: 1px
       cursor: move
-  .trash
-    font-size: 2rem
-    width: calc(100% - 50px)
-    padding: 25px
-    @include transition(background-color)
+      .fa-grip-lines
+        margin: 0 20px
+        @include small-device
+          display: none
+      img
+        height: 80px
+        margin: 5px
+      span
+        position: absolute
+        right: 10px
+        font-size: 1.5rem
+        z-index: 3
+        background-color: white
+        @include small-device
+          font-size: 1.2rem
+          right: 0
+        a
+          margin: 0 5px
+          padding: 5px
+          &[disabled]
+            color: $grayOutline
+            cursor: not-allowed
+          @include small-device
+            margin: 0 2px
+        .fa-times
+          color: $deleteRed
 button
   position: absolute
   top: 0
@@ -211,9 +239,6 @@ img, span
   max-width: 100%
   max-height: 30vh
   cursor: pointer
-  @include transition(transform)
-  &:hover
-    transform: scale(.96)
 
 .highlight-blue
   background-color: rgba($infoBlue, .1)

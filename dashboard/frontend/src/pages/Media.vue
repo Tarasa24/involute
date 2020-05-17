@@ -182,6 +182,8 @@ export default {
 .wrapper
   width: 70%
   margin: auto
+  @include medium-device
+    width: calc( 100% - 4% )
 
 .add > button
   @include btn($infoBlue)
@@ -197,6 +199,8 @@ export default {
   margin-bottom: 20px
   border: 1px solid $grayOutline
   padding: 20px
+  @include small-device
+    display: block
   .img
     width: auto
     max-width: 100%
@@ -218,6 +222,8 @@ export default {
     margin-bottom: 60px
     &:focus
       outline: 1px solid $grayOutline
+    @include small-device
+      margin-bottom: 20px
 
   form
     position: relative

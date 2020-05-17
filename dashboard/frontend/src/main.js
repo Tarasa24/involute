@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueProgressBar from 'vue-progressbar';
 import Notifications from 'vue-notification';
+import VueLazyload from 'vue-lazyload';
 
 import App from './App.vue';
 import Home from './pages/Home';
@@ -32,6 +33,10 @@ Vue.use(VueProgressBar, {
 });
 
 Vue.use(Notifications);
+
+Vue.use(VueLazyload, {
+  loading: '/loading.svg',
+});
 
 Vue.use(VueRouter);
 const routes = [
