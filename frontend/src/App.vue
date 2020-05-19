@@ -61,18 +61,21 @@ export default {
   src: url('./assets/fonts/SkodaPro_Regular.woff') format('woff')
   font-weight: normal
   font-style: normal
+  font-display: swap
 
 @font-face
   font-family: 'skoda'
   src: url('./assets/fonts/SkodaPro_Bold.woff') format('woff')
   font-weight: bold
   font-style: normal
+  font-display: swap
 
 @font-face
   font-family: 'skoda'
   src: url('./assets/fonts/SkodaPro_Bolder.woff') format('woff')
   font-weight: bolder
   font-style: normal
+  font-display: swap
 
 #app
   font-family: skoda, Avenir, Helvetica, Arial, sans-serif

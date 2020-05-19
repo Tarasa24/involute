@@ -14,15 +14,15 @@
         <a href="/img/branding/inv-black-eye.png" download>
           <img
             class="whiteBGPattern"
-            data-src="/img/branding/inv-black-eye.png"
-            alt="inv-black-eye.png"
+            data-src="/img/branding/resized/inv-black-eye.webp"
+            alt="inv-black-eye.webp"
           />
         </a>
         <a href="/img/branding/inv-white-eye.png" download>
           <img
             class="blackBGPattern"
-            data-src="/img/branding/inv-white-eye.png"
-            alt="inv-white-eye.png"
+            data-src="/img/branding/resized/inv-white-eye.webp"
+            alt="inv-white-eye.webp"
           />
         </a>
       </div>
@@ -30,22 +30,22 @@
         <a href="/img/branding/inv-faded.png" download>
           <img
             class="whiteBGPattern"
-            data-src="/img/branding/inv-faded.png"
-            alt="inv-faded.png"
+            data-src="/img/branding/resized/inv-faded.webp"
+            alt="inv-faded.webp"
           />
         </a>
         <a href="/img/branding/inv-black.png" download>
           <img
             class="whiteBGPattern"
-            data-src="/img/branding/inv-black.png"
-            alt="inv-black.png"
+            data-src="/img/branding/resized/inv-black.webp"
+            alt="inv-black.webp"
           />
         </a>
         <a href="/img/branding/inv-white.png" download>
           <img
             class="blackBGPattern"
-            data-src="/img/branding/inv-white.png"
-            alt="inv-white.png"
+            data-src="/img/branding/resized/inv-white.webp"
+            alt="inv-white.webp"
           />
         </a>
       </div>
@@ -53,12 +53,15 @@
       <h1>Ochranná zóna & minimální velikost</h1>
       <div class="imgs">
         <a href="/img/branding/inv-spacing.png" download>
-          <img data-src="/img/branding/inv-spacing.png" alt="inv-spacing.png" />
+          <img
+            data-src="/img/branding/resized/inv-spacing.webp"
+            alt="inv-spacing.webp"
+          />
         </a>
         <a href="/img/branding/inv-min-size.png" download>
           <img
-            data-src="/img/branding/inv-min-size.png"
-            alt="inv-min-size.png"
+            data-src="/img/branding/resized/inv-min-size.webp"
+            alt="inv-min-size.webp"
           />
         </a>
       </div>
