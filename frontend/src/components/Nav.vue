@@ -24,6 +24,7 @@
           /></router-link>
           <div class="hidden">
             <router-link to="/about">O nás</router-link>
+            <router-link to="/partneri">Partneři</router-link>
             <router-link to="/kontakt">Kontakt</router-link>
             <router-link to="/branding">Branding</router-link>
           </div>
@@ -60,6 +61,7 @@
           <router-link to="/about">Organizace</router-link>
           <div class="hidden">
             <router-link to="/about">O nás</router-link>
+            <router-link to="/partneri">Partneři</router-link>
             <router-link to="/kontakt">Kontakt</router-link>
             <router-link to="/branding">Branding</router-link>
           </div>
