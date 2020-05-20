@@ -1,7 +1,7 @@
 <template>
   <nav>
     <span>DASHBOARD</span>
-    <a :href="url" class="fas fa-sign-out-alt" />
+    <a :href="url"><button class="fas fa-sign-out-alt" aria-label="Odejít"/></a>
   </nav>
 </template>
 
@@ -33,13 +33,15 @@ nav
     font-size: 1.5rem
     @include small-device-portrait
       font-size: 1.2rem
-  a
+  button
+    background-color: transparent
+    border: 0
     font-size: 2rem
-    text-decoration: none
-    color: black
+    color: $purple
     width: 100%
-    &.fas
-      color: $purple
+    cursor: pointer
+    &:focus
+      outline: 0
     @include transition(filter)
     &:hover
       filter: brightness(.8)
