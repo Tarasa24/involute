@@ -47,8 +47,8 @@ export default {
     return {
       image:
         process.env.NODE_ENV == 'production'
-          ? '/dashboard/img/icon.png'
-          : '/img/icon.png',
+          ? '/dashboard/img/icon.webp'
+          : '/img/icon.webp',
     };
   },
 };
@@ -64,6 +64,7 @@ h1
   font-weight: 100
   font-size: 1.8rem
   margin: 7.5px 0
+  background-size: 0 0
   @include medium-device
     font-size: 0
     margin: 10%

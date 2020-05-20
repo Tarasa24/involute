@@ -23,11 +23,14 @@ module.exports = {
         'window.Quill': 'quill/dist/quill.js',
         Quill: 'quill/dist/quill.js',
       }),
+      new CompressionPlugin({
+        include: /\.(html|css|js|ico|svg)$/,
+        minRatio: 0.9,
+      }),
     ],
   },
   publicPath: process.env.NODE_ENV === 'production' ? '/dashboard/' : '/',
   chainWebpack(config) {
     config.plugins.delete('prefetch');
-    config.plugin('CompressionPlugin').use(CompressionPlugin);
   },
 };

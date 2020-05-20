@@ -16,8 +16,8 @@ export default {
       name: null,
       image:
         process.env.NODE_ENV == 'production'
-          ? '/dashboard/img/logo.png'
-          : '/img/logo.png',
+          ? '/dashboard/img/logo.webp'
+          : '/img/logo.webp',
     };
   },
   async created() {
