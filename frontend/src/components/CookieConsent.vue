@@ -20,8 +20,8 @@
         </p>
       </div>
       <div class="checks">
-        <input type="checkbox" checked disabled />
-        <label disabled>Nutné</label>
+        <input type="checkbox" id="necessary" checked disabled />
+        <label for="necessary" disabled>Nutné</label>
 
         <input type="checkbox" id="tracking" v-model="cookies.tracking" />
         <label for="tracking">Statistické</label>

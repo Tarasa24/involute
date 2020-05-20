@@ -51,9 +51,6 @@ export default {
   watch: {
     $route: 'load',
   },
-  mounted() {
-    window.scrollTo(0, 0);
-  },
   created() {
     this.load();
   },

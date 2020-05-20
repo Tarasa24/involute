@@ -50,7 +50,7 @@
               <div class="headline">
                 iNvolute HQ
               </div>
-              <img src="../../assets/img/logo.png" />
+              <img src="../../assets/img/logo.webp" />
             </l-icon>
           </l-marker>
         </l-map>

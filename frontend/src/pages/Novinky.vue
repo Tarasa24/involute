@@ -65,7 +65,6 @@ export default {
   },
   methods: {
     async load() {
-      window.scrollTo(0, 0);
       this.$Progress.start();
       this.total = await getData('/novinky/length');
       this.novinky = await getData(

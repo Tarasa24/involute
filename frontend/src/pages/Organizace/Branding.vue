@@ -68,35 +68,35 @@
 
       <h1>iNvolute barvy</h1>
       <div class="cards">
-        <div class="card" style="background-color: #a807eb">
+        <div class="card" style="background-color: #a807eb;">
           <span>Popiči fialová</span>
           <span>
             #a807eb<br />
             CMYK 26, 89, 0, 8
           </span>
         </div>
-        <div class="card" style="background-color: #f900f2">
+        <div class="card" style="background-color: #f900f2;">
           <span>Růžová</span>
           <span>
             #f900f2<br />
             CMYK 0, 100, 3, 2
           </span>
         </div>
-        <div class="card" style="background-color: #441867">
+        <div class="card" style="background-color: #441867;">
           <span>Dravě fialová</span>
           <span>
             #441867<br />
             CMYK 46, 92, 0, 51
           </span>
         </div>
-        <div class="card" style="background-color: #000000">
+        <div class="card" style="background-color: #000000;">
           <span>Černá</span>
           <span>
             #000000<br />
             CMYK 0, 0, 0, 100
           </span>
         </div>
-        <div class="card black" style="background-color: #ffffff">
+        <div class="card black" style="background-color: #ffffff;">
           <span>Prostě bílá</span>
           <span>
             #ffffff<br />

@@ -2,7 +2,7 @@
   <nav>
     <div v-if="width > 767" class="wrapper">
       <router-link to="/" class="img"
-        ><img src="../assets/img/logo.png" alt="involute logo"
+        ><img src="../assets/img/logo.webp" alt="involute logo"
       /></router-link>
       <span>
         <router-link to="/">Home</router-link>
@@ -38,10 +38,10 @@
 
     <div v-else class="mobile">
       <router-link to="/" class="img">
-        <img src="../assets/img/logo.png" alt="involute logo" />
+        <img src="../assets/img/logo.webp" alt="involute logo" />
       </router-link>
       <h1>#INWIN</h1>
-      <button @click="toggle">
+      <button @click="toggle" aria-label="menu">
         <i v-if="!menuVisible" class="fas fa-bars" />
         <i v-if="menuVisible" class="fas fa-times" />
       </button>

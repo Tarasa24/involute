@@ -100,7 +100,6 @@ footer
   color: gray
   font-size: 19px
   @include small-device
-    font-size: 1rem
     padding: 40px 10px
   a
     color: $purple

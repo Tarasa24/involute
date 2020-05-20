@@ -92,9 +92,14 @@ app.post('/issueJWT', async (req, res) => {
 });
 
 app.post('/validateJWT', async (req, res) => {
-  res.sendStatus(
-    await validateJWT(req.cookies.Authorization, db, req.header('X-Real-IP'))
-  );
+  if (req.cookies.Authorization) {
+    const code = await validateJWT(
+      req.cookies.Authorization,
+      db,
+      req.header('X-Real-IP')
+    );
+    res.sendStatus(code == 404 ? 403 : code);
+  } else res.sendStatus(401);
 });
 
 app.get('/logout', async (req, res) => {

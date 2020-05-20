@@ -96,9 +96,6 @@ export default {
       game: {},
     };
   },
-  mounted() {
-    window.scrollTo(0, 0);
-  },
   async created() {
     this.$Progress.start();
     let name = this.$route.params.name;

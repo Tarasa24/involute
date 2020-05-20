@@ -33,32 +33,40 @@ Vue.use(VueLazyload, {
 });
 
 const routes = [
-  { path: '/', component: Home },
+  { path: '/', component: Home, meta: { title: 'Home' } },
   {
     path: '/novinky/:page?',
     component: Novinky,
     props: { perPage: 12 },
+    meta: { title: 'Novinky' },
   },
   { path: '/novinka/:id', component: Novinka },
-  { path: '/hraci', component: Hraci },
+  { path: '/hraci', component: Hraci, meta: { title: 'Hráči' } },
   { path: '/hrac/:name', component: Hrac },
-  { path: '/oceneni', component: Oceneni },
+  { path: '/oceneni', component: Oceneni, meta: { title: 'Ocenění' } },
   {
     path: '/media/:page?',
     component: Media,
     props: { perPage: 12 },
+    meta: { title: 'Média' },
   },
-  { path: '/partneri', component: Partneri },
-  { path: '/kontakt', component: Kontakt },
-  { path: '/branding', component: Branding },
-  { path: '/cookies', component: Cookies },
-  { path: '/login', component: Login },
-  { path: '*', component: NotFound },
+  { path: '/partneri', component: Partneri, meta: { title: 'Partneři' } },
+  { path: '/kontakt', component: Kontakt, meta: { title: 'Kontakt' } },
+  { path: '/branding', component: Branding, meta: { title: 'Branding' } },
+  { path: '/cookies', component: Cookies, meta: { title: 'Cookies' } },
+  { path: '/login', component: Login, meta: { title: 'Login' } },
+  { path: '*', component: NotFound, meta: { title: '404' } },
 ];
 
 const router = new VueRouter({
   routes,
   mode: 'history',
+});
+
+router.beforeEach((to, from, next) => {
+  window.scrollTo(0, 0);
+  if (to.meta.title) document.title = `iNvolute | ${to.meta.title}`;
+  next();
 });
 
 new Vue({
