@@ -35,12 +35,39 @@ async function novinka(req, res, db) {
     let result = await db
       .collection('novinky')
       .find({ _id: ObjectId(req.params.id), draft: { $ne: true } })
-      .project({ _id: false })
+      .project({ _id: false, bg: false })
       .next();
 
     if (result === null) throw 400;
 
     res.json(result);
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
+async function cover(req, res, db) {
+  try {
+    let result = await db
+      .collection('novinky')
+      .find({ _id: ObjectId(req.params.id), draft: { $ne: true } })
+      .project({ bg: true })
+      .next();
+
+    var base64 = result.bg;
+    if (base64 == undefined) res.sendStatus(404);
+    else {
+      const mime = base64.substring(5, base64.indexOf(';base64,'));
+      base64 = base64.substring(base64.indexOf(';base64,') + ';base64,'.length);
+
+      var img = Buffer.from(base64, 'base64');
+
+      res.writeHead(200, {
+        'Content-Type': mime,
+        'Content-Length': img.length,
+      });
+      res.end(img);
+    }
   } catch (e) {
     res.sendStatus(400);
   }
@@ -75,4 +102,4 @@ async function pinned(req, res, db) {
   res.json(result);
 }
 
-module.exports = { neighbors, novinka, length, novinky, pinned };
+module.exports = { neighbors, novinka, cover, length, novinky, pinned };

@@ -25,6 +25,10 @@ server.get('/novinka/:id', async (req, res) => {
   await novinky.novinka(req, res, db);
 });
 
+server.get('/novinka/cover/:id', async (req, res) => {
+  await novinky.cover(req, res, db);
+});
+
 server.get('/novinky/length', async (req, res) => {
   await novinky.length(req, res, db);
 });
