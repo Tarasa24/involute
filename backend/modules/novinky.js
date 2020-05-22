@@ -34,7 +34,7 @@ async function novinka(req, res, db) {
   try {
     let result = await db
       .collection('novinky')
-      .find({ _id: ObjectId(req.params.id) })
+      .find({ _id: ObjectId(req.params.id), draft: { $ne: true } })
       .project({ _id: false })
       .next();
 
@@ -57,7 +57,7 @@ async function novinky(req, res, db) {
   let limit = Number(req.params.limit);
   let result = await db
     .collection('novinky')
-    .find({ pinned: { $ne: true } })
+    .find({ pinned: { $ne: true }, draft: { $ne: true } })
     .sort({ date: -1, created: -1 })
     .skip(skip)
     .limit(limit)

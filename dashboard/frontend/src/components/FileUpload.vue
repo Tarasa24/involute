@@ -1,6 +1,11 @@
 <template>
   <div style="display: none;">
-    <input ref="uploadTrigger" type="file" @change="handleUpload" />
+    <input
+      ref="uploadTrigger"
+      type="file"
+      accept="image/*"
+      @change="handleUpload"
+    />
   </div>
 </template>
 

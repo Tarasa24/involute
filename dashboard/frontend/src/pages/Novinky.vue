@@ -14,13 +14,19 @@
       <div class="vyhledat">
         <h2>Vyhledat</h2>
         <form class="wrapper" @submit="handleSubmit">
-          <select>
+          <select @change="handleChange">
+            <option value="Koncepty">Koncepty</option>
+            <option value="Připnuté">Připnuté</option>
             <option value="Titulek">Titulek</option>
             <option value="Hra">Hra</option>
-            <option value="Datum">Datum</option>
             <option value="ID">ID</option>
           </select>
-          <input type="text" placeholder="Řetězec, nebo /regex/" />
+          <input
+            type="text"
+            placeholder="Řetězec, nebo /regex/"
+            value="true"
+            disabled
+          />
           <button type="submit">Hledat</button>
         </form>
       </div>
@@ -28,14 +34,19 @@
 
     <div class="row" v-for="(novinka, index) in novinky" :key="novinka.id">
       <div>
-        <a class="title" :href="'/novinka/' + novinka._id"
+        <a
+          class="title"
+          :href="'/novinka/' + novinka._id"
+          :disabled="novinka.draft"
           >{{ novinka.title }}
         </a>
         <span
+          v-if="!novinka.draft"
           @click="handlePinClick(index)"
           :disabled="!novinka.pinned"
           class="fas fa-thumbtack"
         />
+        <span v-else title="Koncept" class="fas fa-pencil-ruler" />
       </div>
       <i>{{ novinka.game }}</i>
       <span>{{
@@ -61,7 +72,7 @@ export default {
   },
   async created() {
     this.$Progress.start();
-    this.novinky = await getData(`/novinky`);
+    this.novinky = await getData('/novinky/?Koncepty=true');
     this.$Progress.finish();
   },
   methods: {
@@ -101,6 +112,15 @@ export default {
             this.sort();
           } else alert('Něco se pokazilo');
         }
+      }
+    },
+    handleChange(event) {
+      if (['Koncepty', 'Připnuté'].includes(event.target.value)) {
+        event.target.parentNode.children[1].value = true;
+        event.target.parentNode.children[1].disabled = true;
+      } else {
+        event.target.parentNode.children[1].value = '';
+        event.target.parentNode.children[1].disabled = false;
       }
     },
     sort() {
@@ -185,6 +205,7 @@ export default {
   border: 2px $grayOutline solid
   border-bottom-width: 0
   border-radius: 2px
+  align-items: center
   &:nth-of-type(odd)
     background-color: $lighterGray
   &:nth-of-type(even)
@@ -195,6 +216,8 @@ export default {
   .title
     &:hover
       font-weight: bold
+    &[disabled]
+      pointer-events: none
 
   .fas
     justify-self: center
@@ -204,6 +227,15 @@ export default {
     grid-template-columns: auto 0 0 20px
     i, span
       font-size: 0
+
+  .fa-edit
+    position: relative
+    &::before
+      position: absolute
+      top: 50%
+      left: 0
+      transform: translate(-50%, -50%)
+
   .fa-thumbtack
     font-size: inherit !important
     margin-left: 5px
@@ -217,4 +249,8 @@ export default {
       color: $grayOutline
       &:hover
         color: $purple
+  .fa-pencil-ruler
+    font-size: inherit !important
+    margin-left: 5px
+    padding: 5px
 </style>

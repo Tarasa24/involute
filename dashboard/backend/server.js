@@ -20,15 +20,27 @@ server.get('/novinky', async (req, res) => {
   db.findNovinky(req, res);
 });
 
+server.get('/novinka/:id', async (req, res) => {
+  db.getNovinka(req, res);
+});
+
 server.post('/novinka/:id', async (req, res) => {
-  if (!req.body.pinned) delete req.body.pinned;
+  const keys = Object.keys(req.body);
+  for (const key of keys) {
+    if (!req.body[key]) delete req.body[key];
+  }
+  delete req.body._id;
+
   res.sendStatus(
     await db.replace('novinky', { _id: ObjectId(req.params.id) }, req.body)
   );
 });
 
 server.put('/novinka', async (req, res) => {
-  if (!req.body.pinned) delete req.body.pinned;
+  const keys = Object.keys(req.body);
+  for (const key of keys) {
+    if (!req.body[key]) delete req.body[key];
+  }
   const { status, id } = await db.insert('novinky', req.body);
   res.status(status).json({ id: id });
 });

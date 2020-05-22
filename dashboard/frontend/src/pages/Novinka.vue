@@ -3,9 +3,9 @@
     <div
       class="header"
       :style="
-        'background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url(' +
-        bg +
-        ')'
+        novinka.bg
+          ? `background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url(${novinka.bg})`
+          : 'background-color: black'
       "
     >
       <i
@@ -13,34 +13,45 @@
         title="Přidat hlavní náhledový obrázek"
         @click="handleClick"
       />
-      <input placeholder="Nadpis" type="text" class="title" v-model="title" />
+      <input
+        placeholder="Nadpis"
+        type="text"
+        class="title"
+        v-model="novinka.title"
+      />
       <span>
         <input
           placeholder="Hra / Téma"
           type="text"
-          v-model="game"
+          v-model="novinka.game"
           class="game"
         />
-        <datepicker :language="datepicker.cs" v-model="date" />
+        <datepicker :language="cs" v-model="novinka.date" />
       </span>
-      <textarea placeholder="Krátký popisek" v-model="sub" />
+      <textarea placeholder="Krátký popisek" v-model="novinka.sub" />
     </div>
 
     <vue-editor
       class="editor"
-      v-model="text"
+      v-model="novinka.text"
       :editorToolbar="quill.customToolbar"
       :customModules="quill.customModulesForEditor"
       :editorOptions="quill.editorSettings"
     />
 
-    <button v-if="newArticle" @click="handleSubmit">Publikovat</button>
-    <span v-else>
-      <button @click="handleSubmit">Uložit</button>
+    <span v-if="newArticle" class="new">
+      <button @click="handleSubmit(false)">Publikovat</button>
+      <button @click="handleSubmit(true)">Uložit koncept</button>
+    </span>
+    <span v-else class="edit">
+      <button @click="handleSubmit(true)">Uložit změny</button>
+      <button v-if="novinka.draft" @click="handleSubmit(false)">
+        Publikovat
+      </button>
       <button @click="handleDelete">Odstranit</button>
     </span>
 
-    <FileUpload ref="FileUpload" v-model="bg" />
+    <FileUpload ref="FileUpload" v-model="novinka.bg" />
   </main>
 </template>
 
@@ -65,6 +76,14 @@ export default {
   props: {
     newArticle: {
       type: Boolean,
+    },
+  },
+  watch: {
+    novinka: {
+      handler() {
+        this.changed = true;
+      },
+      deep: true,
     },
   },
   data() {
@@ -92,53 +111,60 @@ export default {
           },
         },
       },
-      datepicker: {
-        cs: cs,
-      },
-
-      title: undefined,
-      pinned: false,
-      game: undefined,
-      date: new Date(),
-      sub: undefined,
-      bg: undefined,
-      text: undefined,
-      created: undefined,
+      cs: cs,
+      novinka: {},
+      changed: false,
     };
+  },
+  mounted() {
+    window.addEventListener('beforeunload', e => this.handleUnload(e));
+  },
+  unmounted() {
+    window.removeEventListener('beforeunload', e => this.handleUnload(e));
   },
   async created() {
     if (!this.newArticle) {
-      const result = await getData('/novinka/' + this.$route.params.id);
+      this.novinka = await getData('/novinka/' + this.$route.params.id);
 
-      this.title = result.title;
-      this.pinned = Boolean(result.pinned);
-      this.game = result.game;
-      this.date = new Date(result.date * 1000);
-      this.sub = result.sub;
-      this.bg = result.bg;
-      this.text = result.text;
-      this.created = result.created;
+      this.novinka.pinned = Boolean(this.novinka.pinned);
+      this.novinka.draft = Boolean(this.novinka.draft);
+      this.novinka.date = new Date(this.novinka.date * 1000);
+
+      this.$nextTick(() => {
+        this.changed = false;
+      });
+    } else {
+      this.novinka.date = new Date();
+    }
+  },
+  beforeRouteLeave(to, from, next) {
+    if (this.changed) {
+      if (confirm('Opravdu chcete odejít? Máte neuložené změny!')) {
+        next();
+        this.changed = false;
+      } else {
+        next(false);
+      }
+    } else {
+      next();
     }
   },
   methods: {
-    async handleSubmit() {
-      var date = this.date;
+    async handleSubmit(draft) {
+      var date = this.novinka.date;
       date.setHours(12);
       date.setMinutes(0);
       date.setSeconds(0);
       date.setMilliseconds(0);
       date = (date.getTime() - date.getTimezoneOffset() * 60 * 1000) / 1000;
 
-      var data = {
-        title: this.title,
-        pinned: this.pinned,
-        game: this.game,
-        date: date,
-        sub: this.sub,
-        bg: this.bg,
-        text: this.text,
-        created: this.created,
-      };
+      var data = Object.assign({}, this.novinka);
+      data.date = date;
+
+      data.draft = draft;
+
+      if (!draft)
+        if (!confirm('Opravdu chcete publikovat tento článek?')) return;
 
       this.$Progress.start();
       let result;
@@ -154,6 +180,7 @@ export default {
 
       if (result.status == 202) {
         this.$Progress.finish();
+        this.changed = false;
         this.$router.push('/novinky');
       } else {
         this.$Progress.fail();
@@ -176,6 +203,12 @@ export default {
     handleClick() {
       this.$refs.FileUpload.open();
     },
+    handleUnload(e) {
+      if (this.changed) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    },
   },
 };
 </script>
@@ -188,7 +221,7 @@ main
   width: 80%
   margin: 0 auto
   @include small-device
-    width: calc( 100% - 4% )
+    width: 85vw
 
 .header
   text-align: center
@@ -252,13 +285,33 @@ main
     @include medium-device
       height: 8rem
 
-button
-  margin-top: 5vh
-  width: 125px
-  &:nth-of-type(1)
-    @include btn($acceptGreen)
-    margin-right: 15px
-  &:nth-of-type(2)
-    margin-left: 15px
-    @include btn($deleteRed)
+.editor
+  max-width: 80vw
+  @include small-device
+    max-width: 85vw
+
+.edit
+  button
+    margin-top: 5vh
+    width: 180px
+    &:nth-of-type(1)
+      @include btn($acceptGreen)
+      margin-right: 15px
+    &:nth-of-type(2)
+      margin: 0 15px
+      @include btn($infoBlue)
+    &:last-of-type
+      margin-left: 15px
+      @include btn($deleteRed)
+
+.new
+  button
+    margin-top: 5vh
+    width: 180px
+    &:nth-of-type(1)
+      @include btn($acceptGreen)
+      margin-right: 15px
+    &:nth-of-type(2)
+      @include btn($infoBlue)
+      margin: 0 15px
 </style>

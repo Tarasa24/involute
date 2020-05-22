@@ -52,8 +52,9 @@ async function findNovinky(req, res) {
       const loc = {
         Titulek: 'title',
         Hra: 'game',
-        Datum: 'date',
         ID: '_id',
+        Koncepty: 'draft',
+        Připnuté: 'pinned',
       };
 
       try {
@@ -63,6 +64,8 @@ async function findNovinky(req, res) {
         )
           value = RegExp(req.query[key].slice(1, -1));
         else if (loc[key] === '_id') value = ObjectId(req.query[key]);
+        else if (loc[key] === 'draft') value = Boolean(req.query[key]);
+        else if (loc[key] === 'pinned') value = Boolean(req.query[key]);
         else value = RegExp(req.query[key], 'i');
       } catch (e) {
         res.sendStatus(400);
@@ -92,6 +95,18 @@ async function findNovinky(req, res) {
 
     res.send(result);
   } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
+async function getNovinka(req, res) {
+  try {
+    const result = await db
+      .collection('novinky')
+      .find({ _id: ObjectId(req.params.id) })
+      .next();
+    res.json(result);
+  } catch (error) {
     res.sendStatus(400);
   }
 }
@@ -290,6 +305,7 @@ module.exports = {
   remove,
   insert,
   findNovinky,
+  getNovinka,
   getUzivatele,
   getUzivatel,
   stats,
