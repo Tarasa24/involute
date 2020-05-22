@@ -33,19 +33,23 @@
       <p>{{ novinka.sub }}</p>
     </div>
 
-    <section><img :src="novinka.bg" alt="main" /></section>
+    <section>
+      <img :src="cover" alt="main" />
+    </section>
     <main v-html="novinka.text" />
   </div>
 </template>
 
 <script>
 import { getData } from '../assets/js/dataFetcher';
+import { backendUrl } from '../assets/js/dev';
 
 export default {
   data() {
     return {
       novinka: {},
       soused: {},
+      cover: `${backendUrl}/novinka/cover${this.$route.params.id}`,
     };
   },
   watch: {
