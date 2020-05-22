@@ -1,7 +1,9 @@
 <template>
   <nav>
     <span>DASHBOARD</span>
-    <a :href="url"><button class="fas fa-sign-out-alt" aria-label="Odejít"/></a>
+    <a :href="url"
+      ><button class="fas fa-sign-out-alt" aria-label="Odejít"
+    /></a>
   </nav>
 </template>
 
