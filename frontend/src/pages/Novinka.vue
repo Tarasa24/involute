@@ -49,7 +49,7 @@ export default {
     return {
       novinka: {},
       soused: {},
-      cover: `${backendUrl}/novinka/cover${this.$route.params.id}`,
+      cover: `${backendUrl}/novinka/cover/${this.$route.params.id}`,
     };
   },
   watch: {
