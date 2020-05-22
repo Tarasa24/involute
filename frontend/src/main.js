@@ -15,7 +15,6 @@ import Partneri from './pages/Organizace/Partneri';
 import Oceneni from './pages/Oceneni';
 import Media from './pages/Media';
 import Kontakt from './pages/Organizace/Kontakt';
-import About from './pages/Organizace/About';
 import Branding from './pages/Organizace/Branding';
 import Cookies from './pages/Cookies';
 import Login from './pages/Login';
@@ -51,7 +50,6 @@ const routes = [
     props: { perPage: 12 },
     meta: { title: 'Média' },
   },
-  { path: '/about', component: About, meta: { title: 'About' } },
   { path: '/partneri', component: Partneri, meta: { title: 'Partneři' } },
   { path: '/kontakt', component: Kontakt, meta: { title: 'Kontakt' } },
   { path: '/branding', component: Branding, meta: { title: 'Branding' } },
