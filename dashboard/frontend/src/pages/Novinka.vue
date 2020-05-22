@@ -44,7 +44,7 @@
       <button @click="handleSubmit(true)">Uložit koncept</button>
     </span>
     <span v-else class="edit">
-      <button @click="handleSubmit(true)">Uložit změny</button>
+      <button @click="handleSubmit(novinka.draft)">Uložit změny</button>
       <button v-if="novinka.draft" @click="handleSubmit(false)">
         Publikovat
       </button>
