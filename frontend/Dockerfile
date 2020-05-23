@@ -7,7 +7,13 @@ RUN npm audit fix
 COPY . .
 RUN npm run build
 
-FROM nginx
+FROM node
 
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=builder /dist /www/frontend
+COPY /server /server
+COPY --from=builder /dist /dist
+WORKDIR /server
+
+RUN npm install
+RUN npm audit fix
+
+CMD ["npm", "start"]
