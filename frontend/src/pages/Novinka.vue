@@ -73,6 +73,7 @@ export default {
         this.soused = await getData('/novinka', {
           params: [this.$route.params.id, 'neighbors'],
         });
+        document.title = 'iNvolute | ' + this.novinka.title;
         this.$Progress.finish();
       }
     },
