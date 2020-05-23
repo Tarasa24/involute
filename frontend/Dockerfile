@@ -9,11 +9,12 @@ RUN npm run build
 
 FROM node
 
-COPY /server /server
-COPY --from=builder /dist /dist
+COPY /server/package.json /server/package.json
 WORKDIR /server
-
 RUN npm install
 RUN npm audit fix
+
+COPY /server /server
+COPY --from=builder /dist /dist
 
 CMD ["npm", "start"]
