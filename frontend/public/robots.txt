@@ -1,6 +1,9 @@
+User-agent: Twitterbot
+Disallow:
+
 User-agent: *
 crawl-delay: 10
-Disallow: /api/
 Allow: /api/novinka/cover/
+Disallow: /api/
 Disallow: /login
 Disallow: /dashboard/
