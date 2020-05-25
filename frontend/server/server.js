@@ -14,7 +14,7 @@ const injectMeta = require('./inject.js');
 server.use(helmet());
 server.use(compression());
 server.use(/^.+\.(js|css|png|ico|webp|svg|mp4|woff)$/, (req, res, next) => {
-  res.setHeader('Cache-Control', 'max-age=172800');
+  res.setHeader('Cache-Control', 'max-age=63072000');
   next();
 });
 

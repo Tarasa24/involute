@@ -4,47 +4,57 @@
       <h1>Branding & Presskit</h1>
     </Header>
 
-    <div class="wrapper" v-lazy-container="{ selector: 'img' }">
+    <div class="wrapper">
       <h1>Naše logo</h1>
       <h4>
         Prosíme neupravujte, neměňte, nezkreslujte ani nepřebarvujte oficiální
         logo iNvolute
       </h4>
       <div class="imgs">
-        <a href="/img/branding/inv-black-eye.png" download>
+        <a
+          :href="require('../../assets/img/branding/inv-black-eye.png')"
+          download
+        >
           <img
             class="whiteBGPattern"
-            data-src="/img/branding/resized/inv-black-eye.webp"
+            v-lazy="
+              require('../../assets/img/branding/resized/inv-black-eye.webp')
+            "
             alt="inv-black-eye.webp"
           />
         </a>
-        <a href="/img/branding/inv-white-eye.png" download>
+        <a
+          :href="require('../../assets/img/branding/inv-white-eye.png')"
+          download
+        >
           <img
             class="blackBGPattern"
-            data-src="/img/branding/resized/inv-white-eye.webp"
+            v-lazy="
+              require('../../assets/img/branding/resized/inv-white-eye.webp')
+            "
             alt="inv-white-eye.webp"
           />
         </a>
       </div>
       <div class="imgs">
-        <a href="/img/branding/inv-faded.png" download>
+        <a :href="require('../../assets/img/branding/inv-faded.png')" download>
           <img
             class="whiteBGPattern"
-            data-src="/img/branding/resized/inv-faded.webp"
+            v-lazy="require('../../assets/img/branding/resized/inv-faded.webp')"
             alt="inv-faded.webp"
           />
         </a>
-        <a href="/img/branding/inv-black.png" download>
+        <a :href="require('../../assets/img/branding/inv-black.png')" download>
           <img
             class="whiteBGPattern"
-            data-src="/img/branding/resized/inv-black.webp"
+            v-lazy="require('../../assets/img/branding/resized/inv-black.webp')"
             alt="inv-black.webp"
           />
         </a>
-        <a href="/img/branding/inv-white.png" download>
+        <a :href="require('../../assets/img/branding/inv-white.png')" download>
           <img
             class="blackBGPattern"
-            data-src="/img/branding/resized/inv-white.webp"
+            v-lazy="require('../../assets/img/branding/resized/inv-white.webp')"
             alt="inv-white.webp"
           />
         </a>
@@ -52,15 +62,25 @@
 
       <h1>Ochranná zóna & minimální velikost</h1>
       <div class="imgs">
-        <a href="/img/branding/inv-spacing.png" download>
+        <a
+          :href="require('../../assets/img/branding/inv-spacing.png')"
+          download
+        >
           <img
-            data-src="/img/branding/resized/inv-spacing.webp"
+            v-lazy="
+              require('../../assets/img/branding/resized/inv-spacing.webp')
+            "
             alt="inv-spacing.webp"
           />
         </a>
-        <a href="/img/branding/inv-min-size.png" download>
+        <a
+          :href="require('../../assets/img/branding/inv-min-size.png')"
+          download
+        >
           <img
-            data-src="/img/branding/resized/inv-min-size.webp"
+            v-lazy="
+              require('../../assets/img/branding/resized/inv-min-size.webp')
+            "
             alt="inv-min-size.webp"
           />
         </a>

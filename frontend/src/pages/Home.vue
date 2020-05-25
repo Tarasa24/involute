@@ -3,16 +3,23 @@
     <div class="head">
       <video
         v-if="width > 767"
-        src="/video/involuteWeb.mp4"
-        poster="/img/thumb/involuteWeb.png"
+        src="../assets/video/involuteWeb.mp4"
+        poster="../assets/img/thumb/involuteWeb.png"
         autoplay
         muted
         loop
       />
-      <img v-else src="/img/thumb/involuteWeb.png" alt="involuteWeb.png" />
+      <img
+        v-else
+        src="../assets/img/thumb/involuteWeb.png"
+        alt="involuteWeb.png"
+      />
       <div class="text">
         <span>
-          <h1>My jsme <strong>iNvolute</strong></h1>
+          <h1>
+            My jsme
+            <strong>iNvolute</strong>
+          </h1>
           <br />
           <h2>
             iNvolute, založen 1. března 2016, je e-sportová organizace řadící se
@@ -20,9 +27,12 @@
             scéně.
           </h2>
           <br />
-          <router-link to="/about"
-            ><button>Zjistit více <i class="fas fa-arrow-right" /></button
-          ></router-link>
+          <router-link to="/about">
+            <button>
+              Zjistit více
+              <i class="fas fa-arrow-right" />
+            </button>
+          </router-link>
         </span>
       </div>
     </div>

@@ -58,21 +58,21 @@ export default {
 <style lang="sass">
 @font-face
   font-family: 'skoda'
-  src: url('./assets/fonts/SkodaPro_Regular.woff') format('woff')
+  src: url('/fonts/SkodaPro_Regular.woff') format('woff')
   font-weight: normal
   font-style: normal
   font-display: swap
 
 @font-face
   font-family: 'skoda'
-  src: url('./assets/fonts/SkodaPro_Bold.woff') format('woff')
+  src: url('/fonts/SkodaPro_Bold.woff') format('woff')
   font-weight: bold
   font-style: normal
   font-display: swap
 
 @font-face
   font-family: 'skoda'
-  src: url('./assets/fonts/SkodaPro_Bolder.woff') format('woff')
+  src: url('/fonts/SkodaPro_Bolder.woff') format('woff')
   font-weight: bolder
   font-style: normal
   font-display: swap

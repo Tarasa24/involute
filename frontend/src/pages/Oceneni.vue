@@ -40,9 +40,9 @@ export default {
     return {
       data: {},
       placementObj: {
-        '1.': '/img/icons/ico_award_gold.png',
-        '2.': '/img/icons/ico_award_silver.png',
-        '3.': '/img/icons/ico_award_bronze.png',
+        '1.': require('../assets/img/icons/ico_award_gold.png'),
+        '2.': require('../assets/img/icons/ico_award_silver.png'),
+        '3.': require('../assets/img/icons/ico_award_bronze.png'),
       },
       iconsObj: {},
     };

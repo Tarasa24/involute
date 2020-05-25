@@ -18,7 +18,7 @@ module.exports = {
         },
       }),
       new CompressionPlugin({
-        include: /\.(html|css|js|ico|svg)$/,
+        include: /\.(html|css|js|ico|svg|png|webp)$/,
         minRatio: 0.9,
       }),
     ],

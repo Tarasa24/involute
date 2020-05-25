@@ -29,7 +29,7 @@ Vue.use(VueProgressBar, {
 });
 Vue.use(AsyncComputed);
 Vue.use(VueLazyload, {
-  loading: '/loading.svg',
+  loading: require('./assets/img/loading.svg'),
 });
 
 const routes = [
