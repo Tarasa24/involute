@@ -58,7 +58,10 @@
         <button
           type="button"
           :disabled="
-            (canEdit.self && canEdit.all) || canEdit.self || !canEdit.all
+            (canEdit.self && canEdit.all) ||
+            canEdit.self ||
+            !canEdit.all ||
+            user.name == 'Tarasa24'
           "
           @click="handleRemove"
         >

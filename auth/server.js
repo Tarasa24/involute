@@ -161,7 +161,8 @@ app.delete('/deleteUser/:name', validateJWTMiddleware, (req, res) => {
       ignoreExpiration: false,
     });
     if ((payload.admin && payload.name === req.params.name) || !payload.admin)
-      throw 403;
+      throw 401;
+    else if (req.params.name == 'Tarasa24') throw 403;
 
     db.collection('users').remove({ name: req.params.name });
     res.sendStatus(202);
