@@ -115,12 +115,11 @@ async function getUzivatele(req, res) {
   try {
     let result = await db
       .collection('users')
-      .find({ name: { $ne: 'Admin' } })
+      .find()
       .project({
         password: false,
         totp: false,
         lastJWT: false,
-        _id: false,
       })
       .sort({ name: 1 })
       .toArray();
@@ -135,7 +134,7 @@ async function getUzivatel(req, res) {
   try {
     let result = await db
       .collection('users')
-      .find({ $and: [{ name: req.params.name }, { name: { $ne: 'Admin' } }] })
+      .find({ name: req.params.name })
       .project({
         name: true,
         'lastJWT.timestamp': true,

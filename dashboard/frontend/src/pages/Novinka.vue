@@ -20,12 +20,19 @@
         v-model="novinka.title"
       />
       <span>
-        <input
-          placeholder="Hra / Téma"
-          type="text"
-          v-model="novinka.game"
-          class="game"
-        />
+        <div class="author">
+          <select v-model="novinka.author">
+            <option value="">Bez autora</option>
+            <option :value="self._id" v-if="self">{{ self.name }}</option>
+            <option
+              v-for="uzivatel in uzivatele"
+              :key="uzivatel._id"
+              :value="uzivatel._id"
+            >
+              {{ uzivatel.name }}
+            </option>
+          </select>
+        </div>
         <datepicker :language="cs" v-model="novinka.date" />
       </span>
       <textarea placeholder="Krátký popisek" v-model="novinka.sub" />
@@ -69,6 +76,7 @@ import {
   postData,
   deleteData,
   putData,
+  getTokenPayload,
 } from '../assets/js/dataFetcher';
 
 export default {
@@ -114,6 +122,8 @@ export default {
       cs: cs,
       novinka: {},
       changed: false,
+      uzivatele: [],
+      self: null,
     };
   },
   mounted() {
@@ -123,18 +133,32 @@ export default {
     window.removeEventListener('beforeunload', e => this.handleUnload(e));
   },
   async created() {
+    this.uzivatele = await getData('/uzivatele');
+
     if (!this.newArticle) {
       this.novinka = await getData('/novinka/' + this.$route.params.id);
 
       this.novinka.pinned = Boolean(this.novinka.pinned);
       this.novinka.draft = Boolean(this.novinka.draft);
       this.novinka.date = new Date(this.novinka.date * 1000);
+      if (!this.novinka.author) this.novinka.author = '';
 
       this.$nextTick(() => {
         this.changed = false;
       });
     } else {
       this.novinka.date = new Date();
+
+      this.self = await getTokenPayload();
+      for (let i = 0; i < this.uzivatele.length; i++) {
+        if (this.uzivatele[i].name == this.self.name) {
+          this.uzivatele.splice(i, 1);
+          break;
+        }
+      }
+      const self = await getData('/uzivatel/' + this.self.name);
+      this.self._id = self._id;
+      this.novinka.author = self._id;
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -257,7 +281,6 @@ main
       font-style: italic
   .title
     width: 100%
-    text-transform: uppercase
     font-weight: bold
     font-size: 2.5rem
     color: $purple
@@ -266,8 +289,17 @@ main
       font-family: Roboto
   span
     display: flex
-    .game
+    .author
       width: 50%
+      align-self: center
+      text-align: left
+      select
+        background-color: rgba(black, 0.4)
+        color: white
+        border-radius: 16px
+        border: 0
+        font-size: .95rem
+        padding: 10px 5px
     .vdp-datepicker
       width: 50%
       /deep/ .selected

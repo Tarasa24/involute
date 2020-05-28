@@ -37,8 +37,15 @@ async function novinka(req, res, db) {
       .find({ _id: ObjectId(req.params.id), draft: { $ne: true } })
       .project({ _id: false, bg: false })
       .next();
-
     if (result === null) throw 400;
+
+    const { name } = await db
+      .collection('users')
+      .find({ _id: ObjectId(result.author) })
+      .project({ name: true })
+      .next();
+
+    result.author = name;
 
     res.json(result);
   } catch (e) {

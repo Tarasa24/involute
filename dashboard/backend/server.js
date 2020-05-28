@@ -31,6 +31,8 @@ server.post('/novinka/:id', async (req, res) => {
   }
   delete req.body._id;
 
+  req.body.author = ObjectId(req.body.author);
+
   res.sendStatus(
     await db.replace('novinky', { _id: ObjectId(req.params.id) }, req.body)
   );

@@ -42,10 +42,16 @@ server.get('/novinky/:skip/:limit', async (req, res) => {
 });
 
 server.get('/staff/novinky/:author', async (req, res) => {
+  const { _id } = await db
+    .collection('users')
+    .find({ name: req.params.author })
+    .project({ _id: true })
+    .next();
+
   res.json(
     await db
       .collection('novinky')
-      .find({ author: req.params.author })
+      .find({ author: _id, draft: { $ne: true } })
       .project({ _id: true, title: true, sub: true, date: true })
       .toArray()
   );
