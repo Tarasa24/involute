@@ -74,17 +74,34 @@ async function cover(req, res, db) {
 }
 
 async function length(req, res, db) {
-  const all = await db.collection('novinky').estimatedDocumentCount();
-  const pinned = await db.collection('novinky').find({ pinned: true }).count();
-  res.json(all - pinned);
+  if (req.query.tag) {
+    res.json(
+      await db
+        .collection('novinky')
+        .find({ tags: { $in: [req.query.tag] } })
+        .count()
+    );
+  } else {
+    const all = await db.collection('novinky').estimatedDocumentCount();
+    const exclude = await db
+      .collection('novinky')
+      .find({ pinned: true, draft: true })
+      .count();
+    res.json(all - exclude);
+  }
 }
 
 async function novinky(req, res, db) {
   let skip = Number(req.params.skip);
   let limit = Number(req.params.limit);
+  let find = { pinned: { $ne: true }, draft: { $ne: true } };
+
+  if (req.query.tag)
+    find = { draft: { $ne: true }, tags: { $in: [req.query.tag] } };
+
   let result = await db
     .collection('novinky')
-    .find({ pinned: { $ne: true }, draft: { $ne: true } })
+    .find(find)
     .sort({ date: -1, created: -1 })
     .skip(skip)
     .limit(limit)

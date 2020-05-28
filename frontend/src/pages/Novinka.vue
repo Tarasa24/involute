@@ -1,7 +1,7 @@
 <template>
   <div class="novinka">
-    <div class="header" v-touch:swipe="swipeHandler">
-      <span>
+    <div class="header">
+      <span class="arrows">
         <router-link
           v-if="soused.pervious != null"
           :to="'/novinka/' + soused.pervious"
@@ -18,9 +18,26 @@
       </span>
 
       <h1>{{ novinka.title }}</h1>
-      <div class="game_n_date">
-        <span>{{ novinka.game }}</span>
-        <span>
+
+      <div class="tags">
+        <router-link
+          v-for="tag in novinka.tags"
+          :key="tag"
+          :to="`/novinky?tag=${tag}`"
+        >
+          {{ tag }}
+        </router-link>
+      </div>
+
+      <div class="author_n_date">
+        <div>
+          Autor:
+          <router-link v-if="novinka.author" :to="`/staff/${novinka.author}`">
+            {{ novinka.author }}
+          </router-link>
+          <span v-else>Neznámý</span>
+        </div>
+        <div>
           {{
             new Date(novinka.date * 1000).toLocaleDateString('cs', {
               day: '2-digit',
@@ -28,13 +45,13 @@
               year: 'numeric',
             })
           }}
-        </span>
+        </div>
       </div>
       <p>{{ novinka.sub }}</p>
     </div>
 
     <section>
-      <img :src="cover" alt="main" />
+      <img v-lazy="cover" alt="main" />
     </section>
     <main v-html="novinka.text" />
   </div>
@@ -49,8 +66,12 @@ export default {
     return {
       novinka: {},
       soused: {},
-      cover: `${backendUrl}/novinka/cover/${this.$route.params.id}`,
     };
+  },
+  computed: {
+    cover() {
+      return `${backendUrl}/novinka/cover/${this.$route.params.id}`;
+    },
   },
   watch: {
     $route: 'load',
@@ -77,12 +98,6 @@ export default {
         this.$Progress.finish();
       }
     },
-    swipeHandler(direction) {
-      if (direction === 'left' && this.soused.next != null)
-        this.$router.push(`/novinka/${this.soused.next}`);
-      else if (direction === 'right' && this.soused.pervious != null)
-        this.$router.push(`/novinka/${this.soused.pervious}`);
-    },
   },
 };
 </script>
@@ -92,7 +107,7 @@ export default {
   background-color: $bgGray
 
 .header
-  color: #d9d9d9
+  color: $textGray
   padding: 5.5vh calc(30% + 20px)
   padding-bottom: 1%
   text-align: left
@@ -106,7 +121,7 @@ export default {
   @include small-device
     padding: 4%
 
-  span
+  .arrows
     display: grid
     grid-template-columns: 50% 50%
     grid-column-gap: 5px
@@ -132,13 +147,33 @@ export default {
     color: $purple
     @include small-device
       font-size: 2.2rem
-  .game_n_date
+  .tags
     display: flex
-    span
+    margin-bottom: 15px
+    a
+      background-color: $darkPurple
+      border-radius: 16px
+      padding: 2px 7.5px
+      margin: 0 5px
+      &:first-of-type
+        margin-left: 0
+      color: $textGray
+      text-decoration: none
+      font-size: .85rem
+      &:hover
+        text-decoration: underline
+  .author_n_date
+    display: flex
+    div
       display: block
       width: 50%
       &:last-of-type
         text-align: right
+    a
+      color: $textGray
+      text-decoration: none
+      &:hover
+        text-decoration: underline
   p
     @include small-device
       font-size: 1rem

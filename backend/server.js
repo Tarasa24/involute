@@ -41,6 +41,16 @@ server.get('/novinky/:skip/:limit', async (req, res) => {
   await novinky.novinky(req, res, db);
 });
 
+server.get('/staff/novinky/:author', async (req, res) => {
+  res.json(
+    await db
+      .collection('novinky')
+      .find({ author: req.params.author })
+      .project({ _id: true, title: true, sub: true, date: true })
+      .toArray()
+  );
+});
+
 server.get('/partneri', async (req, res) => {
   let result = await db.collection('partneri').find().toArray();
   res.json(result);

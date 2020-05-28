@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Vue2TouchEvents from 'vue2-touch-events';
 import VueProgressBar from 'vue-progressbar';
 import AsyncComputed from 'vue-async-computed';
 import VueLazyload from 'vue-lazyload';
@@ -11,6 +10,7 @@ import Novinky from './pages/Novinky';
 import Novinka from './pages/Novinka';
 import Hraci from './pages/Hraci';
 import Hrac from './pages/Hrac';
+import StaffProfile from './pages/StaffProfile';
 import Partneri from './pages/Organizace/Partneri';
 import Oceneni from './pages/Oceneni';
 import Media from './pages/Media';
@@ -21,7 +21,6 @@ import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 
 Vue.use(VueRouter);
-Vue.use(Vue2TouchEvents);
 Vue.use(VueProgressBar, {
   color: '#A65BDA',
   failedColor: 'red',
@@ -43,6 +42,7 @@ const routes = [
   { path: '/novinka/:id', component: Novinka },
   { path: '/hraci', component: Hraci, meta: { title: 'Hráči' } },
   { path: '/hrac/:name', component: Hrac },
+  { path: '/staff/:name', component: StaffProfile },
   { path: '/oceneni', component: Oceneni, meta: { title: 'Ocenění' } },
   {
     path: '/media/:page?',

@@ -2,9 +2,10 @@
   <main>
     <Header>
       <h1>Novinky</h1>
+      <a v-if="$route.query.tag" class="tag">{{ $route.query.tag }}</a>
     </Header>
 
-    <div class="pinned">
+    <div class="pinned" v-if="!$route.query.tag">
       <router-link
         v-for="pin in pinned"
         :key="pin._id"
@@ -66,14 +67,25 @@ export default {
   methods: {
     async load() {
       this.$Progress.start();
-      this.total = await getData('/novinky/length');
-      this.novinky = await getData(
-        `/novinky/${(this.$route.params.page - 1 || 0) * this.perPage}/${
-          this.perPage
-        }`
-      );
-      this.pinned = await getData('/novinky/pinned');
-      if (this.pinned.length == 1) this.pinned.push({});
+      if (this.$route.query.tag) {
+        this.total = await getData(
+          `/novinky/length?tag=${this.$route.query.tag}`
+        );
+        this.novinky = await getData(
+          `/novinky/${(this.$route.params.page - 1 || 0) * this.perPage}/${
+            this.perPage
+          }?tag=${this.$route.query.tag}`
+        );
+      } else {
+        this.total = await getData('/novinky/length');
+        this.novinky = await getData(
+          `/novinky/${(this.$route.params.page - 1 || 0) * this.perPage}/${
+            this.perPage
+          }`
+        );
+        this.pinned = await getData('/novinky/pinned');
+        if (this.pinned.length == 1) this.pinned.push({});
+      }
       this.$Progress.finish();
     },
   },
@@ -85,6 +97,17 @@ main
   background-color: $bgGray
   @include medium-device
     padding: 5%
+
+.tag
+  background-color: $darkPurple
+  border-radius: 16px
+  padding: 2px 7.5px
+  margin: 7px
+  color: $textGray
+  text-decoration: none
+  font-size: 1rem
+  position: relative
+  top: 5px
 
 .container, .pinned
   grid-area: container
