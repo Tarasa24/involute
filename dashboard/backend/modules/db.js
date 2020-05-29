@@ -111,6 +111,29 @@ async function getNovinka(req, res) {
   }
 }
 
+async function getTags(req, res) {
+  function filter(arr) {
+    return arr.filter((item, pos) => arr.indexOf(item) === pos);
+  }
+
+  try {
+    const result = await db
+      .collection('novinky')
+      .find({ tags: { $exists: true } })
+      .project({ tags: true })
+      .toArray();
+
+    var tags = [];
+    for (let i = 0; i < result.length; i++) {
+      tags = tags.concat(result[i].tags);
+    }
+
+    res.json(filter(tags));
+  } catch (error) {
+    res.sendStatus(400);
+  }
+}
+
 async function getUzivatele(req, res) {
   try {
     let result = await db
@@ -305,6 +328,7 @@ module.exports = {
   insert,
   findNovinky,
   getNovinka,
+  getTags,
   getUzivatele,
   getUzivatel,
   stats,

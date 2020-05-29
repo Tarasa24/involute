@@ -59,6 +59,10 @@ server.delete('/novinky/pinned/:id', async (req, res) => {
   db.unpin(req, res);
 });
 
+server.get('/novinky/tags', async (req, res) => {
+  db.getTags(req, res);
+});
+
 server.post('/oceneni/:id', async (req, res) => {
   res.sendStatus(
     await db.replace('oceneni', { _id: ObjectId(req.params.id) }, req.body)

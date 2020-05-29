@@ -19,6 +19,32 @@
         class="title"
         v-model="novinka.title"
       />
+      <div class="tags">
+        <a
+          v-for="(tag, index) in novinka.tags"
+          :key="tag"
+          @click="handleTagDelete(index)"
+        >
+          {{ tag }}
+          <i aria-label="Odstranit tag" class="fas fa-times" />
+        </a>
+        <select @change="handleSelectTag">
+          <option value="">Vyberte jeden z existujících tagů</option>
+          <option
+            v-for="tag in novinka.tags
+              ? tags.filter(value => this.novinka.tags.indexOf(value) === -1)
+              : tags"
+            :key="tag"
+          >
+            {{ tag }}
+          </option>
+        </select>
+        <button @click="handleNewTag">
+          Nebo přidejte nový
+          <i class="fas fa-plus" />
+        </button>
+      </div>
+
       <span>
         <div class="author">
           <select v-model="novinka.author">
@@ -124,6 +150,7 @@ export default {
       changed: false,
       uzivatele: [],
       self: null,
+      tags: [],
     };
   },
   mounted() {
@@ -134,6 +161,7 @@ export default {
   },
   async created() {
     this.uzivatele = await getData('/uzivatele');
+    this.tags = await getData('/novinky/tags');
 
     if (!this.newArticle) {
       this.novinka = await getData('/novinka/' + this.$route.params.id);
@@ -233,6 +261,23 @@ export default {
         e.returnValue = '';
       }
     },
+    handleTagDelete(index) {
+      this.novinka.tags.splice(index, 1);
+    },
+    handleSelectTag(event) {
+      const val = event.target.value;
+      this.tags.splice(event.target.selectedIndex - 1, 1);
+      event.target.value = '';
+
+      if (this.novinka.tags) this.novinka.tags.push(val);
+      else this.$set(this.novinka, 'tags', [val]);
+    },
+    handleNewTag() {
+      const val = prompt('Zadejte jméno nového tagu:');
+      if (!val || this.novinka.tags.indexOf(val) !== -1) return;
+      else if (this.novinka.tags) this.novinka.tags.push(val);
+      else this.$set(this.novinka, 'tags', [val]);
+    },
   },
 };
 </script>
@@ -254,7 +299,7 @@ main
   background-position: center center !important
   margin-bottom: 1%
   padding: 12px 15px
-  i
+  .fa-edit
     font-size: 2.5rem
     color: white
     margin: 2.5% auto
@@ -287,6 +332,26 @@ main
     font-family: sans-serif
     &::placeholder
       font-family: Roboto
+
+  .tags
+    text-align: left
+    a, select, button
+      background-color: $darkPurple
+      border-radius: 16px
+      border: 0
+      padding: 2px 7.5px
+      margin: 0 10px 10px 0
+      white-space: nowrap
+      color: white
+      text-decoration: none
+      font-size: .85rem
+      cursor: pointer
+      &:nth-last-child(1), &:nth-last-child(2)
+        background-color: $purple
+      i
+        padding: 2.5px 5px
+        color: white
+        font-size: .8rem
   span
     display: flex
     .author
