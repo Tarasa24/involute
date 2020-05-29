@@ -274,9 +274,11 @@ export default {
     },
     handleNewTag() {
       const val = prompt('Zadejte jméno nového tagu:');
-      if (!val || this.novinka.tags.indexOf(val) !== -1) return;
-      else if (this.novinka.tags) this.novinka.tags.push(val);
-      else this.$set(this.novinka, 'tags', [val]);
+      if (!val) return;
+      else if (this.novinka.tags) {
+        if (this.novinka.tags.indexOf(val) !== -1) return;
+        else this.novinka.tags.push(val);
+      } else this.$set(this.novinka, 'tags', [val]);
     },
   },
 };
