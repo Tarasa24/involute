@@ -1,29 +1,93 @@
 <template>
   <main>
     <div class="container">
-      <h1>{{ $route.params.name }}</h1>
+      <Header>
+        <h1>{{ staff.name }}</h1>
+        <h2>{{ staff.role }}</h2>
 
-      <h2>Publikované články</h2>
-      <div class="table">
-        <router-link
-          :to="'/novinka/' + novinka._id"
-          v-for="(novinka, index) in novinky"
-          :key="novinka._id"
-          class="tr"
-        >
-          <div class="td">{{ novinky.length - index }}.</div>
-          <div class="td">{{ novinka.title }}</div>
-          <div class="td">{{ novinka.sub }}</div>
-          <div class="td">
-            {{
-              new Date(novinka.date * 1000).toLocaleDateString('cs', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-              })
-            }}
-          </div>
-        </router-link>
+        <div class="links" v-if="staff.links">
+          <a
+            v-if="staff.links.facebook"
+            class="fab fa-facebook-f"
+            :href="staff.links.facebook"
+            target="_blank"
+            rel="noopener noreferrer"
+          />
+          <a
+            v-if="staff.links.instagram"
+            class="fab fa-instagram"
+            :href="staff.links.instagram"
+            target="_blank"
+            rel="noopener noreferrer"
+          />
+          <a
+            v-if="staff.links.twitch"
+            class="fab fa-twitch"
+            :href="staff.links.twitch"
+            target="_blank"
+            rel="noopener noreferrer"
+          />
+          <a
+            v-if="staff.links.twitter"
+            class="fab fa-twitter"
+            :href="staff.links.twitter"
+            target="_blank"
+            rel="noopener noreferrer"
+          />
+          <a
+            v-if="staff.links.web"
+            class="fas fa-link"
+            :href="staff.links.web"
+            target="_blank"
+            rel="noopener noreferrer"
+          />
+          <a
+            v-if="staff.links.github"
+            class="fab fa-github"
+            :href="staff.links.github"
+            target="_blank"
+            rel="noopener noreferrer"
+          />
+        </div>
+      </Header>
+
+      <div class="about">
+        <img
+          class="portrait"
+          src="https://placekitten.com/400/500"
+          alt="Portrét"
+        />
+        <table>
+          <tr v-for="(a, q) in staff.about" :key="q">
+            <td>{{ q }}</td>
+            <td>{{ a }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div v-if="staff.articles">
+        <h3>Publikované články</h3>
+        <div class="table">
+          <router-link
+            :to="'/novinka/' + article._id"
+            v-for="(article, index) in staff.articles"
+            :key="article._id"
+            class="tr"
+          >
+            <div class="td">{{ staff.articles.length - index }}.</div>
+            <div class="td">{{ article.title }}</div>
+            <div class="td">{{ article.sub }}</div>
+            <div class="td">
+              {{
+                new Date(article.date * 1000).toLocaleDateString('cs', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                })
+              }}
+            </div>
+          </router-link>
+        </div>
       </div>
     </div>
   </main>
@@ -31,17 +95,27 @@
 
 <script>
 import { getData } from '../assets/js/dataFetcher';
+import Header from '../components/misc/Header';
 
 export default {
+  components: { Header },
   data() {
     return {
-      novinky: [],
+      staff: {},
     };
   },
   async created() {
     this.$Progress.start();
-    this.novinky = await getData('/staff/novinky/' + this.$route.params.name);
-    this.$Progress.finish();
+    this.staff = await getData('/staff/' + this.$route.params.name, {
+      code: true,
+    });
+    if (this.staff == 404) {
+      this.$Progress.fail();
+      this.$router.replace('/staff');
+    } else {
+      this.$Progress.finish();
+      document.title = `iNvolute | Staff - ${this.staff.name}`;
+    }
   },
 };
 </script>
@@ -51,14 +125,14 @@ main
   background-color: $bgGray
   padding: 2% 0
 
-h1
-  color: $purple
-  font-size: 2.75rem
-  margin-bottom: 4%
+.container
+  width: $baselineWidth
+  max-width: $maxWidth
+  margin: auto
   @include medium-device
-    font-size: 2rem
+    width: 90%
 
-h2
+h3
   text-transform: uppercase
   text-align: left
   color: $purple
@@ -66,32 +140,67 @@ h2
   @include medium-device
     font-size: 1.5rem
 
-.container
-  width: $baselineWidth
-  max-width: $maxWidth
-  margin: auto
+.links
+  a
+    text-decoration: none
+    padding: 5px
+    margin: 2px
+    font-size: 1.25rem
+    color: black
+
+.about
+  display: grid
+  grid-template-columns: 400px 1fr
+  margin: 20px 20px 50px 20px
+  gap: 10px
   @include medium-device
-    width: 90%
-  .table
-    margin: auto
-    background-color: $textGray
-    margin-top: 20px
-    width: 80%
-    display: table
+    grid-template-columns: 1fr
+  justify-items: center
+  align-items: center
+  .portrait
+    max-width: 100%
+    min-width: 40%
+    max-height: 425px
     @include medium-device
-      width: 97.5%
-      margin-top: 10px
-    .tr
-      display: table-row
-      text-align: left
-      text-decoration: none
-      color: black
-      @include transition(color)
-      &:hover
-        color: $purple
-    .td
-      display: table-cell
-      padding: 5px
-      &:nth-of-type(2)
+      max-height: 70vh
+  table
+    width: 100%
+    border-collapse: collapse
+    td
+      border: 1px dashed $textGray
+      padding: 5px 0
+      &:nth-of-type(1)
         font-weight: bold
+        font-size: 1.2rem
+        @include medium-device
+          font-size: 1rem
+    table
+      td
+        padding: 0
+        border: 0
+        &:nth-of-type(1)
+          font-weight: bold
+          font-size: initial
+
+.table
+  margin: auto
+  margin-top: 20px
+  width: 80%
+  display: table
+  @include medium-device
+    width: 97.5%
+    margin-top: 10px
+  .tr
+    display: table-row
+    text-align: left
+    text-decoration: none
+    color: black
+    @include transition(color)
+    &:hover
+      color: $purple
+  .td
+    display: table-cell
+    padding: 5px
+    &:nth-of-type(2)
+      font-weight: bold
 </style>

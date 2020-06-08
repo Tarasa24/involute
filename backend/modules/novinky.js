@@ -41,8 +41,8 @@ async function novinka(req, res, db) {
 
     if (result.author) {
       const { name } = await db
-        .collection('users')
-        .find({ _id: ObjectId(result.author) })
+        .collection('staff')
+        .find({ linkedUser: ObjectId(result.author) })
         .project({ name: true })
         .next();
 

@@ -12,13 +12,14 @@ async function getData(path, options = { code: false, params: [] }) {
   path = pathMiddleware(path);
   var url = `${baseUrl}/${path}`;
 
-  options.params.forEach(e => {
-    url += `/${e}`;
-  });
+  if (options.params)
+    options.params.forEach(e => {
+      url += `/${e}`;
+    });
 
   var result = await fetch(url);
 
-  if (result.status === 400 && options.code) return result.status;
+  if (result.status >= 400 && options.code) return result.status;
   else return result.json();
 }
 

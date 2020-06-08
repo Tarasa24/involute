@@ -10,6 +10,7 @@ import Novinky from './pages/Novinky';
 import Novinka from './pages/Novinka';
 import Hraci from './pages/Hraci';
 import Hrac from './pages/Hrac';
+import Staff from './pages/Staff';
 import StaffProfile from './pages/StaffProfile';
 import Partneri from './pages/Organizace/Partneri';
 import Oceneni from './pages/Oceneni';
@@ -42,6 +43,7 @@ const routes = [
   { path: '/novinka/:id', component: Novinka },
   { path: '/hraci', component: Hraci, meta: { title: 'Hráči' } },
   { path: '/hrac/:name', component: Hrac },
+  { path: '/staff', component: Staff, meta: { title: 'Staff' } },
   { path: '/staff/:name', component: StaffProfile },
   { path: '/oceneni', component: Oceneni, meta: { title: 'Ocenění' } },
   {
