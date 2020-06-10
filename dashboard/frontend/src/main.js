@@ -21,6 +21,8 @@ import Hrac from './pages/Hrac';
 import Hry from './pages/Hry';
 import Partneri from './pages/Partneri';
 import Sponzori from './pages/Sponzori';
+import Staff from './pages/Staff';
+import StaffProfile from './pages/StaffProfile';
 import Odkazy from './pages/Odkazy';
 import NotFound from './pages/NotFound';
 
@@ -59,6 +61,13 @@ const routes = [
   { path: '/hry', component: Hry },
   { path: '/partneri', component: Partneri },
   { path: '/sponzori', component: Sponzori },
+  { path: '/staff', component: Staff },
+  {
+    path: '/staff/pridat',
+    component: StaffProfile,
+    props: { newStaff: true },
+  },
+  { path: '/staff/:name', component: StaffProfile },
   { path: '/odkazy', component: Odkazy },
   { path: '/*', component: NotFound },
 ];

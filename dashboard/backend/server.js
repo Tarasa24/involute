@@ -231,6 +231,33 @@ server.put('/sponzor', async (req, res) => {
   res.status(status).json({ id: id });
 });
 
+server.get('/staff', async (req, res) => {
+  db.getStaff(req, res);
+});
+
+server.get('/staff/:name', async (req, res) => {
+  db.getStaffProfile(req, res);
+});
+
+server.post('/staff/:id', async (req, res) => {
+  if (req.body.linkedUser) req.body.linkedUser = ObjectId(req.body.linkedUser);
+
+  res.sendStatus(
+    await db.replace('staff', { _id: ObjectId(req.params.id) }, req.body)
+  );
+});
+
+server.delete('/staff/:id', async (req, res) => {
+  res.sendStatus(await db.remove('staff', { _id: ObjectId(req.params.id) }));
+});
+
+server.put('/staff', async (req, res) => {
+  if (req.body.linkedUser) req.body.linkedUser = ObjectId(req.body.linkedUser);
+
+  const { status, id } = await db.insert('staff', req.body);
+  res.status(status).json({ id: id });
+});
+
 server.post('/odkaz/:id', async (req, res) => {
   res.sendStatus(
     await db.replace('links', { _id: ObjectId(req.params.id) }, req.body)

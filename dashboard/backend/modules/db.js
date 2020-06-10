@@ -322,6 +322,32 @@ async function unpin(req, res) {
   }
 }
 
+async function getStaff(req, res) {
+  try {
+    res.json(
+      await db
+        .collection('staff')
+        .find()
+        .project({ name: true, role: true, img: true })
+        .toArray()
+    );
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(400);
+  }
+}
+
+async function getStaffProfile(req, res) {
+  try {
+    res.json(
+      await db.collection('staff').find({ name: req.params.name }).next()
+    );
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(400);
+  }
+}
+
 module.exports = {
   replace,
   remove,
@@ -341,4 +367,6 @@ module.exports = {
   updateMedia,
   pin,
   unpin,
+  getStaff,
+  getStaffProfile,
 };

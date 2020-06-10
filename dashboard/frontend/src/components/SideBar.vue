@@ -34,6 +34,9 @@
       <router-link to="/sponzori" class="tab">
         <i class="fas fa-money-bill-wave" />Sponzoři
       </router-link>
+      <router-link to="/staff" class="tab">
+        <i class="fas fa-user-tie" />Staff
+      </router-link>
       <router-link to="/odkazy" class="tab">
         <i class="fas fa-external-link-alt" />Odkazy
       </router-link>
