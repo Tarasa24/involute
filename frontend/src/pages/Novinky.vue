@@ -3,6 +3,16 @@
     <Header>
       <h1>Novinky</h1>
       <a v-if="$route.query.tag" class="tag">{{ $route.query.tag }}</a>
+      <div v-else class="tags">
+        <router-link
+          class="tag"
+          :to="'/novinky?tag=' + tag[0]"
+          v-for="tag in tags"
+          :key="tag[0]"
+        >
+          {{ `${tag[0]} (${tag[1]})` }}
+        </router-link>
+      </div>
     </Header>
 
     <div class="pinned" v-if="!$route.query.tag">
@@ -56,6 +66,7 @@ export default {
       novinky: [],
       pinned: [{}, {}],
       total: 0,
+      tags: [],
     };
   },
   watch: {
@@ -78,6 +89,7 @@ export default {
         );
       } else {
         this.total = await getData('/novinky/length');
+        this.tags = await getData('/novinky/tags');
         this.novinky = await getData(
           `/novinky/${(this.$route.params.page - 1 || 0) * this.perPage}/${
             this.perPage
@@ -97,6 +109,17 @@ main
   background-color: $bgGray
   @include medium-device
     padding: 5%
+
+.tags
+  width: 70vw
+  margin: auto
+  overflow: auto
+  padding: 10px 0 12.5px 0
+  @include scrollbar(5px, gray, $textGray)
+  @include medium-device
+    width: 100%
+  a
+    white-space: nowrap
 
 .tag
   background-color: $darkPurple

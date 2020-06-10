@@ -128,4 +128,26 @@ async function pinned(req, res, db) {
   res.json(result);
 }
 
-module.exports = { neighbors, novinka, cover, length, novinky, pinned };
+async function tags(req, res, db) {
+  try {
+    const result = await db
+      .collection('novinky')
+      .find({ tags: { $exists: true } })
+      .project({ tags: true })
+      .toArray();
+
+    var tags = {};
+    for (let i = 0; i < result.length; i++) {
+      for (let j = 0; j < result[i].tags.length; j++) {
+        const tag = result[i].tags[j];
+        if (!tags[tag]) tags[tag] = 1;
+        else tags[tag] = tags[tag] + 1;
+      }
+    }
+    res.json(Object.entries(tags).sort((a, b) => b[1] - a[1]));
+  } catch (error) {
+    res.sendStatus(400);
+  }
+}
+
+module.exports = { neighbors, novinka, cover, length, novinky, pinned, tags };

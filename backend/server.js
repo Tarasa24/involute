@@ -41,6 +41,10 @@ server.get('/novinky/:skip/:limit', async (req, res) => {
   await novinky.novinky(req, res, db);
 });
 
+server.get('/novinky/tags', async (req, res) => {
+  await novinky.tags(req, res, db);
+});
+
 server.get('/staff', async (req, res) => {
   var ret = { Management: [], Creators: [] };
   const response = await db
