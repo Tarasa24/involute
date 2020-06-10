@@ -54,6 +54,7 @@ server.get('/staff', async (req, res) => {
       name: true,
       role: true,
       category: true,
+      img: true,
     })
     .toArray();
   response.forEach(staff => {

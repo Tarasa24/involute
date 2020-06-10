@@ -21,9 +21,21 @@
             rel="noopener noreferrer"
           />
           <a
+            v-if="staff.links.discord"
+            class="fab fa-discord"
+            :href="`javascript:alert('${staff.links.discord}')`"
+          />
+          <a
             v-if="staff.links.twitch"
             class="fab fa-twitch"
             :href="staff.links.twitch"
+            target="_blank"
+            rel="noopener noreferrer"
+          />
+          <a
+            v-if="staff.links.youtube"
+            class="fab fa-youtube"
+            :href="staff.links.youtube"
             target="_blank"
             rel="noopener noreferrer"
           />
@@ -42,6 +54,13 @@
             rel="noopener noreferrer"
           />
           <a
+            v-if="staff.links.linkedin"
+            class="fab fa-linkedin"
+            :href="staff.links.linkedin"
+            target="_blank"
+            rel="noopener noreferrer"
+          />
+          <a
             v-if="staff.links.github"
             class="fab fa-github"
             :href="staff.links.github"
@@ -54,15 +73,17 @@
       <div class="about">
         <img
           class="portrait"
-          src="https://placekitten.com/400/500"
+          :src="staff.img ? staff.img : 'https://via.placeholder.com/280x320'"
           alt="Portrét"
         />
-        <table>
+        <table v-if="staff.about">
           <tr v-for="(a, q) in staff.about" :key="q">
             <td>{{ q }}</td>
             <td>{{ a }}</td>
           </tr>
         </table>
+
+        <div v-else>Nedoplněný profil</div>
       </div>
 
       <div v-if="staff.articles">

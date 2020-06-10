@@ -10,7 +10,14 @@
             v-for="staffProfile in categoryArr"
             :key="staffProfile._id"
           >
-            <img src="https://placekitten.com/400/505" alt="Portrét" /><br />
+            <img
+              :src="
+                staffProfile.img
+                  ? staffProfile.img
+                  : 'https://via.placeholder.com/280x320'
+              "
+              alt="Portrét"
+            /><br />
             <strong>
               {{ staffProfile.name }}
             </strong>
