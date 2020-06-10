@@ -164,7 +164,6 @@ server.post('/hrac/:id', async (req, res) => {
   res.sendStatus(
     await db.replace('hraci', { _id: ObjectId(req.params.id) }, req.body)
   );
-  db.replaceHrac(req, res);
 });
 
 server.put('/hrac', async (req, res) => {
