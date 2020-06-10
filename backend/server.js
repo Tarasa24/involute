@@ -77,12 +77,14 @@ server.get('/staff/:name', async (req, res) => {
     return;
   }
 
-  if (staff.linkedUser)
+  if (staff.linkedUser) {
     staff.articles = await db
       .collection('novinky')
       .find({ author: staff.linkedUser, draft: { $ne: true } })
       .project({ _id: true, title: true, sub: true, date: true })
       .toArray();
+    if (staff.articles.length == 0) delete staff.articles;
+  }
 
   delete staff.linkedUser;
   res.json(staff);

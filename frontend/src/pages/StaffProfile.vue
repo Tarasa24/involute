@@ -174,34 +174,29 @@ h3
   grid-template-columns: 400px 1fr
   margin: 20px 20px 50px 20px
   gap: 10px
-  @include medium-device
-    grid-template-columns: 1fr
+  @include large-device
+    grid-template-columns: 100%
   justify-items: center
   align-items: center
   .portrait
     max-width: 100%
     min-width: 40%
     max-height: 425px
-    @include medium-device
-      max-height: 70vh
+    @include large-device
+      max-height: 40vh
   table
     width: 100%
     border-collapse: collapse
     td
       border: 1px dashed $textGray
       padding: 5px 0
+      width: 60%
       &:nth-of-type(1)
         font-weight: bold
-        font-size: 1.2rem
+        font-size: 1.1rem
+        width: 40%
         @include medium-device
           font-size: 1rem
-    table
-      td
-        padding: 0
-        border: 0
-        &:nth-of-type(1)
-          font-weight: bold
-          font-size: initial
 
 .table
   margin: auto
