@@ -176,14 +176,6 @@ export default {
   data() {
     return {
       staff: {
-        about: {
-          Nick: '',
-          Věk: '',
-          'Co rád dělám?': '',
-          'Na čem hraju?': '',
-          'Proč se věnuji esportu?': '',
-          'Co je mým úkolem v týmu?': '',
-        },
         links: {},
       },
       users: [],
@@ -196,6 +188,19 @@ export default {
       this.$Progress.finish();
     }
     this.users = await getData('/uzivatele');
+    var about = {
+      Nick: '',
+      Věk: '',
+      'Co rád dělám?': '',
+      'Na čem hraju?': '',
+      'Proč se věnuji esportu?': '',
+      'Co je mým úkolem v týmu?': '',
+    };
+    if (this.staff.about)
+      for (const q of Object.keys(this.staff.about)) {
+        about[q] = this.staff.about[q];
+      }
+    this.staff.about = about;
   },
   methods: {
     handleClick() {
