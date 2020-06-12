@@ -40,15 +40,18 @@ async function novinka(req, res, db) {
     if (result === null) throw 400;
 
     if (result.author) {
-      const { name } = await db
-        .collection('staff')
-        .find({ linkedUser: ObjectId(result.author) })
-        .project({ name: true })
-        .next();
+      try {
+        const { name } = await db
+          .collection('staff')
+          .find({ linkedUser: ObjectId(result.author) })
+          .project({ name: true })
+          .next();
 
-      result.author = name;
+        result.author = name;
+      } catch (e) {
+        delete result.author;
+      }
     }
-
     res.json(result);
   } catch (e) {
     res.sendStatus(400);

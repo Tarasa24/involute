@@ -172,6 +172,8 @@ export default {
       if (!this.novinka.author) this.novinka.author = '';
 
       this.$nextTick(() => {
+        if (!this.uzivatele.map(e => e._id).includes(this.novinka.author))
+          this.novinka.author = '';
         this.changed = false;
       });
     } else {

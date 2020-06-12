@@ -30,12 +30,11 @@
       </div>
 
       <div class="author_n_date">
-        <div>
+        <div :style="!novinka.author ? 'visibility: hidden' : ''">
           Autor:
-          <router-link v-if="novinka.author" :to="`/staff/${novinka.author}`">
+          <router-link :to="`/staff/${novinka.author}`">
             {{ novinka.author }}
           </router-link>
-          <span v-else>Neznámý</span>
         </div>
         <div>
           {{
