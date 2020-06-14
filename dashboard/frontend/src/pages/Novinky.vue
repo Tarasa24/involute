@@ -14,18 +14,17 @@
       <div class="vyhledat">
         <h2>Vyhledat</h2>
         <form class="wrapper" @submit="handleSubmit">
-          <select @change="handleChange">
+          <select @change="handleChange" :value="queryPair[0]">
             <option value="Koncepty">Koncepty</option>
             <option value="Připnuté">Připnuté</option>
             <option value="Titulek">Titulek</option>
-            <option value="Hra">Hra</option>
             <option value="ID">ID</option>
           </select>
           <input
             type="text"
             placeholder="Řetězec, nebo /regex/"
-            value="true"
-            disabled
+            :value="queryPair[1]"
+            :disabled="['Koncepty', 'Připnuté'].includes(queryPair[0])"
           />
           <button type="submit">Hledat</button>
         </form>
@@ -70,21 +69,37 @@ export default {
       novinky: [],
     };
   },
-  async created() {
-    this.$Progress.start();
-    this.novinky = await getData('/novinky/?Koncepty=true');
-    this.$Progress.finish();
+  created() {
+    this.load();
+  },
+  computed: {
+    queryPair() {
+      const query =
+        Object.entries(this.$route.query).length != 0
+          ? Object.entries(this.$route.query)[0]
+          : ['Koncepty', 'true'];
+
+      if (['Koncepty', 'Připnuté'].includes(query[0])) query[1] = 'true';
+      else query[1] = query[1] || '';
+
+      return [query[0], query[1]];
+    },
   },
   methods: {
+    async load() {
+      this.$Progress.start();
+      const query = this.queryPair;
+      this.novinky = await getData(`/novinky?${query[0]}=${query[1]}`);
+      this.$Progress.finish();
+    },
     async handleSubmit(event) {
       event.preventDefault();
       const formElements = event.target.elements;
       const key = formElements[0].value;
       const value = formElements[1].value;
 
-      this.$Progress.start();
-      this.novinky = await getData(`/novinky?${key}=${value}`);
-      this.$Progress.finish();
+      this.$router.push({ path: '/novinky', query: { [key]: value } });
+      this.load();
     },
     async handlePinClick(index) {
       var el = this.novinky[index];
