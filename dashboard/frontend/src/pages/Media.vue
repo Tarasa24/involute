@@ -1,6 +1,6 @@
 <template>
   <main>
-    <h1>Média</h1>
+    <h1>Media</h1>
 
     <div class="wrapper">
       <div v-if="newFile.type == undefined" class="add">

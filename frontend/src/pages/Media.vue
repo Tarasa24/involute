@@ -1,7 +1,7 @@
 <template>
   <main>
     <Header>
-      <h1>Média</h1>
+      <h1>Media</h1>
     </Header>
 
     <div class="media">

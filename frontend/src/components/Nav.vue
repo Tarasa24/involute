@@ -7,7 +7,7 @@
       <span>
         <router-link to="/">Home</router-link>
         <router-link to="/novinky">Novinky</router-link>
-        <router-link to="/media">Média</router-link>
+        <router-link to="/media">Media</router-link>
         <div class="dropdown">
           <router-link to="/hraci"
             >Team <i class="fas fa-caret-down"
@@ -48,7 +48,7 @@
       <span>
         <router-link to="/">Home</router-link>
         <router-link to="/novinky">Novinky</router-link>
-        <router-link to="/media">Média</router-link>
+        <router-link to="/media">Media</router-link>
         <div class="dropdown">
           <router-link to="/hraci">Team</router-link>
           <div class="hidden">

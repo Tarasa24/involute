@@ -11,7 +11,7 @@
         <i class="fas fa-newspaper" />Novinky
       </router-link>
       <router-link to="/media">
-        <i class="fas fa-photo-video" />Média
+        <i class="fas fa-photo-video" />Media
       </router-link>
       <router-link to="/oceneni">
         <i class="fas fa-trophy" />Ocenění
