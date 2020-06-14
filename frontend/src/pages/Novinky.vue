@@ -23,8 +23,8 @@
         class="novinka big"
         :style="'background: url(' + pin.bg + '), white'"
       >
-        <span :disabled="!pin.game || !pin.title">
-          <h6>{{ pin.game }}</h6>
+        <span>
+          <h6>{{ pin.tags ? pin.tags.join(', ') : '' }}</h6>
           <a>{{ pin.title }}</a>
         </span>
       </router-link>
@@ -39,7 +39,7 @@
         :style="'background: url(' + novinka.bg + '), white'"
       >
         <span>
-          <h6>{{ novinka.game }}</h6>
+          <h6>{{ novinka.tags ? novinka.tags.join(', ') : '' }}</h6>
           <a>{{ novinka.title }}</a>
         </span>
       </router-link>
@@ -190,8 +190,6 @@ main
     bottom: 0
     left: 0
     width: calc(100% - 10px)
-    &[disabled]
-      padding: 0
     a, h6
       margin: 0
       font-weight: normal
