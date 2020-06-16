@@ -5,26 +5,50 @@ async function neighbors(req, res, db) {
     let current = await db
       .collection('novinky')
       .find({ _id: ObjectId(req.params.id) })
+      .project({ date: true })
       .next();
 
     let pervious = await db
       .collection('novinky')
-      .find({ date: { $gt: current.date } })
+      .find({
+        date: { $gte: current.date },
+        draft: { $ne: true },
+      })
       .sort({ date: 1, created: 1 })
       .project({ _id: true })
-      .next();
+      .toArray();
 
     let next = await db
       .collection('novinky')
-      .find({ date: { $lt: current.date } })
+      .find({
+        date: { $lte: current.date },
+        draft: { $ne: true },
+      })
       .sort({ date: -1, created: -1 })
       .project({ _id: true })
-      .next();
+      .toArray();
 
-    if (pervious === null && next === null) throw 400;
-    else if (pervious === null) res.json({ pervious: null, next: next._id });
-    else if (next === null) res.json({ pervious: pervious._id, next: null });
-    else res.json({ pervious: pervious._id, next: next._id });
+    pervious = pervious.map(e => String(e._id));
+    next = next.map(e => String(e._id));
+
+    console.log(pervious, next.length);
+
+    if (pervious.length < 2 && next.length < 2) throw 400;
+    else if (pervious.length < 2)
+      res.json({
+        pervious: null,
+        next: next[next.indexOf(req.params.id) + 1],
+      });
+    else if (next.length < 2)
+      res.json({
+        pervious: pervious[pervious.indexOf(req.params.id) + 1],
+        next: null,
+      });
+    else
+      res.json({
+        pervious: pervious[pervious.indexOf(req.params.id) + 1],
+        next: next[next.indexOf(req.params.id) + 1],
+      });
   } catch (e) {
     res.sendStatus(400);
   }
