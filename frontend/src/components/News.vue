@@ -10,8 +10,8 @@
           class="novinka big"
           :style="'background: url(' + pinned[0].bg + '), white'"
         >
-          <span :disabled="!pinned[0].game || !pinned[0].title">
-            <h6>{{ pinned[0].game }}</h6>
+          <span>
+            <h6>{{ pinned[0].tags ? pinned[0].tags.join(', ') : '' }}</h6>
             <a>{{ pinned[0].title }}</a>
           </span>
         </router-link>
@@ -24,7 +24,7 @@
           :style="'background: url(' + novinka.bg + '), white'"
         >
           <span>
-            <h6>{{ novinka.game }}</h6>
+            <h6>{{ novinka.tags ? novinka.tags.join(', ') : '' }}</h6>
             <a>{{ novinka.title }}</a>
           </span>
         </router-link>
@@ -38,7 +38,7 @@
           :style="'background: url(' + novinka.bg + '), white'"
         >
           <span>
-            <h6>{{ novinka.game }}</h6>
+            <h6>{{ novinka.tags ? novinka.tags.join(', ') : '' }}</h6>
             <a>{{ novinka.title }}</a>
           </span>
         </router-link>
@@ -48,8 +48,8 @@
           class="novinka big"
           :style="'background: url(' + pinned[1].bg + '), white'"
         >
-          <span :disabled="!pinned[1].game || !pinned[1].title">
-            <h6>{{ pinned[1].game }}</h6>
+          <span>
+            <h6>{{ pinned[1].tags ? pinned[1].tags.join(', ') : '' }}</h6>
             <a>{{ pinned[1].title }}</a>
           </span>
         </router-link>
@@ -151,8 +151,6 @@ export default {
     bottom: 0
     left: 0
     width: calc(100% - 10px)
-    &[disabled]
-      padding: 0
     a, h6
       margin: 0
       font-weight: normal
