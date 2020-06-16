@@ -45,7 +45,7 @@
           </table>
 
           <div v-if="Object.keys(player.links).length > 0">
-            <h1>Podporuj</h1>
+            <h1>Socials</h1>
             <h2>Tady mě najdeš</h2>
           </div>
 
