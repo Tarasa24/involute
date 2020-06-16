@@ -13,55 +13,38 @@
       </span>
     </div>
     <form @submit="handleSubmit">
-      <input type="text" v-model="player.name" placeholder="Jméno" required />
-      <textarea v-model="player.text" placeholder="BIO" />
+      <input
+        type="text"
+        class="name"
+        v-model="player.name"
+        placeholder="Jméno"
+        required
+      />
+      <input
+        type="text"
+        class="role"
+        v-model="player.role"
+        placeholder="Role v týmu"
+      />
+
+      <h2>About</h2>
+      <table>
+        <tr v-for="(a, q) in player.about" :key="q">
+          <td>{{ q }}</td>
+          <td>
+            <input type="text" v-model="player.about[q]" />
+          </td>
+        </tr>
+      </table>
 
       <h2>Sestava</h2>
       <table>
-        <tbody>
-          <tr>
-            <td>Základní deska</td>
-            <td>
-              <input type="text" v-model="player.sestava['Základní deska']" />
-            </td>
-          </tr>
-          <tr>
-            <td>Procesor</td>
-            <td>
-              <input type="text" v-model="player.sestava['Procesor']" />
-            </td>
-          </tr>
-          <tr>
-            <td>Grafická Karta</td>
-            <td>
-              <input type="text" v-model="player.sestava['Grafická Karta']" />
-            </td>
-          </tr>
-          <tr>
-            <td>Monitor</td>
-            <td>
-              <input type="text" v-model="player.sestava['Monitor']" />
-            </td>
-          </tr>
-          <tr>
-            <td>Klávesnice</td>
-            <td>
-              <input type="text" v-model="player.sestava['Klávesnice']" />
-            </td>
-          </tr>
-          <tr>
-            <td>Myš</td>
-            <td>
-              <input type="text" v-model="player.sestava['Myš']" />
-            </td>
-          </tr>
-          <tr>
-            <td>Sluchátka</td>
-            <td>
-              <input type="text" v-model="player.sestava['Sluchátka']" />
-            </td>
-          </tr>
-        </tbody>
+        <tr v-for="(a, q) in player.sestava" :key="q">
+          <td>{{ q }}</td>
+          <td>
+            <input type="text" v-model="player.sestava[q]" />
+          </td>
+        </tr>
       </table>
 
       <h2>Odkazy</h2>
@@ -147,15 +130,8 @@ export default {
   data() {
     return {
       player: {
-        sestava: {
-          'Základní deska': '',
-          Procesor: '',
-          'Grafická Karta': '',
-          Monitor: '',
-          Klávesnice: '',
-          Myš: '',
-          Sluchátka: '',
-        },
+        about: {},
+        sestava: {},
         links: {},
       },
     };
@@ -166,6 +142,34 @@ export default {
       this.player = await getData('/hrac/' + this.$route.params.name);
       this.$Progress.finish();
     }
+
+    const about = {
+      Věk: '',
+      'Co rád dělám?': '',
+      'Proč právě má hra?': '',
+      'Co mě přitahuje k esportu?': '',
+    };
+    if (this.player.about)
+      for (const q of Object.keys(this.player.about)) {
+        if (Object.keys(about).includes(q)) about[q] = this.player.about[q];
+      }
+    this.player.about = about;
+
+    const sestava = {
+      'Základní deska': '',
+      Procesor: '',
+      'Grafická Karta': '',
+      Monitor: '',
+      Klávesnice: '',
+      Myš: '',
+      Sluchátka: '',
+    };
+    if (this.player.sestava)
+      for (const q of Object.keys(this.player.sestava)) {
+        if (Object.keys(sestava).includes(q))
+          sestava[q] = this.player.sestava[q];
+      }
+    this.player.sestava = sestava;
   },
   methods: {
     handleClick() {
@@ -189,6 +193,7 @@ export default {
         const player = Object.assign({}, this.player);
         delete player._id;
 
+        this.clean(player.about);
         this.clean(player.sestava);
         this.clean(player.links);
 
@@ -235,23 +240,12 @@ input
   border: 0
   padding: 5px
   width: calc( 90% - 10px )
-  font-size: 2rem
   &:focus
     outline: 1px solid $grayOutline
-
-textarea
-  width: calc( 90% - 20px )
-  min-height: 150px
-  resize: vertical
-  margin: 10px 0
-  font-family: inherit
-  font-size: 1rem
-  border: 0
-  padding: 5px 10px
-  &:focus
-    outline: 1px solid $grayOutline
-  @include small-device
-    min-height: 60vh
+  &.name
+    font-size: 2rem
+  &.role
+    font-size: 1.2rem
 
 h2
   margin: 0

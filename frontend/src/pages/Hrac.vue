@@ -4,46 +4,52 @@
       <div
         class="header"
         :style="
-          'background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url(' +
-          game.bg +
-          ')'
+          game.bg
+            ? `background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('${game.bg}')`
+            : 'black'
         "
       >
-        <h3>{{ game.name }}</h3>
+        <img :src="player.img" alt="Portrét" />
         <h1>{{ player.name }}</h1>
-        <h2>{{ player.desc }}</h2>
+        <h2>{{ player.role }}</h2>
+        <h3>{{ game.name }}</h3>
       </div>
       <div class="wrapper">
         <main>
-          <div>
+          <div v-if="Object.keys(player.about).length > 0">
             <h1>Hráč</h1>
             <h2>Něco málo o mně</h2>
           </div>
 
-          <p>
-            {{ player.text }}
-          </p>
+          <table v-if="Object.keys(player.about).length > 0">
+            <tr v-for="(a, q) in player.about" :key="q">
+              <td>
+                {{
+                  q == 'Proč právě má hra?' ? q.replace('má hra', game.name) : q
+                }}
+              </td>
+              <td>{{ a }}</td>
+            </tr>
+          </table>
 
-          <div>
+          <div v-if="Object.keys(player.sestava).length > 0">
             <h1>Sestava</h1>
             <h2>Na čem hraju</h2>
           </div>
 
-          <table>
-            <tbody>
-              <tr v-for="(item, index) in player.sestava" :key="index">
-                <td>{{ index }}</td>
-                <td>{{ item }}</td>
-              </tr>
-            </tbody>
+          <table v-if="Object.keys(player.sestava).length > 0">
+            <tr v-for="(a, q) in player.sestava" :key="q">
+              <td>{{ q }}</td>
+              <td>{{ a }}</td>
+            </tr>
           </table>
 
-          <div>
+          <div v-if="Object.keys(player.links).length > 0">
             <h1>Podporuj</h1>
             <h2>Tady mě najdeš</h2>
           </div>
 
-          <div class="links">
+          <div class="links" v-if="Object.keys(player.links).length > 0">
             <a
               v-if="player.links.facebook"
               class="fab fa-facebook-f"
@@ -130,9 +136,12 @@ export default {
     background-size: cover !important
     background-position: center center !important
     justify-self: left
-    padding: 37.5vh 0 5vh 0
+    padding: 12.5vh 0 5vh 0
     @include left()
     width: inherit
+    img
+      height: 35vh
+      margin-bottom: 2vh
     h1, h2, h3
       text-transform: uppercase
     h1
@@ -142,9 +151,10 @@ export default {
         font-size: 3.5rem
     h2
       font-size: rem
+      padding-bottom: 2.5px
     h3
-      font-size: 1.5rem
-      padding-bottom: 2.5vh
+      font-size: 1rem
+      color: gray
 
   .wrapper
     background-color: white
@@ -174,15 +184,12 @@ export default {
       @include medium-device
         font-size: 1.2rem
 
-    p
-      line-height: 1.5rem
-      margin: 0
-      white-space: pre-line
-
-  td
-    padding-bottom: 10px
-  td:nth-child(odd)
-    font-weight: bold
+  table
+    width: 100%
+    td
+      padding-bottom: 7px
+      &:first-child
+        font-weight: bold
 
   .links
     display: flex
