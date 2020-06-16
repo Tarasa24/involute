@@ -18,7 +18,8 @@
             @click="openGallery(file)"
           >
             <span>
-              {{ file.title }}
+              <h5>Foto</h5>
+              <a>{{ file.title }}</a>
             </span>
           </div>
           <vue-gallery-slideshow
@@ -66,21 +67,9 @@ export default {
   methods: {
     openGallery(file) {
       file.index = 0;
-      this.disableScroll();
     },
     closeGallery(file) {
       file.index = null;
-      this.enableScroll();
-    },
-    disableScroll() {
-      var x = window.scrollX;
-      var y = window.scrollY;
-      window.onscroll = function () {
-        window.scrollTo(x, y);
-      };
-    },
-    enableScroll() {
-      window.onscroll = function () {};
     },
     async load() {
       this.$Progress.start();

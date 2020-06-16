@@ -5,8 +5,10 @@
       @click="open"
       :style="`background: url('https://img.youtube.com/vi/${videoCode}/0.jpg'), white`"
     >
-      <i class="fab fa-youtube" />
-      <span>{{ title }}</span>
+      <span>
+        <h5>Video</h5>
+        <a>{{ title }}</a>
+      </span>
     </div>
 
     <div v-if="visible" class="overlay" @click="close">
@@ -46,21 +48,9 @@ export default {
   methods: {
     open() {
       this.visible = true;
-      this.disableScroll();
     },
     close() {
       this.visible = false;
-      this.enableScroll();
-    },
-    disableScroll() {
-      var x = window.scrollX;
-      var y = window.scrollY;
-      window.onscroll = function () {
-        window.scrollTo(x, y);
-      };
-    },
-    enableScroll() {
-      window.onscroll = function () {};
     },
   },
 };
@@ -82,9 +72,11 @@ export default {
 iframe
   width: 60vw
   height: 60vh
-  @include small-device-portrait
+  @include large-device
     width: 90vw
-    height: 50vh
+    height: 60vh
+  @include small-device-landscape
+    height: 80vh
 
 button
   color: #fff
@@ -118,15 +110,6 @@ button
   @include small-device-landscape
     height: 70vh
   @include transition(transform)
-  i
-    position: absolute
-    top: 50%
-    left: 50%
-    font-size: 4rem
-    transform: translate(-50%, -50%)
-    color: rgba(black, .8)
-    z-index: 2
-    @include transition(color)
   img
     max-width: 100%
     max-height: 40vh
