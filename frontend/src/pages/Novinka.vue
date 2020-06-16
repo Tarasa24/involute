@@ -6,6 +6,8 @@
           v-if="soused.pervious != null"
           :to="'/novinka/' + soused.pervious"
           class="fas fa-chevron-left"
+          aria-label="Novější novinka"
+          title="Novější"
         />
         <a v-else disabled class="fas fa-chevron-left" />
 
@@ -13,6 +15,8 @@
           v-if="soused.next != null"
           :to="'/novinka/' + soused.next"
           class="fas fa-chevron-right"
+          aria-label="Starší novinka"
+          title="Starší"
         />
         <a v-else disabled class="fas fa-chevron-right" />
       </span>
