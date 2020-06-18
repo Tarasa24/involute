@@ -166,7 +166,7 @@ export default {
     };
   },
   async created() {
-    this.media = await getData('/media/0/12');
+    this.media = await getData('/media/0/0');
     this.tags = await getData('/media/tags');
   },
   methods: {
