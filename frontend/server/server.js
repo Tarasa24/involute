@@ -23,10 +23,14 @@ server.all('/novinka/:id', (req, res) => {
   var dom = new JSDOM(index, { runScripts: 'outside-only' });
   injectMeta.novinka(dom, req, res);
 });
+server.all('/hrac/:name', (req, res) => {
+  var dom = new JSDOM(index, { runScripts: 'outside-only' });
+  injectMeta.hrac(dom, req, res);
+});
 server.all('*', async (req, res) => {
   res.sendFile(dist + '/index.html');
 });
 
-server.listen(port, function () {
+server.listen(port, () => {
   console.log('frontend-server listening on port ' + port);
 });

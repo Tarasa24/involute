@@ -111,6 +111,7 @@ export default {
     if (data !== 400) {
       this.player = data.player;
       this.game = data.game || {};
+      document.title = 'iNvolute | ' + this.player.name;
     } else {
       this.$Progress.fail();
       this.$router.replace('/hraci');

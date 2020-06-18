@@ -60,4 +60,31 @@ async function hrac(req, res, db) {
   }
 }
 
-module.exports = { hraci, hrac };
+async function cover(req, res, db) {
+  try {
+    let hrac = await db
+      .collection('hraci')
+      .find({ name: req.params.name })
+      .project({ img: true })
+      .next();
+
+    var base64 = hrac.img;
+    if (base64 == undefined) res.sendStatus(404);
+    else {
+      const mime = base64.substring(5, base64.indexOf(';base64,'));
+      base64 = base64.substring(base64.indexOf(';base64,') + ';base64,'.length);
+
+      var img = Buffer.from(base64, 'base64');
+
+      res.writeHead(200, {
+        'Content-Type': mime,
+        'Content-Length': img.length,
+      });
+      res.end(img);
+    }
+  } catch (e) {
+    res.sendStatus(400);
+  }
+}
+
+module.exports = { hraci, hrac, cover };

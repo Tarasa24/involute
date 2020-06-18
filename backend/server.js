@@ -103,6 +103,10 @@ server.get('/hrac/:name', async (req, res) => {
   await hraci.hrac(req, res, db);
 });
 
+server.get('/hrac/cover/:name', async (req, res) => {
+  await hraci.cover(req, res, db);
+});
+
 server.get('/links', async (req, res) => {
   var result = await db.collection('links').find({}).toArray();
 

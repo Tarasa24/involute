@@ -71,8 +71,55 @@ async function novinka(dom, req, res) {
   res.send(dom.serialize());
 }
 
-function all(dom) {
-  addTitle();
+async function hrac(dom, req, res) {
+  const player = await db
+    .collection('hraci')
+    .find({ name: req.params.name })
+    .project({ _id: true, role: true })
+    .next();
+
+  if (player != null) {
+    var game = await db
+      .collection('hry')
+      .find({ players: ObjectId(player._id) })
+      .project({ name: true })
+      .next();
+
+    const twitter = await db
+      .collection('links')
+      .find({ name: 'Twitter' })
+      .project({ sub: true })
+      .next();
+
+    const hostUrl = req.protocol + '://' + req.get('host');
+
+    addTitle(dom, 'iNvolute | ' + req.params.name);
+    addDescription(dom, `${game.name} hráč celku iNvolute`);
+
+    addMeta(dom, 'twitter:card', 'summary');
+    addMeta(
+      dom,
+      'twitter:site',
+      twitter.sub.indexOf('@') === 0
+        ? twitter.sub
+        : '@' + twitter.sub.replace('/', '')
+    );
+    addMeta(dom, 'twitter:title', req.params.name);
+    addMeta(dom, 'twitter:description', `${game.name} hráč celku iNvolute`);
+    addMeta(
+      dom,
+      'twitter:image',
+      `${hostUrl}/api/hrac/cover/${req.params.name}`
+    );
+
+    addMeta(dom, 'og:title', req.params.name);
+    addMeta(dom, 'og:url', hostUrl + req.originalUrl);
+    addMeta(dom, 'og:type', 'website');
+    addMeta(dom, 'og:image', `${hostUrl}/api/hrac/cover/${req.params.name}`);
+    addMeta(dom, 'og:description', `${game.name} hráč celku iNvolute`);
+  }
+
+  res.send(dom.serialize());
 }
 
-module.exports = { novinka };
+module.exports = { novinka, hrac };
