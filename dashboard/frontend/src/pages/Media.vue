@@ -221,7 +221,6 @@ export default {
     },
     handleSelectTag(obj) {
       const val = event.target.value;
-      this.tags.splice(event.target.selectedIndex - 1, 1);
       event.target.value = '';
 
       if (obj.tags) obj.tags.push(val);
@@ -234,6 +233,8 @@ export default {
         if (obj.tags.indexOf(val) !== -1) return;
         else obj.tags.push(val);
       } else this.$set(obj, 'tags', [val]);
+
+      if (this.tags.indexOf(val) === -1) this.tags.push(val);
     },
   },
 };
