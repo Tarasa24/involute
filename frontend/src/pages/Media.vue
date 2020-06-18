@@ -182,7 +182,7 @@ main
     bottom: 0
     left: 0
     width: calc(100% - 10px)
-    z-index: 2
+    z-index: 1
     color: white
     background-color: rgba(black,.8)
     padding: 10px 5px
