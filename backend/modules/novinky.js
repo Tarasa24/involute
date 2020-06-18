@@ -114,7 +114,11 @@ async function length(req, res, db) {
     res.json(
       await db
         .collection('novinky')
-        .find({ tags: { $in: [req.query.tag] } })
+        .find({
+          tags: { $in: [req.query.tag] },
+          draft: { $ne: true },
+          pinned: { $ne: true },
+        })
         .count()
     );
   } else {
