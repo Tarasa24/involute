@@ -54,12 +54,16 @@ async function novinka(dom, req, res) {
     addMeta(
       dom,
       'twitter:image:src',
-      `${hostUrl}/api/novinka/cover/${req.params.id}`
+      `${hostUrl}/api/novinka/cover/${encodeURI(req.params.id)}`
     );
     addMeta(dom, 'og:title', novinka.title);
     addMeta(dom, 'og:url', hostUrl + req.originalUrl);
     addMeta(dom, 'og:type', 'article');
-    addMeta(dom, 'og:image', `${hostUrl}/api/novinka/cover/${req.params.id}`);
+    addMeta(
+      dom,
+      'og:image',
+      `${hostUrl}/api/novinka/cover/${encodeURI(req.params.id)}`
+    );
     addMeta(dom, 'og:description', novinka.sub);
     addMeta(
       dom,
@@ -109,13 +113,17 @@ async function hrac(dom, req, res) {
     addMeta(
       dom,
       'twitter:image',
-      `${hostUrl}/api/hrac/cover/${req.params.name}`
+      `${hostUrl}/api/hrac/cover/${encodeURI(req.params.name)}`
     );
 
     addMeta(dom, 'og:title', req.params.name);
     addMeta(dom, 'og:url', hostUrl + req.originalUrl);
     addMeta(dom, 'og:type', 'website');
-    addMeta(dom, 'og:image', `${hostUrl}/api/hrac/cover/${req.params.name}`);
+    addMeta(
+      dom,
+      'og:image',
+      `${hostUrl}/api/hrac/cover/${encodeURI(req.params.name)}`
+    );
     addMeta(dom, 'og:description', `${game.name} hráč celku iNvolute`);
   }
 
