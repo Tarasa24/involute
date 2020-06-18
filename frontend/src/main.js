@@ -50,7 +50,7 @@ const routes = [
     path: '/media/:page?',
     component: Media,
     props: { perPage: 12 },
-    meta: { title: 'Média' },
+    meta: { title: 'Media' },
   },
   { path: '/partneri', component: Partneri, meta: { title: 'Partneři' } },
   { path: '/kontakt', component: Kontakt, meta: { title: 'Kontakt' } },
