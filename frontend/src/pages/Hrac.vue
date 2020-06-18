@@ -99,7 +99,7 @@ import { backendUrl } from '../assets/js/dev';
 export default {
   data() {
     return {
-      player: { sestava: {}, links: {} },
+      player: { about: {}, sestava: {}, links: {} },
       game: {},
     };
   },

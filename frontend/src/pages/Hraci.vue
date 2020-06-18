@@ -10,11 +10,7 @@
         class="game"
         v-for="game in games"
         :key="game.name"
-        :style="
-          'background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url(' +
-          game.bg +
-          ')'
-        "
+        :style="`background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('${game.bg}')`"
       >
         <div>
           <h1>{{ game.name }}</h1>
