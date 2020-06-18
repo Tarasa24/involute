@@ -14,39 +14,65 @@
 
       <hr />
 
-      <div class="file">
-        <div v-if="newFile.type == 'video'">
+      <div class="file" v-if="newFile.type != undefined">
+        <div>
           <img
+            v-if="newFile.type == 'video'"
             :src="`https://img.youtube.com/vi/${newFile.code}/0.jpg`"
             alt="thumb"
             class="img"
           />
+          <Gallery
+            v-else-if="newFile.type == 'images'"
+            v-model="newFile.gallery"
+          />
           <form @submit="handleNew(newFile)">
-            <i class="fab fa-youtube" />
+            <i
+              :class="
+                newFile.type == 'video' ? 'fab fa-youtube' : 'far fa-images'
+              "
+            />
             <input
+              v-if="newFile.type == 'video'"
               type="text"
               v-model="newFile.code"
               placeholder="Youtube id (dQw4w9WgXcQ)"
               required
             />
-            <br />
-            <span>
-              <button type="submit">Přidat</button>
-            </span>
-          </form>
-        </div>
-        <div v-else-if="newFile.type == 'images'">
-          <Gallery v-model="newFile.gallery" />
-          <form @submit="handleNew(newFile)">
-            <i class="far fa-images" />
             <input
+              v-else-if="newFile.type == 'images'"
               type="text"
               v-model="newFile.title"
               placeholder="Titulek"
               required
             />
             <br />
-            <span>
+            <div class="tags">
+              <a
+                v-for="(tag, index) in newFile.tags"
+                :key="tag"
+                @click="handleTagDelete(index, newFile)"
+              >
+                {{ tag }}
+                <i aria-label="Odstranit tag" class="fas fa-times" />
+              </a>
+              <select @change="handleSelectTag(newFile)">
+                <option value="">Vyberte z existujících tagů</option>
+                <option
+                  v-for="tag in newFile.tags
+                    ? tags.filter(value => newFile.tags.indexOf(value) === -1)
+                    : tags"
+                  :key="tag"
+                >
+                  {{ tag }}
+                </option>
+              </select>
+              <button type="button" @click="handleNewTag(newFile)">
+                Nebo přidejte nový
+                <i class="fas fa-plus" />
+              </button>
+            </div>
+            <span class="buttons">
               <button type="submit">Přidat</button>
             </span>
           </form>
@@ -54,47 +80,61 @@
       </div>
 
       <div v-for="(file, index) in media" :key="file._id" class="file">
-        <div v-if="file.type == 'video'">
-          <a
-            :href="`https://www.youtube.com/watch?v=${file.code}`"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              :src="`https://img.youtube.com/vi/${file.code}/0.jpg`"
-              alt="thumb"
-              class="img"
-            />
-          </a>
+        <div>
+          <img
+            v-if="file.type == 'video'"
+            :src="`https://img.youtube.com/vi/${file.code}/0.jpg`"
+            alt="thumb"
+            class="img"
+          />
+          <Gallery v-else v-model="file.gallery" />
           <form @submit="handleEdit(file)">
-            <i class="fab fa-youtube" />
+            <i
+              :class="
+                newFile.type == 'video' ? 'fab fa-youtube' : 'far fa-images'
+              "
+            />
             <input
+              v-if="file.type == 'video'"
               type="text"
               v-model="file.code"
               placeholder="Youtube id (dQw4w9WgXcQ)"
               required
             />
-            <br />
-            <span>
-              <button type="submit">Uložit</button>
-              <button type="button" @click="handleDelete(index)">
-                Odstranit
-              </button>
-            </span>
-          </form>
-        </div>
-        <div v-else>
-          <Gallery v-model="file.gallery" />
-          <form @submit="handleEdit(file)">
-            <i class="far fa-images" />
             <input
+              v-else
               type="text"
               v-model="file.title"
               placeholder="Titulek"
               required
             />
             <br />
-            <span>
+            <div class="tags">
+              <a
+                v-for="(tag, index) in file.tags"
+                :key="tag"
+                @click="handleTagDelete(index, file)"
+              >
+                {{ tag }}
+                <i aria-label="Odstranit tag" class="fas fa-times" />
+              </a>
+              <select @change="handleSelectTag(file)">
+                <option value="">Vyberte z existujících tagů</option>
+                <option
+                  v-for="tag in file.tags
+                    ? tags.filter(value => file.tags.indexOf(value) === -1)
+                    : tags"
+                  :key="tag"
+                >
+                  {{ tag }}
+                </option>
+              </select>
+              <button type="button" @click="handleNewTag(file)">
+                Nebo přidejte nový
+                <i class="fas fa-plus" />
+              </button>
+            </div>
+            <span class="buttons">
               <button type="submit">Uložit</button>
               <button type="button" @click="handleDelete(index)">
                 Odstranit
@@ -121,11 +161,13 @@ export default {
   data() {
     return {
       media: [],
-      newFile: { gallery: [] },
+      newFile: { gallery: [], tags: [] },
+      tags: [],
     };
   },
   async created() {
     this.media = await getData('/media/0/12');
+    this.tags = await getData('/media/tags');
   },
   methods: {
     setType(type) {
@@ -174,6 +216,25 @@ export default {
         this.newFile = { gallery: [] };
       } else alert('Vyskytla se chyba');
     },
+    handleTagDelete(index, obj) {
+      obj.tags.splice(index, 1);
+    },
+    handleSelectTag(obj) {
+      const val = event.target.value;
+      this.tags.splice(event.target.selectedIndex - 1, 1);
+      event.target.value = '';
+
+      if (obj.tags) obj.tags.push(val);
+      else this.$set(obj, 'tags', [val]);
+    },
+    handleNewTag(obj) {
+      const val = prompt('Zadejte jméno nového tagu:');
+      if (!val) return;
+      else if (obj.tags) {
+        if (obj.tags.indexOf(val) !== -1) return;
+        else obj.tags.push(val);
+      } else this.$set(obj, 'tags', [val]);
+    },
   },
 };
 </script>
@@ -219,7 +280,7 @@ export default {
     width: 95%
     text-align: center
     font-size: 1.5rem
-    margin-bottom: 60px
+    margin-bottom: 30px
     &:focus
       outline: 1px solid $grayOutline
     @include small-device
@@ -227,7 +288,32 @@ export default {
 
   form
     position: relative
-    span
+    .tags
+      text-align: center
+      display: grid
+      margin-bottom: 20px
+      a, select, button
+        width: fit-content
+        justify-self: center
+        background-color: $darkPurple
+        border-radius: 16px
+        border: 0
+        padding: 2px 7.5px
+        margin: 0 10px 10px 0
+        white-space: nowrap
+        color: white
+        text-decoration: none
+        font-size: .85rem
+        cursor: pointer
+        &:nth-last-child(1), &:nth-last-child(2)
+          background-color: $purple
+        i
+          padding: 2.5px 5px
+          margin: 0
+          width: auto
+          color: white
+          font-size: .8rem
+    .buttons
       button
         margin: 5px 10px
         width: 110px

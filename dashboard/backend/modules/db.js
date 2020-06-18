@@ -111,14 +111,14 @@ async function getNovinka(req, res) {
   }
 }
 
-async function getTags(req, res) {
+async function getTags(req, res, collection) {
   function filter(arr) {
     return arr.filter((item, pos) => arr.indexOf(item) === pos);
   }
 
   try {
     const result = await db
-      .collection('novinky')
+      .collection(collection)
       .find({ tags: { $exists: true } })
       .project({ tags: true })
       .toArray();

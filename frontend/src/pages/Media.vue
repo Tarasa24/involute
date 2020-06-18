@@ -2,6 +2,19 @@
   <main>
     <Header>
       <h1>Media</h1>
+      <a v-if="$route.query.tag && $route.path.includes('/media')" class="tag">
+        {{ $route.query.tag }}
+      </a>
+      <div v-else-if="$route.path.includes('/media')" class="tags">
+        <router-link
+          class="tag"
+          :to="'/media?tag=' + tag[0]"
+          v-for="tag in tags"
+          :key="tag[0]"
+        >
+          {{ `${tag[0]} (${tag[1]})` }}
+        </router-link>
+      </div>
     </Header>
 
     <div class="media">
@@ -56,6 +69,7 @@ export default {
       media: [],
       total: 0,
       staticUrl: staticUrl,
+      tags: [],
     };
   },
   watch: {
@@ -73,12 +87,26 @@ export default {
     },
     async load() {
       this.$Progress.start();
-      this.total = await getData('/media/length');
-      var media = await getData(
-        `/media/${(this.$route.params.page - 1 || 0) * this.perPage}/${
-          this.perPage
-        }`
-      );
+      let media;
+      if (this.$route.query.tag) {
+        this.total = await getData(
+          `/media/length?tag=${this.$route.query.tag}`
+        );
+        media = await getData(
+          `/media/${(this.$route.params.page - 1 || 0) * this.perPage}/${
+            this.perPage
+          }?tag=${this.$route.query.tag}`
+        );
+      } else {
+        this.total = await getData('/media/length');
+        this.tags = await getData('/media/tags');
+        media = await getData(
+          `/media/${(this.$route.params.page - 1 || 0) * this.perPage}/${
+            this.perPage
+          }`
+        );
+      }
+
       media.forEach(file => {
         file.index = null;
         if (file.type == 'images') {
@@ -88,6 +116,7 @@ export default {
         }
       });
       this.media = media;
+
       this.$Progress.finish();
     },
   },
@@ -101,6 +130,28 @@ main
   @include medium-device
     grid-template-columns: 100%
     padding: 5%
+
+.tags
+  width: 70vw
+  margin: auto
+  overflow: auto
+  padding: 10px 0 12.5px 0
+  @include scrollbar(5px, gray, $textGray)
+  @include medium-device
+    width: 100%
+  a
+    white-space: nowrap
+
+.tag
+  background-color: $darkPurple
+  border-radius: 16px
+  padding: 2px 7.5px
+  margin: 7px
+  color: $textGray
+  text-decoration: none
+  font-size: 1rem
+  position: relative
+  top: 5px
 
 .media
   margin: auto

@@ -163,7 +163,7 @@ server.get('/media/:skip/:limit', async (req, res) => {
   let limit = Number(req.params.limit);
   let result = await db
     .collection('media')
-    .find()
+    .find(req.query.tag ? { tags: { $in: [req.query.tag] } } : {})
     .sort({ _id: -1 })
     .skip(skip)
     .limit(limit)
@@ -172,8 +172,36 @@ server.get('/media/:skip/:limit', async (req, res) => {
 });
 
 server.get('/media/length', async (req, res) => {
-  let result = await db.collection('media').estimatedDocumentCount();
-  res.json(result);
+  if (req.query.tag) {
+    res.json(
+      await db
+        .collection('media')
+        .find({ tags: { $in: [req.query.tag] } })
+        .count()
+    );
+  } else res.json(await db.collection('media').estimatedDocumentCount());
+});
+
+server.get('/media/tags', async (req, res) => {
+  try {
+    const result = await db
+      .collection('media')
+      .find({ tags: { $exists: true } })
+      .project({ tags: true })
+      .toArray();
+
+    var tags = {};
+    for (let i = 0; i < result.length; i++) {
+      for (let j = 0; j < result[i].tags.length; j++) {
+        const tag = result[i].tags[j];
+        if (!tags[tag]) tags[tag] = 1;
+        else tags[tag] = tags[tag] + 1;
+      }
+    }
+    res.json(Object.entries(tags).sort((a, b) => b[1] - a[1]));
+  } catch (error) {
+    res.sendStatus(400);
+  }
 });
 
 server.listen(port, () =>

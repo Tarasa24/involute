@@ -60,7 +60,7 @@ server.delete('/novinky/pinned/:id', async (req, res) => {
 });
 
 server.get('/novinky/tags', async (req, res) => {
-  db.getTags(req, res);
+  db.getTags(req, res, 'novinky');
 });
 
 server.post('/oceneni/:id', async (req, res) => {
@@ -138,6 +138,10 @@ server.delete('/media/:id', async (req, res) => {
     if (response.status === 200) res.sendStatus(202);
     else res.sendStatus(response.status);
   } else res.sendStatus(400);
+});
+
+server.get('/media/tags', async (req, res) => {
+  db.getTags(req, res, 'media');
 });
 
 server.get('/uzivatele', (req, res) => {
