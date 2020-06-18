@@ -31,8 +31,6 @@ async function neighbors(req, res, db) {
     pervious = pervious.map(e => String(e._id));
     next = next.map(e => String(e._id));
 
-    console.log(pervious, next.length);
-
     if (pervious.length < 2 && next.length < 2) throw 400;
     else if (pervious.length < 2)
       res.json({
