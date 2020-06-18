@@ -15,7 +15,7 @@ async function hraci(req, res, db) {
   players = await db
     .collection('hraci')
     .find({ _id: { $in: players } })
-    .project({ _id: true, img: true, name: true, links: true })
+    .project({ _id: true, name: true, links: true })
     .toArray();
   // Putting them into object
   playersObj = {};
@@ -41,6 +41,7 @@ async function hrac(req, res, db) {
     var player = await db
       .collection('hraci')
       .find({ name: req.params.name })
+      .project({ img: false })
       .next();
 
     if (player == null) return res.sendStatus(400);

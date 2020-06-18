@@ -26,7 +26,10 @@
               :key="player.name"
             >
               <router-link :to="'/hrac/' + player.name">
-                <img :src="player.img" :alt="player.name" />
+                <img
+                  v-lazy="cover(player.name)"
+                  :alt="player.name + ' portrét'"
+                />
                 <h2>
                   {{ player.name }}
                 </h2>
@@ -78,6 +81,7 @@
 
 <script>
 import { getData } from '../assets/js/dataFetcher';
+import { backendUrl } from '../assets/js/dev';
 
 export default {
   data() {
@@ -89,6 +93,11 @@ export default {
     this.$Progress.start();
     this.games = await getData('/hraci');
     this.$Progress.finish();
+  },
+  methods: {
+    cover(name) {
+      return `${backendUrl}/hrac/cover/${name}`;
+    },
   },
 };
 </script>

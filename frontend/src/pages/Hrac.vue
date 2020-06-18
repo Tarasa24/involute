@@ -9,7 +9,7 @@
             : 'black'
         "
       >
-        <img :src="player.img" alt="Portrét" />
+        <img v-lazy="cover" :alt="$route.params.name + ' portrét'" />
         <h1>{{ player.name }}</h1>
         <h2>{{ player.role }}</h2>
         <h3>{{ game.name }}</h3>
@@ -94,6 +94,7 @@
 
 <script>
 import { getData } from '../assets/js/dataFetcher';
+import { backendUrl } from '../assets/js/dev';
 
 export default {
   data() {
@@ -101,6 +102,11 @@ export default {
       player: { sestava: {}, links: {} },
       game: {},
     };
+  },
+  computed: {
+    cover() {
+      return `${backendUrl}/hrac/cover/${this.$route.params.name}`;
+    },
   },
   async created() {
     this.$Progress.start();
