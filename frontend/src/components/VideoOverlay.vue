@@ -6,7 +6,7 @@
       :style="`background: url('https://img.youtube.com/vi/${videoCode}/0.jpg'), white`"
     >
       <span>
-        <h5>Video</h5>
+        <h6>Video</h6>
         <a>{{ title }}</a>
       </span>
     </div>
@@ -125,6 +125,11 @@ button
     text-align: left
     font-weight: bold
     @include transition(color)
+    h6
+      font-size: 15px
+      font-weight: normal
+    a
+      font-size: 18px
   &:hover
     i
       color: red

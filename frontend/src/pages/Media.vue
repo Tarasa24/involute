@@ -18,7 +18,7 @@
             @click="openGallery(file)"
           >
             <span>
-              <h5>Foto</h5>
+              <h6>Foto</h6>
               <a>{{ file.title }}</a>
             </span>
           </div>
@@ -138,6 +138,11 @@ main
     text-align: left
     font-weight: bold
     @include transition(color)
+    h6
+      font-size: 15px
+      font-weight: normal
+    a
+      font-size: 18px
   .img
     background-repeat: no-repeat !important
     background-size: cover !important
