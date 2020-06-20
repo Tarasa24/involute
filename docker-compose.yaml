@@ -76,8 +76,7 @@ services:
     volumes:
       - ./nginx/access.log:/var/log/nginx/access.log
       - goaccess_data:/goaccess
-    command: /var/log/nginx/access.log -o /goaccess/index.html --log-format=COMBINED --real-time-html
-
+    command: /var/log/nginx/access.log -o /goaccess/index.html --log-format=COMBINED --real-time-html --geoip-database /usr/share/GeoLite2-City/GeoLite2-City_20191224/GeoLite2-City.mmdb
 volumes:
   mongodb_data:
   goaccess_data:
