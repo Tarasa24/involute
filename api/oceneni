@@ -1,0 +1,26 @@
+[
+    {
+        "game": "Tom Clancy's Rainbow Six Siege",
+        "title": "Random championship #1",
+        "player": "Generic player * 5",
+        "placement": "1."
+    },
+    {
+        "game": "Counter Strike: Global Offensive",
+        "title": "Random championship #2",
+        "player": "Generic player * 5",
+        "placement": "2."
+    },
+    {
+        "game": "Counter Strike: Global Offensive",
+        "title": "Random championship #3",
+        "player": "Generic player * 5",
+        "placement": "3."
+    },
+    {
+        "game": "Tom Clancy's Rainbow Six Siege",
+        "title": "Random championship #4",
+        "player": "Generic player * 5",
+        "placement": "4."
+    }
+]

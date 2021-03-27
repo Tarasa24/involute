@@ -1,0 +1,15 @@
+{
+    "name": "Player",
+    "role": "Entry fragger",
+    "about": {},
+    "sestava": {
+        "Procesor": "Intel Core i7-9700K",
+        "Grafická Karta": "Nvidia RTX 2080"
+    },
+    "links": {
+        "facebook": "#",
+        "twitch": "#",
+        "instagram": "#",
+        "twitter": "#"
+    }
+}
